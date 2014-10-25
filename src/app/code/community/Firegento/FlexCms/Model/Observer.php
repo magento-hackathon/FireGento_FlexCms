@@ -73,6 +73,14 @@ class Firegento_FlexCms_Model_Observer
         $layoutHandle = 'Category_'.$categoryId;
         foreach ($data['content_element'] as $area => $value) {
             $flexContentLink = Mage::getModel('firegento_flexcms/content_link');
+            $existingLink = $flexContentLink->loadByHandleAndArea($layoutHandle, $area);
+            if ($existingLink->getId()) {
+                $flexContentLink = $existingLink;
+                if ($value == 0) {
+                    $flexContentLink->delete();
+                }
+            }
+            // Insert new content
             $flexContentLink->setArea($area);
             $flexContentLink->setLayoutHandle($layoutHandle);
             $flexContentLink->setContentId($value);
