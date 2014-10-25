@@ -27,6 +27,10 @@ Adds new ready-to-go content type:
 
 - Simple Text-Element (WYSIWIG)
 
+Miscellaneous
+
+- Adds an option to link categories to external URLs
+
 ## Installation
 Install the files using one of the following methods:
 
