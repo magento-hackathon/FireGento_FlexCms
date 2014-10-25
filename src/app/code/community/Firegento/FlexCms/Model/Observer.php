@@ -53,7 +53,7 @@ class Firegento_FlexCms_Model_Observer
         $tabs->addTab('content', array(
                 'label'     => Mage::helper('firegento_flexcms')->__('Content'),
                 'content'   => $tabs->getLayout()->createBlock(
-                    'firegento_flexcms/tab_content',
+                    'firegento_flexcms/adminhtml_tab_content',
                     'flexcms.content.form'
                 )->toHtml(),
             ));
