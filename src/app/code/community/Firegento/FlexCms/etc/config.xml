@@ -92,13 +92,6 @@
             </adminhtml_catalog_category_tabs>
         </events>
     </adminhtml>
-    <phpunit>
-        <suite>
-            <modules>
-                <Firegento_FlexCms/>
-            </modules>
-        </suite>
-    </phpunit>
     <default>
         <firegento_flexcms>
             <handles>
@@ -123,4 +116,11 @@
             </areas>
         </firegento_flexcms>
     </default>
+    <phpunit>
+        <suite>
+            <modules>
+                <Firegento_FlexCms/>
+            </modules>
+        </suite>
+    </phpunit>
 </config>
