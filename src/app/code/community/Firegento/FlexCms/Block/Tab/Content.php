@@ -22,23 +22,23 @@ class Firegento_FlexCms_Block_Tab_Content extends Mage_Adminhtml_Block_Widget_Fo
 
         $sections = Mage::helper('firegento_flexcms')->getFlexContentSectionsForm();
 
-        foreach ($sections as $section) {
+        foreach ($sections as $key => $section) {
 
-            $fieldset = $form->addFieldset($section['key'], array('legend' => Mage::helper('firegento_flexcms')->__($section['label'])));
+            $fieldset = $form->addFieldset($key, array('legend' => Mage::helper('firegento_flexcms')->__($section['label'])));
 
             $layoutHandle = 'CATEGORY_'.$this->getCategoryId();
-            $element = Mage::getModel('firegento_flexcms/content_link')->loadByHandleAndArea($layoutHandle, $section['key']);
+            $element = Mage::getModel('firegento_flexcms/content_link')->loadByHandleAndArea($layoutHandle, $key);
 
-            $fieldset->addField('content_element_'.$section['key'], 'select', array(
+            $fieldset->addField('content_element_'.$key, 'select', array(
                     'label' => Mage::helper('firegento_flexcms')->__('Content Element'),
-                    'name' => 'flexcms_element['.$section['key'].'][content_id]',
+                    'name' => 'flexcms_element['.$key.'][content_id]',
                     'values' => Mage::helper('firegento_flexcms')->getFlexContents(),
                     'value' => ($element->getId()) ? $element->getContentId() : 0
                 ));
 
-            $fieldset->addField('sort_order'.$section['key'], 'text', array(
+            $fieldset->addField('sort_order'.$key, 'text', array(
                     'label' => Mage::helper('firegento_flexcms')->__('Sort Order'),
-                    'name' => 'flexcms_element['.$section['key'].'][sort_order]',
+                    'name' => 'flexcms_element['.$key.'][sort_order]',
                     'value' => ($element->getId()) ? $element->getSortOrder() : ""
                 ));
 
