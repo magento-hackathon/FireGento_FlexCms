@@ -9,9 +9,14 @@ class Firegento_FlexCms_Test_Model_Content extends EcomDev_PHPUnit_Test_Case
 {
     /**
      * @test
+     * @loadFixture ~Firegento_FlexCms/content
      */
-    public function testSaveModelAndCollection()
+    public function testModelAndCollection()
     {
+        $content = Mage::getModel('firegento_flexcms/content')->load(1);
+        $this->assertEquals(1, $content->getId());
+        $this->assertEquals('Entry 1', $content->getTitle());
+
         /** @var $content Firegento_FlexCms_Model_Content */
         $content = Mage::getModel('firegento_flexcms/content');
         $content->addData(array(
@@ -21,11 +26,8 @@ class Firegento_FlexCms_Test_Model_Content extends EcomDev_PHPUnit_Test_Case
         ))
         ->save();
 
-        $content = Mage::getModel('firegento_flexcms/content')->load(1);
-        $this->assertEquals(1, $content->getId());
-
         $contentCollection = Mage::getResourceModel('firegento_flexcms/content_collection');
         
-        $this->assertEquals(1, $contentCollection->getSize());
+        $this->assertEquals(2, $contentCollection->getSize());
     }
 }

@@ -30,6 +30,9 @@
                     <content_link>
                         <table>flexcms_content_link</table>
                     </content_link>
+                    <content_update>
+                        <table>flexcms_content_update</table>
+                    </content_update>
                 </entities>
             </firegento_flexcms_resource>
         </models>
