@@ -50,14 +50,14 @@ class Firegento_FlexCms_Block_Tab_Content extends Mage_Adminhtml_Block_Widget_Fo
     /**
      * Retrieve current category instance
      *
-     * @return Mage_Catalog_Model_Category
+     * @return int
      */
     public function getCategoryId()
     {
         if (Mage::registry('category')) {
             return Mage::registry('category')->getId();
         }
-        return false;
+        return 0;
     }
 
 }
