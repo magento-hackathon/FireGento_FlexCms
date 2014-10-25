@@ -72,4 +72,11 @@
             </modules>
         </translate>
     </adminhtml>
+    <phpunit>
+        <suite>
+            <modules>
+                <Firegento_FlexCms/>
+            </modules>
+        </suite>
+    </phpunit>
 </config>
