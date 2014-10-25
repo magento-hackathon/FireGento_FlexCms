@@ -53,6 +53,13 @@
                 </observers>
             </cms_page_render>
         </events>
+        <layout>
+            <updates>
+                <firegento_flexcms>
+                    <file>firegento/flexcms.xml</file>
+                </firegento_flexcms>
+            </updates>
+        </layout>
     </frontend>
     <adminhtml>
         <layout>
@@ -72,4 +79,28 @@
             </modules>
         </translate>
     </adminhtml>
+    <default>
+        <firegento_flexcms>
+            <handles>
+
+            </handles>
+            <areas>
+                <left_area>
+                    <key>left</key>
+                    <title>Left Column</title>
+                    <cache>
+                        <lifetime>3600</lifetime>
+                    </cache>
+                </left_area>
+                <content_area>
+                    <key>content</key>
+                    <title>Content Column</title>
+                </content_area>
+                <right_area>
+                    <key>right</key>
+                    <title>Right Column</title>
+                </right_area>
+            </areas>
+        </firegento_flexcms>
+    </default>
 </config>
