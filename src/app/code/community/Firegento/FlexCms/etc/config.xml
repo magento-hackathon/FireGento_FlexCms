@@ -1,4 +1,4 @@
-<?xml version="1.0?"?>
+<?xml version="1.0"?>
 <config>
     <modules>
         <Firegento_FlexCms>
@@ -23,6 +23,14 @@
             </firegento_flexcms>
             <firegento_flexcms_resource>
                 <class>Firegento_FlexCms_Model_Resource</class>
+                <entities>
+                    <content>
+                        <table>flexcms_content</table>
+                    </content>
+                    <content_link>
+                        <table>flexcms_content_link</table>
+                    </content_link>
+                </entities>
             </firegento_flexcms_resource>
         </models>
         <resources>
