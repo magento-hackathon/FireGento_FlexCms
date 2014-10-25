@@ -64,7 +64,7 @@
     <adminhtml>
         <layout>
             <updates>
-                <firegento_flexcms>
+                <firegento_flexcms module="Firegento_FlexCms">
                     <file>firegento/flexcms.xml</file>
                 </firegento_flexcms>
             </updates>
