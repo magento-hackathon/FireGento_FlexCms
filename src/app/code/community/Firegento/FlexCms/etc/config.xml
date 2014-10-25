@@ -30,9 +30,6 @@
                     <content_link>
                         <table>flexcms_content_link</table>
                     </content_link>
-                    <content_update>
-                        <table>flexcms_content_update</table>
-                    </content_update>
                 </entities>
             </firegento_flexcms_resource>
         </models>
@@ -64,6 +61,17 @@
             </updates>
         </layout>
     </frontend>
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <firegento_flexcms before="Mage_Adminhtml">Firegento_FlexCms_Adminhtml</firegento_flexcms>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
     <adminhtml>
         <layout>
             <updates>

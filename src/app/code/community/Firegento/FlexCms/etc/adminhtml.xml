@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<config>
+    <menu>
+        <cms>
+            <children>
+                <flexcms_content translate="title" module="firegento_flexcms">
+                    <title>FlexCms Content</title>
+                    <action>adminhtml/content</action>
+                    <sort_order>0</sort_order>
+                </flexcms_content>
+            </children>
+        </cms>
+    </menu>
+    <acl>
+        <resources>
+            <admin>
+                <children>
+                    <cms>
+                        <children>
+                            <flexcms_content translate="title" module="firegento_flexcms">
+                                <title>FlexCms Content</title>
+                                <sort_order>0</sort_order>
+                            </flexcms_content>
+                        </children>
+                    </cms>
+                </children>
+            </admin>
+        </resources>
+    </acl>
+</config>
