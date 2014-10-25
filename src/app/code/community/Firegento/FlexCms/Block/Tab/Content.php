@@ -24,9 +24,9 @@ class Firegento_FlexCms_Block_Tab_Content extends Mage_Adminhtml_Block_Widget_Fo
 
         foreach ($sections as $section) {
 
-            $fieldset = $form->addFieldset($section['key'], array('legend' => Mage::helper('firegento_flexcms')->__($section['title'])));
+            $fieldset = $form->addFieldset($section['key'], array('legend' => Mage::helper('firegento_flexcms')->__($section['label'])));
 
-            $layoutHandle = 'Category_'.$this->getCategoryId();
+            $layoutHandle = 'CATEGORY_'.$this->getCategoryId();
             $element = Mage::getModel('firegento_flexcms/content_link')->loadByHandleAndArea($layoutHandle, $section['key']);
 
             $fieldset->addField('content_element_'.$section['key'], 'select', array(

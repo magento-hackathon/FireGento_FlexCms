@@ -111,10 +111,10 @@ class Firegento_FlexCms_Block_Adminhtml_Content_Grid extends Mage_Adminhtml_Bloc
      */
     protected function _getLayoutHandleType($handle)
     {
-        if (strpos($handle, 'product_') === 0) {
+        if (strpos($handle, 'PRODUCT_') === 0) {
             return Firegento_FlexCms_Model_Source_HandleType::CONTENT_TYPE_PRODUCT;
         }
-        if (strpos($handle, 'category_') === 0) {
+        if (strpos($handle, 'CATEGORY_') === 0) {
             return Firegento_FlexCms_Model_Source_HandleType::CONTENT_TYPE_CATEGORY;
         }
         if (strpos($handle, 'CMSPAGE_') === 0) {

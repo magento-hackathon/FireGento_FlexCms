@@ -60,7 +60,7 @@ class Firegento_FlexCms_Block_Renderer extends Mage_Core_Block_Template
     /**
      * load content elements by sort order
      */
-    private function _loadContentElements()
+    protected function _loadContentElements()
     {
         /* @var Firegento_FlexCms_Model_Resource_Content_Link_Collection $linkCollection */
         $linkCollection = $this->getContentCollection();
@@ -107,7 +107,7 @@ class Firegento_FlexCms_Block_Renderer extends Mage_Core_Block_Template
      *
      * @return Firegento_FlexCms_Model_Resource_Content_Link_Collection
      */
-    private function getContentCollection()
+    protected function getContentCollection()
     {
         $linkCollection = Mage::getModel('firegento_flexcms/content_link')->getCollection()
             ->addFieldToFilter('area', array('eq' => $this->getAreaKey()))
