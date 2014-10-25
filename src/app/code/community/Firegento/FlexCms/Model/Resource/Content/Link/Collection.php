@@ -20,5 +20,7 @@ class Firegento_FlexCms_Model_Resource_Content_Link_Collection extends Mage_Core
             'reference_table.flexcms_content_id=main_table.content_id',
             array('reference_table.*')
         );
+
+        return $this;
     }
 }

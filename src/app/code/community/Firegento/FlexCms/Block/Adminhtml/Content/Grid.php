@@ -68,17 +68,19 @@ class Firegento_FlexCms_Block_Adminhtml_Content_Grid extends Mage_Adminhtml_Bloc
         $this->_preloadHandleReferenceCollections($linkCollection);
 
         // collect all handles with coresponding links
-        $linksByHandle = $this->getLinksByHandle($linkCollection);
+        $linksByHandle = $this->_getLinksByHandles($linkCollection);
 
-        foreach ($linksByHandle as $handle => $links) {
-            $updateCollection->addItem(new Varien_Object(
-                array(
-                    'layout_handle' => $handle,
-                    'handle_description' => $this->_getLayoutHandleDescription($handle),
-                    'content_type' => $this->_getLayoutHandleType($handle),
-                    'summary' => $this->_getSummary($links),
-                )
-            ));
+        if(is_array($linksByHandle)){
+            foreach ($linksByHandle as $handle => $links) {
+                $updateCollection->addItem(new Varien_Object(
+                    array(
+                        'layout_handle' => $handle,
+                        'handle_description' => $this->_getLayoutHandleDescription($handle),
+                        'content_type' => $this->_getLayoutHandleType($handle),
+                        'summary' => $this->_getSummary($links),
+                    )
+                ));
+            }
         }
 
         $this->setCollection($updateCollection);
@@ -151,7 +153,8 @@ class Firegento_FlexCms_Block_Adminhtml_Content_Grid extends Mage_Adminhtml_Bloc
             return '';
         }
 
-        $handleKey = array_pop(explode("_", $handle));
+        $handleKey = explode("_", $handle);
+        $handleKey = $handleKey[1];
 
         // page title for cms_pages
         if ($this->_getLayoutHandleType($handle) == Firegento_FlexCms_Model_Source_HandleType::CONTENT_TYPE_CMS_PAGE) {
