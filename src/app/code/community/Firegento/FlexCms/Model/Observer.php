@@ -23,7 +23,7 @@
  * FlexCms Observer
  *
  * @category FireGento
- * @package  FireGento_ContentSync
+ * @package  FireGento_FlexCms
  * @author   FireGento Team <team@firegento.com>
  */
 class Firegento_FlexCms_Model_Observer
@@ -36,11 +36,7 @@ class Firegento_FlexCms_Model_Observer
      */
     public function cmsPageRender(Varien_Event_Observer $observer)
     {
-        $event = $observer->getEvent();
-
-        $event->getControllerAction()->getLayout()->getUpdate()
-            ->addHandle('CMSPAGE_'.$event->getPage()->getId());
-
-        return $observer;
+        $observer->getControllerAction()->getLayout()->getUpdate()
+            ->addHandle('CMSPAGE_'.$observer->getPage()->getId());
     }
 }

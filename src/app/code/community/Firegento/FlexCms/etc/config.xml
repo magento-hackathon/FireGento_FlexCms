@@ -47,7 +47,7 @@
                 <observers>
                     <firegento_flexcms>
                         <type>singleton</type>
-                        <class>Firegento_FlexCms_Model_Observer</class>
+                        <class>firegento_flexcms/observer</class>
                         <method>cmsPageRender</method>
                     </firegento_flexcms>
                 </observers>
