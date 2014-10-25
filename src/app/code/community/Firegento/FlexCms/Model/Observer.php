@@ -39,4 +39,17 @@ class Firegento_FlexCms_Model_Observer
         $observer->getControllerAction()->getLayout()->getUpdate()
             ->addHandle('CMSPAGE_'.$observer->getPage()->getId());
     }
+
+    public function addContentCategoryTab(Varien_Event_Observer $observer) {
+
+        $tabs = $observer->getTabs();
+
+        $tabs->addTab('content', array(
+                'label'     => Mage::helper('catalog')->__('Content'),
+                'content'   => $tabs->getLayout()->createBlock(
+                    'firegento_flexcms/tab_content',
+                    'flexcms.content.form'
+                )->toHtml(),
+            ));
+    }
 }

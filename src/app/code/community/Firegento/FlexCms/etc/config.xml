@@ -56,12 +56,19 @@
                 </observers>
             </cms_page_render>
         </events>
+        <layout>
+            <updates>
+                <firegento_flexcms>
+                    <file>firegento/flexcms.xml</file>
+                </firegento_flexcms>
+            </updates>
+        </layout>
     </frontend>
     <adminhtml>
         <layout>
             <updates>
-                <firegento_flexcms>
-                    <file module="Firegento_FlexCms">firegento/flexcms.xml</file>
+                <firegento_flexcms module="Firegento_FlexCms">
+                    <file>firegento/flexcms.xml</file>
                 </firegento_flexcms>
             </updates>
         </layout>
@@ -74,6 +81,16 @@
                 </Firegento_FlexCms>
             </modules>
         </translate>
+        <events>
+            <adminhtml_catalog_category_tabs>
+                <observers>
+                    <firegento_flexcms_adminhtml_catalog_category_tabs>
+                        <class>Firegento_FlexCms_Model_Observer</class>
+                        <method>addContentCategoryTab</method>
+                    </firegento_flexcms_adminhtml_catalog_category_tabs>
+                </observers>
+            </adminhtml_catalog_category_tabs>
+        </events>
     </adminhtml>
     <phpunit>
         <suite>
@@ -82,4 +99,28 @@
             </modules>
         </suite>
     </phpunit>
+    <default>
+        <firegento_flexcms>
+            <handles>
+
+            </handles>
+            <areas>
+                <left_area>
+                    <key>left</key>
+                    <title>Left Column</title>
+                    <cache>
+                        <lifetime>3600</lifetime>
+                    </cache>
+                </left_area>
+                <content_area>
+                    <key>content</key>
+                    <title>Content Column</title>
+                </content_area>
+                <right_area>
+                    <key>right</key>
+                    <title>Right Column</title>
+                </right_area>
+            </areas>
+        </firegento_flexcms>
+    </default>
 </config>

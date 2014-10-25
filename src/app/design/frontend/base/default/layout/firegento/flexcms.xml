@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<layout>
+    <default>
+        <reference name="left">
+            <block type="firegento_flexcms/renderer" name="flexcms.area.left">
+                <action method="setAreaKey"><key>left</key></action>
+            </block>
+        </reference>
+        <reference name="content">
+            <block type="firegento_flexcms/renderer" name="flexcms.area.content">
+                <action method="setAreaKey"><key>content</key></action>
+            </block>
+        </reference>
+        <reference name="right">
+            <block type="firegento_flexcms/renderer" name="flexcms.area.right">
+                <action method="setAreaKey"><key>right</key></action>
+            </block>
+        </reference>
+    </default>
+</layout>
