@@ -119,11 +119,7 @@ class Firegento_FlexCms_Block_Renderer extends Mage_Core_Block_Template
             );
         }
 
-        $linkCollection->getSelect()->join(array(
-                'content' => Mage::getSingleton('core/resource')->getTableName('firegento_flexcms/content')),
-            'main_table.content_id = content.flexcms_content_id',
-            array('content.*')
-        );
+        $linkCollection->joinContentData();
 
         return $linkCollection;
     }

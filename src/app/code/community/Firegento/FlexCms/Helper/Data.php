@@ -3,6 +3,9 @@
 class Firegento_FlexCms_Helper_Data extends Mage_Core_Helper_Abstract
 {
     const Firegento_Flexcms_Areas_Xml = "default/firegento_flexcms/areas";
+    const DYNAMIC_HANDLE_PREFIX_PRODUCT = 'PRODUCT_';
+    const DYNAMIC_HANDLE_PREFIX_CATEGORY = 'CATEGORY_';
+    const DYNAMIC_HANDLE_PREFIX_CMS_PAGES = 'CMSPAGE_';
 
     private $_contentElementArray = array();
 
