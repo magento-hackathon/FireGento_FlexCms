@@ -67,24 +67,27 @@ class Firegento_FlexCms_Model_Observer
      */
     public function saveCategoryFlexContent(Varien_Event_Observer $observer)
     {
-        $data = $observer->getRequest()->getParams();
-
-        $categoryId = $data['id'];
+        $params = Mage::app()->getRequest()->getParams();
+        
+        /** @var Mage_Catalog_Model_Category $category */
+        $category = $observer->getCategory();
+        
+        $categoryId = $category->getId();
         $layoutHandle = 'Category_'.$categoryId;
-        foreach ($data['flexcms_element'] as $area => $data) {
+        foreach ($params['flexcms_element'] as $area => $params) {
             $flexContentLink = Mage::getModel('firegento_flexcms/content_link');
             $existingLink = $flexContentLink->loadByHandleAndArea($layoutHandle, $area);
             if ($existingLink->getId()) {
                 $flexContentLink = $existingLink;
-                if ($data['content_id'] == 0) {
+                if ($params['content_id'] == 0) {
                     $flexContentLink->delete();
                 }
             }
             // Insert new content
             $flexContentLink->setArea($area);
             $flexContentLink->setLayoutHandle($layoutHandle);
-            $flexContentLink->setContentId($data['content_id']);
-            $flexContentLink->setSortOrder($data['sort_order']);
+            $flexContentLink->setContentId($params['content_id']);
+            $flexContentLink->setSortOrder($params['sort_order']);
             $flexContentLink->save();
         }
     }
