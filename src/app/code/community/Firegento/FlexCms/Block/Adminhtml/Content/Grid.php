@@ -134,13 +134,14 @@ class Firegento_FlexCms_Block_Adminhtml_Content_Grid extends Mage_Adminhtml_Bloc
     }
 
     /**
-     * @param $handle
+     * @param string $handle
+     * @return string
      */
     protected function _getLayoutHandleDescription($handle)
     {
         $handleType = $this->_getLayoutHandleType($handle);
         if($handleType == Firegento_FlexCms_Model_Source_HandleType::CONTENT_TYPE_OTHER){
-            return;
+            return '';
         }
 
         $handleKey = explode("_", $handle);
