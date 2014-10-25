@@ -14,7 +14,7 @@ class Firegento_FlexCms_Model_Source_ContentMode
             array('value' => 'advanced', 'label'=>Mage::helper('firegento_flexcms')->__('Advanced')),
         );
     }
-
+    
     /**
      * Get options in "key-value" format
      *
@@ -22,9 +22,11 @@ class Firegento_FlexCms_Model_Source_ContentMode
      */
     public function toArray()
     {
-        return array(
-            'simple' => Mage::helper('firegento_flexcms')->__('Simple'),
-            'advanced' => Mage::helper('firegento_flexcms')->__('Advanced'),
-        );
+        $options = array();
+        foreach($this->toOptionArray() as $option) {
+            $options[$option['value']] = $option['label'];
+        }
+
+        return $options;
     }
 }

@@ -26,8 +26,9 @@ class Firegento_FlexCms_Block_Adminhtml_Content_Grid extends Mage_Adminhtml_Bloc
         );
         
         $linksByHandle = array();
-        
-        $collection = new Varien_Data_Collection();
+
+        /** @var $collection Firegento_FlexCms_Model_Resource_Update_Collection */
+        $collection = Mage::getResourceModel('firegento_flexcms/update_collection');
         
         foreach($linkCollection as $link) {
             
@@ -35,26 +36,11 @@ class Firegento_FlexCms_Block_Adminhtml_Content_Grid extends Mage_Adminhtml_Bloc
         }
         
         foreach($linksByHandle as $handle => $links) {
-            $summary = '';
             $item = new Varien_Object(array(
                 'layout_handle' => $handle,
+                'content_type' => $this->_getLayoutHandleType($handle),
+                'summary' =>  $this->_getSummary($links),
             ));
-            
-            $content = array();
-            foreach($links as $link) {
-                $content[$link->getArea()][] = sprintf('%s (%s)', $link->getTitle(), $link->getContentType());
-            }
-
-            foreach ($content as $area => $contentElements) {
-                if ($summary) {
-                    $summary .= '<br />';
-                }
-                $summary .= '<strong>' . $area . ':</strong><br />';
-                $summary .= implode('<br />', $contentElements);
-            }
-
-            $item->setSummary($summary);
-
 
             $collection->addItem($item);
         }
@@ -72,11 +58,20 @@ class Firegento_FlexCms_Block_Adminhtml_Content_Grid extends Mage_Adminhtml_Bloc
             'align'     => 'left',
             'index'     => 'layout_handle',
         ));
+        
+        $this->addColumn('content_type', array(
+            'header'    => Mage::helper('firegento_flexcms')->__('Content Type'),
+            'align'     => 'left',
+            'index'     => 'content_type',
+            'type'      => 'options',
+            'options'   => Mage::getSingleton('firegento_flexcms/source_contentType')->toArray(),
+        ));
 
         $this->addColumn('summary', array(
             'header'    => Mage::helper('firegento_flexcms')->__('Content'),
             'align'     => 'left',
             'index'     => 'summary',
+            'sortable'  => false,
             'renderer'  => 'firegento_flexcms/adminhtml_grid_column_renderer_html',
         ));
 
@@ -86,6 +81,46 @@ class Firegento_FlexCms_Block_Adminhtml_Content_Grid extends Mage_Adminhtml_Bloc
     public function getRowUrl($row)
     {
         return $this->getUrl('*/*/edit', array('id' => $row->getId()));
+    }
+
+    /**
+     * @param array $links
+     * @return string
+     */
+    protected function _getSummary($links)
+    {
+        $summary = '';
+        $content = array();
+        foreach ($links as $link) {
+            $content[$link->getArea()][] = sprintf('%s (%s)', $link->getTitle(), $link->getContentType());
+        }
+
+        foreach ($content as $area => $contentElements) {
+            if ($summary) {
+                $summary .= '<br />';
+            }
+            $summary .= sprintf('<strong>%s:</strong><br />', $area);
+            $summary .= implode('<br />', $contentElements);
+        }
+        return $summary;
+    }
+
+    /**
+     * @param $handle
+     * @return mixed
+     */
+    protected function _getLayoutHandleType($handle)
+    {
+        if (strpos($handle, 'product_') === 0) {
+            return Firegento_FlexCms_Model_Source_ContentType::CONTENT_TYPE_PRODUCT;
+        }
+        if (strpos($handle, 'category_') === 0) {
+            return Firegento_FlexCms_Model_Source_ContentType::CONTENT_TYPE_CATEGORY;
+        }
+        if (strpos($handle, 'CMSPAGE_') === 0) {
+            return Firegento_FlexCms_Model_Source_ContentType::CONTENT_TYPE_CMS_PAGE;
+        }
+        return Firegento_FlexCms_Model_Source_ContentType::CONTENT_TYPE_OTHER;
     }
 
 }
