@@ -40,16 +40,52 @@ class Firegento_FlexCms_Model_Observer
             ->addHandle('CMSPAGE_'.$observer->getPage()->getId());
     }
 
-    public function addContentCategoryTab(Varien_Event_Observer $observer) {
+    /**
+     * Add tab for Category content
+     *
+     * @param Varien_Event_Observer $observer
+     */
+    public function addContentCategoryTab(Varien_Event_Observer $observer)
+    {
 
         $tabs = $observer->getTabs();
 
         $tabs->addTab('content', array(
-                'label'     => Mage::helper('catalog')->__('Content'),
+                'label'     => Mage::helper('firegento_flexcms')->__('Content'),
                 'content'   => $tabs->getLayout()->createBlock(
                     'firegento_flexcms/tab_content',
                     'flexcms.content.form'
                 )->toHtml(),
             ));
+    }
+
+    /**
+     * Save category flex content
+     *
+     * @param Varien_Event_Observer $observer
+     *
+     */
+    public function saveCategoryFlexContent(Varien_Event_Observer $observer)
+    {
+        $data = $observer->getRequest()->getParams();
+
+        $categoryId = $data['id'];
+        $layoutHandle = 'Category_'.$categoryId;
+        foreach ($data['flexcms_element'] as $area => $data) {
+            $flexContentLink = Mage::getModel('firegento_flexcms/content_link');
+            $existingLink = $flexContentLink->loadByHandleAndArea($layoutHandle, $area);
+            if ($existingLink->getId()) {
+                $flexContentLink = $existingLink;
+                if ($data['content_id'] == 0) {
+                    $flexContentLink->delete();
+                }
+            }
+            // Insert new content
+            $flexContentLink->setArea($area);
+            $flexContentLink->setLayoutHandle($layoutHandle);
+            $flexContentLink->setContentId($data['content_id']);
+            $flexContentLink->setSortOrder($data['sort_order']);
+            $flexContentLink->save();
+        }
     }
 }

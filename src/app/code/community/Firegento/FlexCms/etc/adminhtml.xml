@@ -23,6 +23,18 @@
                             </flexcms_content>
                         </children>
                     </cms>
+                    <system>
+                        <children>
+                            <config>
+                                <children>
+                                    <firegento_flexcms module="firegento_flexcms" translate="title">
+                                        <title>FlexCms Settings</title>
+                                        <sort_order>10000</sort_order>
+                                    </firegento_flexcms>
+                                </children>
+                            </config>
+                        </children>
+                    </system>
                 </children>
             </admin>
         </resources>
