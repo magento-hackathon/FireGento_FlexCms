@@ -1,0 +1,8 @@
+<?xml version="1.0?"?>
+<config>
+    <modules>
+        <Firegento_FlexCms>
+            <version>0.1.0</version>
+        </Firegento_FlexCms>
+    </modules>
+</config>
