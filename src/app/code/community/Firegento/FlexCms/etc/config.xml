@@ -148,17 +148,17 @@
                 </html>
             </types>
             <areas>
-                <left translate="title">
+                <left translate="label">
                     <label>Left Column</label>
                     <cache>
                         <lifetime>3600</lifetime>
                     </cache>
                 </left>
-                <content translate="title">
+                <content translate="label">
                     <key>content</key>
                     <label>Content Column</label>
                 </content>
-                <right translate="title">
+                <right translate="label">
                     <key>right</key>
                     <label>Right Column</label>
                 </right>
