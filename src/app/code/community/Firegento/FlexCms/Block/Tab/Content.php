@@ -28,9 +28,15 @@ class Firegento_FlexCms_Block_Tab_Content extends Mage_Adminhtml_Block_Widget_Fo
 
             $fieldset->addField('content_element_'.$section['key'], 'select', array(
                     'label' => Mage::helper('firegento_flexcms')->__('Content Element'),
-                    'name' => 'content_element['.$section['key'].']',
+                    'name' => 'flexcms_element['.$section['key'].'][content_id]',
                     'values' => Mage::helper('firegento_flexcms')->getFlexContents()
                 ));
+
+            $fieldset->addField('sort_order'.$section['key'], 'text', array(
+                    'label' => Mage::helper('firegento_flexcms')->__('Sort Order'),
+                    'name' => 'flexcms_element['.$section['key'].'][sort_order]'
+                ));
+
         }
 
         return parent::_prepareForm();
