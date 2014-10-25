@@ -113,14 +113,15 @@ class Firegento_FlexCms_Block_Adminhtml_Form_Element_Content extends Varien_Data
         $contentTypeConfig = Mage::getStoreConfig('firegento_flexcms/types/' . $contentType);
 
         foreach ($contentTypeConfig['fields'] as $fieldCode => $fieldConfig) {
-            
+
+            $content = $link->getContent();
             $elements[] = $this->_getField(
                 'flexcms_content_link_' . $link->getId() . '_field_' . $fieldCode,
                 $fieldConfig['frontend_type'],
                 array(
                     'label' => Mage::helper('firegento_flexcms')->__($fieldConfig['label']),
                     'name' => 'flexcms_element[' . $link->getId() . '][' . $fieldCode . ']',
-                    'value' => $link->getContent(),
+                    'value' => $content[$fieldCode],
                 )
             );
         }

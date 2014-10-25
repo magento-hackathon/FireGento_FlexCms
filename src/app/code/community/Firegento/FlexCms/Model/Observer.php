@@ -37,7 +37,7 @@ class Firegento_FlexCms_Model_Observer
     public function cmsPageRender(Varien_Event_Observer $observer)
     {
         $observer->getControllerAction()->getLayout()->getUpdate()
-            ->addHandle('CMSPAGE_'.$observer->getPage()->getId());
+            ->addHandle('CMSPAGE_' . $observer->getPage()->getId());
     }
 
     /**
@@ -51,12 +51,12 @@ class Firegento_FlexCms_Model_Observer
         $tabs = $observer->getTabs();
 
         $tabs->addTab('content', array(
-                'label'     => Mage::helper('firegento_flexcms')->__('Content'),
-                'content'   => $tabs->getLayout()->createBlock(
-                    'firegento_flexcms/adminhtml_tab_content',
-                    'flexcms.content.form'
-                )->toHtml(),
-            ));
+            'label' => Mage::helper('firegento_flexcms')->__('Content'),
+            'content' => $tabs->getLayout()->createBlock(
+                'firegento_flexcms/adminhtml_tab_content',
+                'flexcms.content.form'
+            )->toHtml(),
+        ));
     }
 
     /**
@@ -68,27 +68,28 @@ class Firegento_FlexCms_Model_Observer
     public function saveCategoryFlexContent(Varien_Event_Observer $observer)
     {
         $params = Mage::app()->getRequest()->getParams();
-        
+
         /** @var Mage_Catalog_Model_Category $category */
         $category = $observer->getCategory();
-        
+
         $categoryId = $category->getId();
-        $layoutHandle = 'Category_'.$categoryId;
-        foreach ($params['flexcms_element'] as $area => $params) {
-            $flexContentLink = Mage::getModel('firegento_flexcms/content_link');
-            $existingLink = $flexContentLink->loadByHandleAndArea($layoutHandle, $area);
-            if ($existingLink->getId()) {
-                $flexContentLink = $existingLink;
-                if ($params['content_id'] == 0) {
-                    $flexContentLink->delete();
+        $layoutHandle = 'CATEGORY_' . $categoryId;
+        foreach ($params['flexcms_element'] as $linkId => $fields) {
+
+            $link = Mage::getModel('firegento_flexcms/content_link')->load($linkId);
+            $contentElement = $link->getContentModel();
+
+            $content = array();
+            foreach ($fields as $fieldName => $fieldValue) {
+
+                if ($fieldName == 'title') {
+                    $contentElement->setTitle($fieldValue);
+                } else {
+                    $content[$fieldName] = $fieldValue;
                 }
             }
-            // Insert new content
-            $flexContentLink->setArea($area);
-            $flexContentLink->setLayoutHandle($layoutHandle);
-            $flexContentLink->setContentId($params['content_id']);
-            $flexContentLink->setSortOrder($params['sort_order']);
-            $flexContentLink->save();
+            
+            $contentElement->setContent($content)->save();
         }
     }
 }
