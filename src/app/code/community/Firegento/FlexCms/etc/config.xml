@@ -30,6 +30,9 @@
                     <content_link>
                         <table>flexcms_content_link</table>
                     </content_link>
+                    <content_update>
+                        <table>flexcms_content_update</table>
+                    </content_update>
                 </entities>
             </firegento_flexcms_resource>
         </models>
@@ -78,6 +81,16 @@
                 </Firegento_FlexCms>
             </modules>
         </translate>
+        <events>
+            <adminhtml_catalog_category_tabs>
+                <observers>
+                    <firegento_flexcms_adminhtml_catalog_category_tabs>
+                        <class>Firegento_FlexCms_Model_Observer</class>
+                        <method>addContentCategoryTab</method>
+                    </firegento_flexcms_adminhtml_catalog_category_tabs>
+                </observers>
+            </adminhtml_catalog_category_tabs>
+        </events>
     </adminhtml>
     <default>
         <firegento_flexcms>
@@ -103,4 +116,11 @@
             </areas>
         </firegento_flexcms>
     </default>
+    <phpunit>
+        <suite>
+            <modules>
+                <Firegento_FlexCms/>
+            </modules>
+        </suite>
+    </phpunit>
 </config>

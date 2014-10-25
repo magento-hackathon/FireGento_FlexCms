@@ -1,0 +1,16 @@
+
+tables:
+
+  firegento_flexcms/content:
+    - flexcms_content_id: 1
+      title: Entry 1
+      content: Test Content 1
+      content_type: html
+      
+  firegento_flexcms/content_link:
+    - flexcms_content_link_id: 1
+      content_id: 1
+      layout_handle: default
+      area: content
+      store_ids: 0
+      sort_order: 10
