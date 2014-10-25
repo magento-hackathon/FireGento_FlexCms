@@ -64,7 +64,7 @@ class Firegento_FlexCms_Block_Adminhtml_Content_Grid extends Mage_Adminhtml_Bloc
             'align'     => 'left',
             'index'     => 'content_type',
             'type'      => 'options',
-            'options'   => Mage::getSingleton('firegento_flexcms/source_contentType')->toArray(),
+            'options'   => Mage::getSingleton('firegento_flexcms/source_handleType')->toArray(),
         ));
 
         $this->addColumn('summary', array(
@@ -112,15 +112,15 @@ class Firegento_FlexCms_Block_Adminhtml_Content_Grid extends Mage_Adminhtml_Bloc
     protected function _getLayoutHandleType($handle)
     {
         if (strpos($handle, 'product_') === 0) {
-            return Firegento_FlexCms_Model_Source_ContentType::CONTENT_TYPE_PRODUCT;
+            return Firegento_FlexCms_Model_Source_HandleType::CONTENT_TYPE_PRODUCT;
         }
         if (strpos($handle, 'category_') === 0) {
-            return Firegento_FlexCms_Model_Source_ContentType::CONTENT_TYPE_CATEGORY;
+            return Firegento_FlexCms_Model_Source_HandleType::CONTENT_TYPE_CATEGORY;
         }
         if (strpos($handle, 'CMSPAGE_') === 0) {
-            return Firegento_FlexCms_Model_Source_ContentType::CONTENT_TYPE_CMS_PAGE;
+            return Firegento_FlexCms_Model_Source_HandleType::CONTENT_TYPE_CMS_PAGE;
         }
-        return Firegento_FlexCms_Model_Source_ContentType::CONTENT_TYPE_OTHER;
+        return Firegento_FlexCms_Model_Source_HandleType::CONTENT_TYPE_OTHER;
     }
 
 }

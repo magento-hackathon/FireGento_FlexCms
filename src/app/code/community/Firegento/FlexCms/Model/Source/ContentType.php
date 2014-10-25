@@ -2,11 +2,6 @@
 
 class Firegento_FlexCms_Model_Source_ContentType
 {
-    const CONTENT_TYPE_PRODUCT = 'product';
-    const CONTENT_TYPE_CATEGORY = 'category';
-    const CONTENT_TYPE_CMS_PAGE = 'cms_page';
-    const CONTENT_TYPE_OTHER = 'other';
-
     /**
      * Options getter
      *
@@ -14,12 +9,12 @@ class Firegento_FlexCms_Model_Source_ContentType
      */
     public function toOptionArray()
     {
-        return array(
-            array('value' => self::CONTENT_TYPE_PRODUCT, 'label'=>Mage::helper('firegento_flexcms')->__('Product')),
-            array('value' => self::CONTENT_TYPE_CATEGORY, 'label'=>Mage::helper('firegento_flexcms')->__('Category')),
-            array('value' => self::CONTENT_TYPE_CMS_PAGE, 'label'=>Mage::helper('firegento_flexcms')->__('CMS Page')),
-            array('value' => self::CONTENT_TYPE_OTHER, 'label'=>Mage::helper('firegento_flexcms')->__('Other')),
-        );
+        $options = array();
+        foreach(Mage::getStoreConfig('firegento_flexcms/types') as $key => $type) {
+            $options[] = array('value' => $key, 'label' => $type['label']);
+        }
+        
+        return $options;
     }
 
     /**
