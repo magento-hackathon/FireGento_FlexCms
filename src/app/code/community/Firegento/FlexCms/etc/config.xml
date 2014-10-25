@@ -90,6 +90,14 @@
                     </firegento_flexcms_adminhtml_catalog_category_tabs>
                 </observers>
             </adminhtml_catalog_category_tabs>
+            <catalog_category_prepare_save>
+                <observers>
+                    <firegento_flexcms_catalog_category_prepare_save>
+                        <class>Firegento_FlexCms_Model_Observer</class>
+                        <method>saveCategoryFlexContent</method>
+                    </firegento_flexcms_catalog_category_prepare_save>
+                </observers>
+            </catalog_category_prepare_save>
         </events>
     </adminhtml>
     <default>
