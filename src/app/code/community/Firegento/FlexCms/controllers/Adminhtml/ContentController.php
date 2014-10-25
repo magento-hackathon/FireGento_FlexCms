@@ -4,7 +4,7 @@ class Firegento_FlexCms_Adminhtml_ContentController extends Mage_Adminhtml_Contr
 {
     public function indexAction()
     {
-        $this->_title($this->__('Cms'))->_title($this->__('FlexCms Content'));
+        $this->_title(Mage::helper('cms')->__('CMS'))->_title($this->__('FlexCms Content'));
 
         $this->loadLayout();
         $this->_setActiveMenu('cms/flexcms_content');

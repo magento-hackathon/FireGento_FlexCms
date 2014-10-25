@@ -133,8 +133,8 @@
             </handles>
             <types>
                 <html translate="label descrption">
-                    <label>Normal Content</label>
-                    <description>Standard Magento WYSIWYG-Editor</description>
+                    <label>Default HTML</label>
+                    <description>Standard Magento WYSIWYG Editor</description>
                     <show_title>1</show_title>
                     <fields>
                         <headline translate="label">
