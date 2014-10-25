@@ -74,7 +74,7 @@ class Firegento_FlexCms_Block_Renderer extends Mage_Core_Block_Template
                 if ($layoutHandles[$this->_contentElements[$order]["layout_handle"]] < $layoutHandles[$link["layout_handle"]]) {
                     $this->_contentElements[$order] = $link;
                 }
-                break;
+                continue;
             }
 
             $this->_contentElements[$order] = $link;
