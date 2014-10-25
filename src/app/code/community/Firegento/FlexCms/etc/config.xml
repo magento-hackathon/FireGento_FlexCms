@@ -103,23 +103,58 @@
     <default>
         <firegento_flexcms>
             <handles>
-
+                <dynamic>
+                    <PRODUCT/>
+                    <CATEGORY/>
+                    <CMSPAGE/>
+                </dynamic>
+                <static>
+                    <default translate="label">
+                        <handle>default</handle>
+                        <label>All Pages</label>
+                    </default>
+                    <customer_logged_out translate="label">
+                        <handle>customer_logged_out</handle>
+                        <label>All Pages (only logged in users)</label>
+                    </customer_logged_out>
+                    <customer_logged_in translate="label">
+                        <handle>customer_logged_in</handle>
+                        <label>All Pages (only logged-in users)</label>
+                    </customer_logged_in>
+                </static>
             </handles>
+            <types>
+                <wysiwyg translate="label descrption">
+                    <label>WYSIWYG-Editor</label>
+                    <description>Content Element for standard Magento WYSIWYG-Editor.</description>
+                    <show_title>1</show_title>
+                    <fields>
+                        <headline translate="label">
+                            <label>Headline</label>
+                            <frontend_type>text</frontend_type>
+                            <source_model>adminhtml/system_config_source_catalog_listMode</source_model>
+                            <sort_order>1</sort_order>
+                            <comment>Comma-separated.</comment>
+                            <disabled>1</disabled>
+                        </headline>
+                    </fields>
+                </wysiwyg>
+            </types>
             <areas>
-                <left_area>
+                <left_area translate="title">
                     <key>left</key>
-                    <title>Left Column</title>
+                    <label>Left Column</label>
                     <cache>
                         <lifetime>3600</lifetime>
                     </cache>
                 </left_area>
-                <content_area>
+                <content_area translate="title">
                     <key>content</key>
-                    <title>Content Column</title>
+                    <label>Content Column</label>
                 </content_area>
-                <right_area>
+                <right_area translate="title">
                     <key>right</key>
-                    <title>Right Column</title>
+                    <label>Right Column</label>
                 </right_area>
             </areas>
         </firegento_flexcms>
