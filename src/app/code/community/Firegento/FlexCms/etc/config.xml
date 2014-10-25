@@ -140,12 +140,10 @@
                         <headline translate="label">
                             <label>Headline</label>
                             <frontend_type>text</frontend_type>
-                            <sort_order>10</sort_order>
                         </headline>
                         <content translate="label">
                             <label>Content</label>
                             <frontend_type>editor</frontend_type>
-                            <sort_order>20</sort_order>
                         </content>
                     </fields>
                 </html>
