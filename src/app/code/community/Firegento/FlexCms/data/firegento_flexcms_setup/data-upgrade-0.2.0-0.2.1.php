@@ -9,7 +9,7 @@ $installer->startSetup();
 $installer->updateAttribute(
     Mage_Catalog_Model_Category::ENTITY,
     'display_mode',
-    'backend_model',
+    'source_model',
     'firegento_flexcms/source_displayMode'
 );
 
