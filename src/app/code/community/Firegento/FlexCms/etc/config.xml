@@ -41,6 +41,19 @@
             </firegento_flexcms_setup>
         </resources>
     </global>
+    <frontend>
+        <events>
+            <cms_page_render>
+                <observers>
+                    <firegento_flexcms>
+                        <type>singleton</type>
+                        <class>Firegento_FlexCms_Model_Observer</class>
+                        <method>cmsPageRender</method>
+                    </firegento_flexcms>
+                </observers>
+            </cms_page_render>
+        </events>
+    </frontend>
     <adminhtml>
         <layout>
             <updates>
