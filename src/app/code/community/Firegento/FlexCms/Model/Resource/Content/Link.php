@@ -1,6 +1,6 @@
 <?php
 
-class Firegento_FlexCms_Model_Resource_Content extends Mage_Core_Model_Resource_Db_Abstract
+class Firegento_FlexCms_Model_Resource_Content_Link extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
      * Initialize resource
