@@ -37,28 +37,16 @@
             <firegento_flexcms_setup>
                 <setup>
                     <module>Firegento_FlexCms</module>
+                    <class>Mage_Catalog_Model_Resource_Eav_Mysql4_Setup</class>
                 </setup>
             </firegento_flexcms_setup>
         </resources>
     </global>
-    <frontend>
-        <events>
-            <cms_page_render>
-                <observers>
-                    <firegento_flexcms>
-                        <type>singleton</type>
-                        <class>firegento_flexcms/observer</class>
-                        <method>cmsPageRender</method>
-                    </firegento_flexcms>
-                </observers>
-            </cms_page_render>
-        </events>
-    </frontend>
     <adminhtml>
         <layout>
             <updates>
                 <firegento_flexcms>
-                    <file module="Firegento_FlexCms">firegento/flexcms.xml</file>
+                    <file>firegento/flexcms.xml</file>
                 </firegento_flexcms>
             </updates>
         </layout>
@@ -71,5 +59,15 @@
                 </Firegento_FlexCms>
             </modules>
         </translate>
+        <events>
+            <adminhtml_catalog_category_tabs>
+                <observers>
+                    <firegento_flexcms_adminhtml_catalog_category_tabs>
+                        <class>Firegento_FlexCms_Model_Observer</class>
+                        <method>addContentCategoryTab</method>
+                    </firegento_flexcms_adminhtml_catalog_category_tabs>
+                </observers>
+            </adminhtml_catalog_category_tabs>
+        </events>
     </adminhtml>
 </config>
