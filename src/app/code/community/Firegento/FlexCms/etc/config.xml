@@ -5,4 +5,50 @@
             <version>0.1.0</version>
         </Firegento_FlexCms>
     </modules>
+    <global>
+        <blocks>
+            <firegento_flexcms>
+                <class>Firegento_FlexCms_Block</class>
+            </firegento_flexcms>
+        </blocks>
+        <helpers>
+            <firegento_flexcms>
+                <class>Firegento_FlexCms_Helper</class>
+            </firegento_flexcms>
+        </helpers>
+        <models>
+            <firegento_flexcms>
+                <class>Firegento_FlexCms_Model</class>
+                <resourceModel>firegento_flexcms_resource</resourceModel>
+            </firegento_flexcms>
+            <firegento_flexcms_resource>
+                <class>Firegento_FlexCms_Model_Resource</class>
+            </firegento_flexcms_resource>
+        </models>
+        <resources>
+            <firegento_flexcms_setup>
+                <setup>
+                    <module>Firegento_FlexCms</module>
+                </setup>
+            </firegento_flexcms_setup>
+        </resources>
+    </global>
+    <adminhtml>
+        <layout>
+            <updates>
+                <firegento_flexcms>
+                    <file module="Firegento_FlexCms">firegento/flexcms.xml</file>
+                </firegento_flexcms>
+            </updates>
+        </layout>
+        <translate>
+            <modules>
+                <Firegento_FlexCms>
+                    <files>
+                        <default>Firegento_FlexCms.csv</default>
+                    </files>
+                </Firegento_FlexCms>
+            </modules>
+        </translate>
+    </adminhtml>
 </config>

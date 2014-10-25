@@ -2,3 +2,4 @@ src/app/etc/modules/Firegento_FlexCms.xml   app/etc/modules/Firegento_FlexCms.xm
 src/app/code/community/Firegento/FlexCms/   app/code/community/Firegento/FlexCms/
 src/app/design/adminhtml/base/default/layout/firegento/flexcms.xml  app/design/adminhtml/base/default/layout/firegento/flexcms.xml
 src/app/design/adminhtml/base/default/template/firegento/flexcms/   app/design/adminhtml/base/default/template/firegento/flexcms/
+src/app/locale/Firegento_FlexCms.csv	app/locale/Firegento_FlexCms.csv
