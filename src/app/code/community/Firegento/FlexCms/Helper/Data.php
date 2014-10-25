@@ -28,6 +28,11 @@ class Firegento_FlexCms_Helper_Data extends Mage_Core_Helper_Abstract
         if (!$this->_contentElementArray) {
             $contentCollection    = Mage::getResourceModel('firegento_flexcms/content_collection')->load();
 
+            $this->_contentElementArray[] = array(
+                'value' => 0,
+                'label' => 'No content'
+            );
+
             foreach ($contentCollection as $content) {
                 $this->_contentElementArray[] = array(
                     'value' => $content->getFlexcmsContentId(),
