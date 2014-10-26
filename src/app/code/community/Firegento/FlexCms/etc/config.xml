@@ -136,6 +136,7 @@
                     <label>Default HTML</label>
                     <description>Standard Magento WYSIWYG Editor</description>
                     <show_title>1</show_title>
+                    <blockTemplate>firegento/flexcms/type/html.phtml</blockTemplate>
                     <fields>
                         <headline translate="label">
                             <label>Headline</label>
