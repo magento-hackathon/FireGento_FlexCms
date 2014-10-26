@@ -94,7 +94,7 @@
                 <observers>
                     <firegento_flexcms_adminhtml_catalog_category_tabs>
                         <class>Firegento_FlexCms_Model_Observer</class>
-                        <method>addContentCategoryTab</method>
+                        <method>adminhtmlCatalogCategoryTabs</method>
                     </firegento_flexcms_adminhtml_catalog_category_tabs>
                 </observers>
             </adminhtml_catalog_category_tabs>
@@ -102,7 +102,7 @@
                 <observers>
                     <firegento_flexcms_catalog_category_prepare_save>
                         <class>Firegento_FlexCms_Model_Observer</class>
-                        <method>saveCategoryFlexContent</method>
+                        <method>catalogCategorySaveAfter</method>
                     </firegento_flexcms_catalog_category_prepare_save>
                 </observers>
             </catalog_category_save_after>
@@ -136,7 +136,7 @@
                     <label>Default HTML</label>
                     <description>Standard Magento WYSIWYG Editor</description>
                     <show_title>1</show_title>
-                    <blockTemplate>firegento/flexcms/type/html.phtml</blockTemplate>
+                    <block_template>firegento/flexcms/type/html.phtml</block_template>
                     <fields>
                         <headline translate="label">
                             <label>Headline</label>

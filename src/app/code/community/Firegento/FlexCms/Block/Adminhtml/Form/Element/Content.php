@@ -150,6 +150,7 @@ class Firegento_FlexCms_Block_Adminhtml_Form_Element_Content extends Varien_Data
                 'label' => Mage::helper('firegento_flexcms')->__('Delete this element'),
                 'name' => 'flexcms_element[' . $link->getId() . '][delete]',
                 'class' => 'flexcms_element flexcms_element_delete',
+                'value' => 'true'
             )
         );
         return $elements;

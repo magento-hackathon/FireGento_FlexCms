@@ -68,18 +68,18 @@ class Firegento_FlexCms_Block_Renderer extends Mage_Core_Block_Template
         if(is_array($this->_contentElements)){
             foreach($this->_contentElements as $element){
                 if(isset($typeConfig[$element->getContentType()])){
-                    if(isset($typeConfig[$element->getContentType()]["blockType"])){
-                        $rendererType = $typeConfig[$element->getContentType()]["blockType"];
-                    }else{
+                    $cfg = new Varien_Object($typeConfig[$element->getContentType()]);
+                    if(!$renderType = $cfg->getBlockType()){
                         $rendererType = 'firegento_flexcms/type_default';
                     }
 
                     $rendererName = 'flexcms_content_render_'.$element->getArea().'_'.$element->getContentId();
-                    $rendererTemplate = $typeConfig[$element->getContentType()]["blockTemplate"];
+                    $rendererTemplate = $cfg->getBlockTemplate();
+                    $rendererContent = new Varien_Object($element->getContent());
 
                     $block = Mage::app()->getLayout()->createBlock($rendererType, $rendererName);
                     $block->setTemplate($rendererTemplate);
-                    $block->setContentData(new Varien_Object($element->getContent()));
+                    $block->setContentData($rendererContent);
 
                     $element->setRenderer($block);
                 }
