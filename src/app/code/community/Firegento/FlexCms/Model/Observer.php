@@ -109,6 +109,16 @@ class Firegento_FlexCms_Model_Observer
 
     }
 
+    public function redirectCategoryDirectLink(Varien_Event_Observer $observer)
+    {
+        $category = Mage::registry('current_category');
+        if ($category instanceof Mage_Catalog_Model_Category) {
+            $observer->getControllerAction()->getResponse()->setRedirect(
+                $category->getUrl()
+            );
+        }
+    }
+
     public function addFlexCmsUrlAttributes(Varien_Event_Observer $observer)
     {
         $observer->getCategoryCollection()->addAttributeToSelect(
@@ -122,21 +132,29 @@ class Firegento_FlexCms_Model_Observer
         $collection = $observer->getCategoryCollection();
 
         foreach ($collection as $category) {
-            if (
-                $category->getDisplayMode() === Firegento_FlexCms_Model_Source_DisplayMode::CMS_PAGE
-                && $category->getFlexcmsCmsPage()
-            ) {
-                $category->setUrl(Mage::helper('cms/page')->getPageUrl($category->getFlexcmsCmsPage()));
-            }
-            if (
-                $category->getDisplayMode() === Firegento_FlexCms_Model_Source_DisplayMode::URL_EXTERNAL
-                && $category->getFlexcmsUrlExternal()
-            ){
-                $category->setUrl($category->getFlexcmsUrlExternal());
-            }
+            $this->_checkSetUrlUpdate($category);
         }
-
     }
 
+    public function setUrlUpdateSingle(Varien_Event_Observer $observer)
+    {
+        $this->_checkSetUrlUpdate($observer->getCategory());
+    }
+
+    protected function _checkSetUrlUpdate($category)
+    {
+        if (
+            $category->getDisplayMode() === Firegento_FlexCms_Model_Source_DisplayMode::CMS_PAGE
+            && $category->getFlexcmsCmsPage()
+        ) {
+            $category->setUrl(Mage::helper('cms/page')->getPageUrl($category->getFlexcmsCmsPage()));
+        }
+        if (
+            $category->getDisplayMode() === Firegento_FlexCms_Model_Source_DisplayMode::URL_EXTERNAL
+            && $category->getFlexcmsUrlExternal()
+        ){
+            $category->setUrl($category->getFlexcmsUrlExternal());
+        }
+    }
 
 }

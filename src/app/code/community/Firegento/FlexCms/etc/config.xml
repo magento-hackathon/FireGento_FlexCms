@@ -70,6 +70,24 @@
                     </firegento_flexcms>
                 </observers>
             </catalog_category_collection_load_after>
+            <catalog_category_load_after>
+                <observers>
+                    <firegento_flexcms>
+                        <type>singleton</type>
+                        <class>firegento_flexcms/observer</class>
+                        <method>setUrlUpdateSingle</method>
+                    </firegento_flexcms>
+                </observers>
+            </catalog_category_load_after>
+            <controller_action_postdispatch_catalog_category_view>
+                <observers>
+                    <firegento_flexcms>
+                        <type>singleton</type>
+                        <class>firegento_flexcms/observer</class>
+                        <method>redirectCategoryDirectLink</method>
+                    </firegento_flexcms>
+                </observers>
+            </controller_action_postdispatch_catalog_category_view>
         </events>
         <layout>
             <updates>
