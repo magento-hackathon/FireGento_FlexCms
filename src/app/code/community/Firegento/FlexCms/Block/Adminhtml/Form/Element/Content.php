@@ -129,7 +129,10 @@ class Firegento_FlexCms_Block_Adminhtml_Form_Element_Content extends Varien_Data
                     $elementConfig[$key] = $value;
                 }
                 if ($fieldConfig['frontend_type'] == 'editor') {
-                    $elementConfig['config'] = Mage::getSingleton('cms/wysiwyg_config')->getConfig();
+                    $elementConfig['config'] = Mage::getSingleton('cms/wysiwyg_config')->getConfig(array(
+                        'mode' => 'exact',
+                        //'elements' => 'flexcms_content_link_' . $link->getId() . '_field_' . $fieldCode,
+                    ));
                 }
 
 
