@@ -1,6 +1,11 @@
 <?xml version="1.0"?>
 <layout>
     <adminhtml_catalog_category_edit>
+        <reference name="head">
+            <action method="addCss">
+                <file>firegento/flexcms.css</file>
+            </action>
+        </reference>
         <block type="adminhtml/widget_form_element_dependence" name="flexcms.category.attribute.dependence" alias="form_after">
 
             <action method="addFieldMap">
