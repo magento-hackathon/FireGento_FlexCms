@@ -52,6 +52,24 @@
                     </firegento_flexcms>
                 </observers>
             </cms_page_render>
+            <catalog_category_collection_load_before>
+                <observers>
+                    <firegento_flexcms>
+                        <type>singleton</type>
+                        <class>firegento_flexcms/observer</class>
+                        <method>addFlexCmsUrlAttributes</method>
+                    </firegento_flexcms>
+                </observers>
+            </catalog_category_collection_load_before>
+            <catalog_category_collection_load_after>
+                <observers>
+                    <firegento_flexcms>
+                        <type>singleton</type>
+                        <class>firegento_flexcms/observer</class>
+                        <method>setUrlUpdate</method>
+                    </firegento_flexcms>
+                </observers>
+            </catalog_category_collection_load_after>
         </events>
         <layout>
             <updates>
