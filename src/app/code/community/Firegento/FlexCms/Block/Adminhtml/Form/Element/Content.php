@@ -1,14 +1,39 @@
 <?php
 /**
- * integer_net Magento Module
+ * This file is part of a FireGento e.V. module.
  *
- * @category   Firegento
- * @package    Firegento_FlexCms
- * @copyright  Copyright (c) 2014 integer_net GmbH (http://www.integer-net.de/)
- * @author     Andreas von Studnitz <avs@integer-net.de>
- */ 
+ * This FireGento e.V. module is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License version 3 as
+ * published by the Free Software Foundation.
+ *
+ * This script is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ *
+ * PHP version 5
+ *
+ * @category  FireGento
+ * @package   FireGento_FlexCms
+ * @author    FireGento Team <team@firegento.com>
+ * @copyright 2014 FireGento Team (http://www.firegento.com)
+ * @license   http://opensource.org/licenses/gpl-3.0 GNU General Public License, version 3 (GPLv3)
+ */
+
+/**
+ * FlexCms Content Renderer
+ *
+ * @category FireGento
+ * @package  FireGento_FlexCms
+ * @author   FireGento Team <team@firegento.com>
+ */
 class Firegento_FlexCms_Block_Adminhtml_Form_Element_Content extends Varien_Data_Form_Element_Abstract
 {
+
+    /**
+     * @var Firegento_FlexCms_Model_Resource_Content_Link_Collection
+     */
+    protected $_linkCollection;
+
     /**
      * Element type classes
      *
@@ -16,38 +41,43 @@ class Firegento_FlexCms_Block_Adminhtml_Form_Element_Content extends Varien_Data
      */
     protected $_types = array();
 
+    /**
+     * @return string
+     */
     public function getHtml()
     {
-        /** @var Firegento_FlexCms_Model_Resource_Content_Link_Collection $linkCollection */
-        $linkCollection = Mage::getModel('firegento_flexcms/content_link')->getCollection();
-        $linkCollection->addFieldToFilter('area', $this->getArea());
-        $linkCollection->addFieldToFilter('layout_handle', $this->getLayoutHandle());
-        $linkCollection->setOrder('sort_order', 'asc');
-
-        $linkCollection->getSelect()->join(
-            array('content' => Mage::getSingleton('core/resource')->getTableName('firegento_flexcms/content')),
-            'content.flexcms_content_id=main_table.content_id',
-            array('content.*')
-        );
-
         $html = $this->_getAddHtml();
-        
-        foreach ($linkCollection as $link) {
-            
-            $renderer = $this->_getRenderer($link);
 
+        foreach ($this->getAreaLinksCollection() as $link) {
+            $renderer = $this->_getRenderer($link);
             $renderer->setElements($this->_getElements($link));
-            
             $html .= $renderer->toHtml();
         }
-        
+
         return $html;
+    }
+
+    public function addType($type, $className){
+
+    }
+
+    /**
+     * @return Firegento_FlexCms_Model_Resource_Content_Link_Collection
+     */
+    protected function getAreaLinksCollection()
+    {
+        $this->_linkCollection = Mage::getModel('firegento_flexcms/content_link')->getCollection()
+            ->addFieldToFilter('area', $this->getArea())
+            ->addFieldToFilter('layout_handle', $this->getLayoutHandle())
+            ->setOrder('sort_order', 'asc')
+            ->joinContentData();
+        return $this->_linkCollection;
     }
 
     /**
      * @param   string $elementId
      * @param   string $type
-     * @param   array  $config
+     * @param   array $config
      * @return Varien_Data_Form_Element_Abstract
      */
     protected function _getField($elementId, $type, $config)
@@ -113,7 +143,7 @@ class Firegento_FlexCms_Block_Adminhtml_Form_Element_Content extends Varien_Data
         $contentType = $link->getContentType();
         $contentTypeConfig = Mage::getStoreConfig('firegento_flexcms/types/' . $contentType);
 
-        if(is_array($contentTypeConfig["fields"])){
+        if (is_array($contentTypeConfig["fields"])) {
             foreach ($contentTypeConfig['fields'] as $fieldCode => $fieldConfig) {
 
                 $content = $link->getContent();
@@ -123,7 +153,7 @@ class Firegento_FlexCms_Block_Adminhtml_Form_Element_Content extends Varien_Data
                     'value' => ((isset($content[$fieldCode])) ? $content[$fieldCode] : ''),
                     'class' => 'flexcms_element flexcms_element_' . $fieldConfig['frontend_type'],
                 );
-                foreach($fieldConfig as $key => $value) {
+                foreach ($fieldConfig as $key => $value) {
                     if (in_array($key, array('label', 'frontend_type'))) {
                         continue;
                     }
@@ -149,7 +179,8 @@ class Firegento_FlexCms_Block_Adminhtml_Form_Element_Content extends Varien_Data
             array(
                 'label' => Mage::helper('firegento_flexcms')->__('Sort Order'),
                 'name' => 'flexcms_element[' . $link->getId() . '][sort_order]',
-                'class' => 'validate-number flexcms_element flexcms_element_sort_order',
+                'class' => 'flexcms_element flexcms_element_sort_order',
+                'value' => 'true'
             )
         );
         $elements[] = $this->_getField(
@@ -173,7 +204,7 @@ class Firegento_FlexCms_Block_Adminhtml_Form_Element_Content extends Varien_Data
         /** @var $block Firegento_FlexCms_Block_Adminhtml_Add */
         $block = Mage::app()->getLayout()->createBlock(
             'firegento_flexcms/adminhtml_add',
-            'flexform_add_' . $this->getArea(), 
+            'flexform_add_' . $this->getArea(),
             array('area_code' => $this->getArea())
         );
         return $block->toHtml();
