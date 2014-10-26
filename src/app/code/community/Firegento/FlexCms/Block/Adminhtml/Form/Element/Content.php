@@ -70,7 +70,7 @@ class Firegento_FlexCms_Block_Adminhtml_Form_Element_Content extends Varien_Data
      */
     protected function _getForm()
     {
-        return new Varien_Object(array(
+        return new Varien_Data_Form(array(
             'html_id_prefix' => 'flexform_area_' . $this->getArea() . '_',
         ));
     }
@@ -115,15 +115,27 @@ class Firegento_FlexCms_Block_Adminhtml_Form_Element_Content extends Varien_Data
         foreach ($contentTypeConfig['fields'] as $fieldCode => $fieldConfig) {
 
             $content = $link->getContent();
+            $elementConfig = array(
+                'label' => Mage::helper('firegento_flexcms')->__($fieldConfig['label']),
+                'name' => 'flexcms_element[' . $link->getId() . '][' . $fieldCode . ']',
+                'value' => $content[$fieldCode],
+                'class' => 'flexcms_element flexcms_element_' . $fieldConfig['frontend_type'],
+            );
+            foreach($fieldConfig as $key => $value) {
+                if (in_array($key, array('label', 'frontend_type'))) {
+                    continue;
+                }
+                $elementConfig[$key] = $value;
+            }
+            if ($fieldConfig['frontend_type'] == 'editor') {
+                $elementConfig['config'] = Mage::getSingleton('cms/wysiwyg_config')->getConfig();
+            }
+            
+            
             $elements[] = $this->_getField(
                 'flexcms_content_link_' . $link->getId() . '_field_' . $fieldCode,
                 $fieldConfig['frontend_type'],
-                array(
-                    'label' => Mage::helper('firegento_flexcms')->__($fieldConfig['label']),
-                    'name' => 'flexcms_element[' . $link->getId() . '][' . $fieldCode . ']',
-                    'value' => $content[$fieldCode],
-                    'class' => 'flexcms_element flexcms_element_' . $fieldConfig['frontend_type'],
-                )
+                $elementConfig
             );
         }
         return $elements;

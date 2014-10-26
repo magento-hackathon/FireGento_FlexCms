@@ -140,10 +140,13 @@
                         <headline translate="label">
                             <label>Headline</label>
                             <frontend_type>text</frontend_type>
+                            <style>width: 80%;</style>
                         </headline>
                         <content translate="label">
                             <label>Content</label>
                             <frontend_type>editor</frontend_type>
+                            <wysiwyg>1</wysiwyg>
+                            <style>height: 36em; width: 80%;</style>
                         </content>
                     </fields>
                 </html>
