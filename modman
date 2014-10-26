@@ -5,3 +5,4 @@ src/app/design/frontend/base/default/layout/firegento/flexcms.xml  app/design/fr
 src/app/design/adminhtml/base/default/template/firegento/flexcms/   app/design/adminhtml/base/default/template/firegento/flexcms/
 src/app/design/frontend/base/default/template/firegento/flexcms/   app/design/frontend/base/default/template/firegento/flexcms/
 src/app/locale/en_US/Firegento_FlexCms.csv	app/locale/en_US/Firegento_FlexCms.csv
+src/skin/adminhtml/base/default/firegento/flexcms.css skin/adminhtml/base/default/firegento/flexcms.css

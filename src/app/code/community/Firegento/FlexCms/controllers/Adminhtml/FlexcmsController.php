@@ -33,6 +33,64 @@ class Firegento_FlexCms_Adminhtml_FlexcmsController extends Mage_Adminhtml_Contr
      */
     public function newAction()
     {
+        $area = $this->getRequest()->getParam('area');
+        $layoutHandle = $this->getRequest()->getParam('layouthandle');
+        $elementType = $this->getRequest()->getParam('elementtype');
         
+        if (!$area || !$elementType || !$layoutHandle) {
+            Mage::throwException($this->__('Wrong parameters.'));
+        }
+        $content = $this->_getNewContent($elementType);
+
+        $contentLink = $this->_getNewContentLink($content, $area, $layoutHandle);
+
+        /** @var $contentBlock Firegento_FlexCms_Adminhtml_FlexcmsController */
+        $contentBlock = $this->getLayout()->createBlock('firegento_flexcms/adminhtml_form_element_content');
+        
+        
+        $this->getResponse()->setBody($contentBlock->getLinkHtml($contentLink));
+    }
+
+    /**
+     * @param string $elementType
+     * @throws Exception
+     * @return Firegento_FlexCms_Model_Content
+     */
+    protected function _getNewContent($elementType)
+    {
+        /** @var $content Firegento_FlexCms_Model_Content */
+        $content = Mage::getModel('firegento_flexcms/content');
+
+        $content->setData(array(
+            'content_type' => $elementType,
+        ));
+
+        $content->save();
+        
+        return $content;
+    }
+
+    /**
+     * @param Firegento_FlexCms_Model_Content $content
+     * @param string $area
+     * @param string $layoutHandle
+     * @throws Exception
+     * @return Firegento_FlexCms_Model_Content_Link
+     */
+    protected function _getNewContentLink($content, $area, $layoutHandle)
+    {
+        /** @var $content Firegento_FlexCms_Model_Content_Link */
+        $contentLink = Mage::getModel('firegento_flexcms/content_link');
+
+        $contentLink->setData(array(
+            'content_id' => $content->getId(),
+            'area' => $area,
+            'layout_handle' => $layoutHandle,
+            'store_ids' => 0,
+        ));
+
+        $contentLink->save();
+        
+        return $contentLink;
     }
 }

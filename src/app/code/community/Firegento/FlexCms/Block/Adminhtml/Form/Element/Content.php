@@ -49,13 +49,23 @@ class Firegento_FlexCms_Block_Adminhtml_Form_Element_Content extends Varien_Data
         $html = $this->_getAddHtml();
 
         foreach ($this->getAreaLinksCollection() as $link) {
-            $renderer = $this->_getRenderer($link);
-            $renderer->setElements($this->_getElements($link));
-            $renderer->setElementType($this->_getElementTypeLabel($link));
-            $html .= $renderer->toHtml();
+            $html .= $this->getLinkHtml($link);
         }
 
         return $html;
+    }
+
+    /**
+     * @param $link
+     * @return string
+     */
+    public function getLinkHtml($link)
+    {
+        $renderer = $this->_getRenderer($link);
+        $renderer->setElements($this->_getElements($link));
+        $renderer->setElementType($this->_getElementTypeLabel($link));
+        $linkHtml = $renderer->toHtml();
+        return $linkHtml;
     }
 
     public function addType($type, $className){
@@ -110,11 +120,17 @@ class Firegento_FlexCms_Block_Adminhtml_Form_Element_Content extends Varien_Data
      * @param Firegento_FlexCms_Test_Model_Content_Link $link
      * @return Mage_Core_Block_Abstract
      */
-    protected function _getRenderer($link)
+    protected function _getRenderer($link = null)
     {
+        if (is_null($link)) {
+            $id = $this->getArea();
+        } else {
+            $id = $link->getId();
+        }
+        
         return Mage::app()->getLayout()->createBlock(
             'adminhtml/template',
-            'flexcms_content_renderer_' . $link->getId(),
+            'flexcms_content_renderer_' . $id,
             array(
                 'template' => 'firegento/flexcms/element/content.phtml',
                 'link' => $link,
