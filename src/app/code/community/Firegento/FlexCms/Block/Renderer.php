@@ -54,7 +54,7 @@ class Firegento_FlexCms_Block_Renderer extends Mage_Core_Block_Template
      */
     protected function _beforeToHtml()
     {
-        if(is_array($this->_layoutHandles)){
+        if(is_array($this->_layoutHandles) && sizeof($this->_layoutHandles) > 1){
             $this->_loadContentElements();
             $this->_initElementRendering();
         }
@@ -144,10 +144,11 @@ class Firegento_FlexCms_Block_Renderer extends Mage_Core_Block_Template
             ->addFieldToFilter('area', array('eq' => $this->getAreaKey()))
             ->addFieldToFilter('layout_handle', array('in' => $this->_layoutHandles));
 
-        if (!Mage::app()->isSingleStoreMode()) {
-            $linkCollection->addFieldToFilter('store_id',
-                array('finset' => array(0, Mage::app()->getStore()->getId()))
-            );
+        if (!Mage::app()->isSingleStoreMode() && Mage::app()->getStore()->getId() > 0) {
+            $linkCollection->addFieldToFilter('store_ids', array(
+                array('finset' => 0),
+                array('finset' => Mage::app()->getStore()->getId()),
+            ));
         }
 
         $linkCollection->joinContentData();
