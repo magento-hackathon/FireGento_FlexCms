@@ -51,6 +51,7 @@ class Firegento_FlexCms_Block_Adminhtml_Form_Element_Content extends Varien_Data
         foreach ($this->getAreaLinksCollection() as $link) {
             $renderer = $this->_getRenderer($link);
             $renderer->setElements($this->_getElements($link));
+            $renderer->setElementType($this->_getElementTypeLabel($link));
             $html .= $renderer->toHtml();
         }
 
@@ -208,5 +209,14 @@ class Firegento_FlexCms_Block_Adminhtml_Form_Element_Content extends Varien_Data
             array('area_code' => $this->getArea())
         );
         return $block->toHtml();
+    }
+
+    /**
+     * @param Firegento_FlexCms_Test_Model_Content_Link $link
+     * @return string
+     */
+    protected function _getElementTypeLabel($link)
+    {
+        return Mage::helper('firegento_flexcms')->__(Mage::getStoreConfig('firegento_flexcms/types/' . $link->getContentType() . '/label'));
     }
 }
