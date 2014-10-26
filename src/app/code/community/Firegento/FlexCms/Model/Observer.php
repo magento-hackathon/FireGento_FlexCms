@@ -74,22 +74,25 @@ class Firegento_FlexCms_Model_Observer
 
         $categoryId = $category->getId();
         $layoutHandle = 'CATEGORY_' . $categoryId;
-        foreach ($params['flexcms_element'] as $linkId => $fields) {
+        
+        if (isset($params['flexcms_element']) && is_array($params['flexcms_element'])) {
+            foreach ($params['flexcms_element'] as $linkId => $fields) {
 
-            $link = Mage::getModel('firegento_flexcms/content_link')->load($linkId);
-            $contentElement = $link->getContentModel();
+                $link = Mage::getModel('firegento_flexcms/content_link')->load($linkId);
+                $contentElement = $link->getContentModel();
 
-            $content = array();
-            foreach ($fields as $fieldName => $fieldValue) {
+                $content = array();
+                foreach ($fields as $fieldName => $fieldValue) {
 
-                if ($fieldName == 'title') {
-                    $contentElement->setTitle($fieldValue);
-                } else {
-                    $content[$fieldName] = $fieldValue;
+                    if ($fieldName == 'title') {
+                        $contentElement->setTitle($fieldValue);
+                    } else {
+                        $content[$fieldName] = $fieldValue;
+                    }
                 }
+
+                $contentElement->setContent($content)->save();
             }
-            
-            $contentElement->setContent($content)->save();
         }
     }
 }

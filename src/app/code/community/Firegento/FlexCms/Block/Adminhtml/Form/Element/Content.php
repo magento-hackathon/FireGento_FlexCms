@@ -106,6 +106,7 @@ class Firegento_FlexCms_Block_Adminhtml_Form_Element_Content extends Varien_Data
                 'label' => Mage::helper('firegento_flexcms')->__('Title (not displayed on frontend)'),
                 'name' => 'flexcms_element[' . $link->getId() . '][title]',
                 'value' => $link->getTitle(),
+                'class' => 'flexcms_element flexcms_element_title',
             )
         );
 
@@ -131,7 +132,6 @@ class Firegento_FlexCms_Block_Adminhtml_Form_Element_Content extends Varien_Data
                 if ($fieldConfig['frontend_type'] == 'editor') {
                     $elementConfig['config'] = Mage::getSingleton('cms/wysiwyg_config')->getConfig(array(
                         'mode' => 'exact',
-                        //'elements' => 'flexcms_content_link_' . $link->getId() . '_field_' . $fieldCode,
                     ));
                 }
 
@@ -143,6 +143,15 @@ class Firegento_FlexCms_Block_Adminhtml_Form_Element_Content extends Varien_Data
                 );
             }
         }
+        $elements[] = $this->_getField(
+            'flexcms_content_link_' . $link->getId() . '_field_delete',
+            'checkbox',
+            array(
+                'label' => Mage::helper('firegento_flexcms')->__('Delete this element'),
+                'name' => 'flexcms_element[' . $link->getId() . '][delete]',
+                'class' => 'flexcms_element flexcms_element_delete',
+            )
+        );
         return $elements;
     }
 }
