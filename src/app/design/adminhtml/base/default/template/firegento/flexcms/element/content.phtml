@@ -1,10 +1,9 @@
 <?php /** @var Mage_Core_Block_Template $this */ ?>
 
-<?php foreach ($this->getElements() as $element): ?>
-
-    <div class="flexcms_element_container">
+<div class="flexcms_element">
+    <h5><?php echo $this->getElementType() ?></h5>
+    <?php foreach ($this->getElements() as $element): ?>
         <?php /** @var Varien_Data_Form_Element_Abstract $element */ ?>
         <?php echo $element->getHtml() ?>
-    </div>
-    
-<?php endforeach ?>
+    <?php endforeach ?>
+</div>
