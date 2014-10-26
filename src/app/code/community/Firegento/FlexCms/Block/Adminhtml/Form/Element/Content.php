@@ -112,31 +112,33 @@ class Firegento_FlexCms_Block_Adminhtml_Form_Element_Content extends Varien_Data
         $contentType = $link->getContentType();
         $contentTypeConfig = Mage::getStoreConfig('firegento_flexcms/types/' . $contentType);
 
-        foreach ($contentTypeConfig['fields'] as $fieldCode => $fieldConfig) {
+        if(is_array($contentTypeConfig["fields"])){
+            foreach ($contentTypeConfig['fields'] as $fieldCode => $fieldConfig) {
 
-            $content = $link->getContent();
-            $elementConfig = array(
-                'label' => Mage::helper('firegento_flexcms')->__($fieldConfig['label']),
-                'name' => 'flexcms_element[' . $link->getId() . '][' . $fieldCode . ']',
-                'value' => $content[$fieldCode],
-                'class' => 'flexcms_element flexcms_element_' . $fieldConfig['frontend_type'],
-            );
-            foreach($fieldConfig as $key => $value) {
-                if (in_array($key, array('label', 'frontend_type'))) {
-                    continue;
+                $content = $link->getContent();
+                $elementConfig = array(
+                    'label' => Mage::helper('firegento_flexcms')->__($fieldConfig['label']),
+                    'name' => 'flexcms_element[' . $link->getId() . '][' . $fieldCode . ']',
+                    'value' => ((isset($content[$fieldCode])) ? $content[$fieldCode] : ''),
+                    'class' => 'flexcms_element flexcms_element_' . $fieldConfig['frontend_type'],
+                );
+                foreach($fieldConfig as $key => $value) {
+                    if (in_array($key, array('label', 'frontend_type'))) {
+                        continue;
+                    }
+                    $elementConfig[$key] = $value;
                 }
-                $elementConfig[$key] = $value;
+                if ($fieldConfig['frontend_type'] == 'editor') {
+                    $elementConfig['config'] = Mage::getSingleton('cms/wysiwyg_config')->getConfig();
+                }
+
+
+                $elements[] = $this->_getField(
+                    'flexcms_content_link_' . $link->getId() . '_field_' . $fieldCode,
+                    $fieldConfig['frontend_type'],
+                    $elementConfig
+                );
             }
-            if ($fieldConfig['frontend_type'] == 'editor') {
-                $elementConfig['config'] = Mage::getSingleton('cms/wysiwyg_config')->getConfig();
-            }
-            
-            
-            $elements[] = $this->_getField(
-                'flexcms_content_link_' . $link->getId() . '_field_' . $fieldCode,
-                $fieldConfig['frontend_type'],
-                $elementConfig
-            );
         }
         return $elements;
     }
