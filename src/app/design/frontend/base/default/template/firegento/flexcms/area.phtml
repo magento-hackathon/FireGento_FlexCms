@@ -31,10 +31,10 @@ $_contentElements = $this->getContentElements();
 
 if (count($_contentElements)):
     ?>
-    <div class="flexcms-wrapper flexcms-area-<?php echo $this->getAreaKey(); ?>"></div>
+    <div class="flexcms-wrapper flexcms-area-<?php echo $this->getAreaKey(); ?>">
     <?php foreach ($_contentElements as $element): ?>
         <div class="flexcms-element flexcms-type-<?php echo $this->getContentType(); ?>">
-            <?php echo $element["content"]; ?>
+            <?php echo $element->getRenderer()->renderView(); ?>
         </div>
     <?php endforeach; ?>
     </div>

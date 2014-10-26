@@ -38,7 +38,11 @@ class Firegento_FlexCms_Model_Content_Link extends Mage_Core_Model_Abstract
         }
 
         if (trim($this->_getData('content'))) {
-            return Zend_Json::decode($this->_getData('content'));
+            try{
+                return Zend_Json::decode($this->_getData('content'));
+            }catch (Exception $e){
+
+            }
         }
 
         return array();

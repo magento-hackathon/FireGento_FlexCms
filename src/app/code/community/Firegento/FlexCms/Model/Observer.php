@@ -45,13 +45,12 @@ class Firegento_FlexCms_Model_Observer
      *
      * @param Varien_Event_Observer $observer
      */
-    public function addContentCategoryTab(Varien_Event_Observer $observer)
+    public function adminhtmlCatalogCategoryTabs(Varien_Event_Observer $observer)
     {
-
         $tabs = $observer->getTabs();
 
         $tabs->addTab('content', array(
-            'label' => Mage::helper('firegento_flexcms')->__('Content'),
+            'label' => Mage::helper('firegento_flexcms')->__('FlexCms'),
             'content' => $tabs->getLayout()->createBlock(
                 'firegento_flexcms/adminhtml_tab_content',
                 'flexcms.content.form'
@@ -65,16 +64,21 @@ class Firegento_FlexCms_Model_Observer
      * @param Varien_Event_Observer $observer
      *
      */
-    public function saveCategoryFlexContent(Varien_Event_Observer $observer)
+    public function catalogCategorySaveAfter(Varien_Event_Observer $observer)
     {
-        $params = Mage::app()->getRequest()->getParams();
+        $data = new Varien_Object(Mage::app()->getRequest()->getParams());
+
+        if (!$data->getFlexcmsElement()) {
+            return;
+        }
 
         /** @var Mage_Catalog_Model_Category $category */
         $category = $observer->getCategory();
 
         $categoryId = $category->getId();
         $layoutHandle = 'CATEGORY_' . $categoryId;
-        foreach ($params['flexcms_element'] as $linkId => $fields) {
+
+        foreach ($data->getFlexcmsElement() as $linkId => $fields) {
 
             $link = Mage::getModel('firegento_flexcms/content_link')->load($linkId);
             $contentElement = $link->getContentModel();
@@ -88,9 +92,21 @@ class Firegento_FlexCms_Model_Observer
                     $content[$fieldName] = $fieldValue;
                 }
             }
-            
+
             $contentElement->setContent($content)->save();
+
+            // delete link or entire content element if no other links are referenced to it
+            if (array_key_exists('delete', $fields)) {
+                $parentElementUsageCollection = Mage::getModel('firegento_flexcms/content_link')->getCollection()
+                    ->addFieldToFilter('content_id', array('eq' => $link->getContentId()));
+                if (count($parentElementUsageCollection) == 1) {
+                    $link->getContentModel()->delete();
+                }
+                $link->delete();
+            }
+
         }
+
     }
 
     public function addFlexCmsUrlAttributes(Varien_Event_Observer $observer)

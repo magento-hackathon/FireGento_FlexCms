@@ -54,7 +54,38 @@ class Firegento_FlexCms_Block_Renderer extends Mage_Core_Block_Template
      */
     protected function _beforeToHtml()
     {
-        $this->_loadContentElements();
+        if(is_array($this->_layoutHandles) && sizeof($this->_layoutHandles) > 1){
+            $this->_loadContentElements();
+            $this->_initElementRendering();
+        }
+    }
+
+    /**
+     * configure block renderer class per element
+     */
+    protected function _initElementRendering(){
+        $typeConfig = Mage::getStoreConfig('firegento_flexcms/types');
+
+        if(is_array($this->_contentElements)){
+            foreach($this->_contentElements as $element){
+                if(isset($typeConfig[$element->getContentType()])){
+                    $cfg = new Varien_Object($typeConfig[$element->getContentType()]);
+                    if(!$renderType = $cfg->getBlockType()){
+                        $rendererType = 'firegento_flexcms/type_default';
+                    }
+
+                    $rendererName = 'flexcms_content_render_'.$element->getArea().'_'.$element->getContentId();
+                    $rendererTemplate = $cfg->getBlockTemplate();
+                    $rendererContent = new Varien_Object($element->getContent());
+
+                    $block = Mage::app()->getLayout()->createBlock($rendererType, $rendererName);
+                    $block->setTemplate($rendererTemplate);
+                    $block->setContentData($rendererContent);
+
+                    $element->setRenderer($block);
+                }
+            }
+        }
     }
 
     /**
@@ -113,10 +144,11 @@ class Firegento_FlexCms_Block_Renderer extends Mage_Core_Block_Template
             ->addFieldToFilter('area', array('eq' => $this->getAreaKey()))
             ->addFieldToFilter('layout_handle', array('in' => $this->_layoutHandles));
 
-        if (!Mage::app()->isSingleStoreMode()) {
-            $linkCollection->addFieldToFilter('store_id',
-                array('finset' => array(0, Mage::app()->getStore()->getId()))
-            );
+        if (!Mage::app()->isSingleStoreMode() && Mage::app()->getStore()->getId() > 0) {
+            $linkCollection->addFieldToFilter('store_ids', array(
+                array('finset' => 0),
+                array('finset' => Mage::app()->getStore()->getId()),
+            ));
         }
 
         $linkCollection->joinContentData();
