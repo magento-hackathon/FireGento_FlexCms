@@ -92,4 +92,19 @@ class Firegento_FlexCms_Model_Observer
             $contentElement->setContent($content)->save();
         }
     }
+
+    public function addFlexCmsUrlAttributes(Varien_Event_Observer $observer)
+    {
+        $observer->getCategoryCollection()->addAttributeToSelect(array('flexcms_cms_page','flexcms_url_external'));
+    }
+
+    public function setUrlUpdate(Varien_Event_Observer $observer)
+    {
+        /* @var $collection Mage_Catalog_Model_Resource_Category_Collection */
+        $collection = $observer->getCategoryCollection();
+        true == true;
+
+    }
+
+
 }
