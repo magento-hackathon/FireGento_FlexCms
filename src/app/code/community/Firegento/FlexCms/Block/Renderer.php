@@ -47,7 +47,6 @@ class Firegento_FlexCms_Block_Renderer extends Mage_Core_Block_Template
     protected function _construct()
     {
         $this->_layoutHandles = Mage::app()->getLayout()->getUpdate()->getHandles();
-
     }
 
     /**
@@ -55,8 +54,10 @@ class Firegento_FlexCms_Block_Renderer extends Mage_Core_Block_Template
      */
     protected function _beforeToHtml()
     {
-        $this->_loadContentElements();
-        $this->_initElementRendering();
+        if(is_array($this->_layoutHandles)){
+            $this->_loadContentElements();
+            $this->_initElementRendering();
+        }
     }
 
     /**
