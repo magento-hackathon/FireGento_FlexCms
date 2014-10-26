@@ -26,16 +26,7 @@
  * @package  FireGento_FlexCms
  * @author   FireGento Team <team@firegento.com>
  */
+class Firegento_FlexCms_Block_Type_Default extends Firegento_FlexCms_Block_Type_Abstract
+{
 
-$_contentElements = $this->getContentElements();
-
-if (count($_contentElements)):
-    ?>
-    <div class="flexcms-wrapper flexcms-area-<?php echo $this->getAreaKey(); ?>">
-    <?php foreach ($_contentElements as $element): ?>
-        <div class="flexcms-element flexcms-type-<?php echo $this->getContentType(); ?>">
-            <?php echo $element->getRenderer()->renderView(); ?>
-        </div>
-    <?php endforeach; ?>
-    </div>
-<?php endif; ?>
+}
