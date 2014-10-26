@@ -1,9 +1,10 @@
-<?php
-/**
- * integer_net Magento Module
- *
- * @category   ${MAGENTO_MODULE_NAMESPACE}
- * @package    ${MAGENTO_MODULE_NAMESPACE}_${MAGENTO_MODULE}
- * @copyright  Copyright (c) 2014 integer_net GmbH (http://www.integer-net.de/)
- * @author     Andreas von Studnitz <avs@integer-net.de>
- */ 
+<?php /** @var Mage_Core_Block_Template $this */ ?>
+
+<?php foreach ($this->getElements() as $element): ?>
+
+    <div class="flexcms_element_container">
+        <?php /** @var Varien_Data_Form_Element_Abstract $element */ ?>
+        <?php echo $element->getHtml() ?>
+    </div>
+    
+<?php endforeach ?>
