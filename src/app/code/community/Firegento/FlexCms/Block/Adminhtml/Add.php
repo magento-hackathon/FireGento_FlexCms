@@ -21,6 +21,16 @@ class Firegento_FlexCms_Block_Adminhtml_Add extends Mage_Adminhtml_Block_Templat
     
     public function getAjaxUrl($areaCode)
     {
-        return Mage::helper('adminhtml')->getUrl('adminhtml/flexcms/new', array('area' => $areaCode));
+        return Mage::helper('adminhtml')->getUrl('adminhtml/flexcms/new', array(
+            'area' => $areaCode,
+            'layouthandle' => $this->_getLayoutHandle(),
+        ));
+    }
+    
+    protected function _getLayoutHandle()
+    {
+        if (Mage::registry('category')) {
+            return 'CATEGORY_' . Mage::registry('category')->getId();
+        }
     }
 }
