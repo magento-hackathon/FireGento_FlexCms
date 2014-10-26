@@ -1,0 +1,35 @@
+<?php /** @var Firegento_FlexCms_Block_Adminhtml_Add $this */ ?>
+
+<p>
+    <button type="button" class="scalable add" onclick="$('flexcms_add_container_<?php echo $this->getAreaCode() ?>').show();">
+        <span><?php echo $this->__('Add new Content Element') ?></span>
+    </button>
+</p>
+
+<div class="flexcms-add-container" id="flexcms_add_container_<?php echo $this->getAreaCode() ?>" style="display: none;">
+    <select onchange="insertItem(this, 'flexcms_new_element_container_<?php echo $this->getAreaCode() ?>', '<?php echo $this->getAjaxUrl($this->getAreaCode()) ?>')" name="" class="flexcms-add-select" id="flexcms_add_select_<?php echo $this->getAreaCode() ?>">
+        <option value=""><?php echo $this->__('Please choose') ?></option>
+        <?php foreach($this->getContentTypes() as $value => $label): ?>
+            <option value="<?php echo $value ?>"><?php echo $label ?></option>
+        <?php endforeach ?>
+    </select>
+</div>
+
+<div class="flexcms_new_element_container_<?php echo $this->getAreaCode() ?>"></div>
+
+<script type="text/javascript">
+
+    function insertItem(object, containerId, ajaxUrl) {
+        var value = object.options[object.selectedIndex].value;
+        if (!value) {
+            return;
+        }
+
+        new Ajax.Request(ajaxUrl + 'element_type/' + value + '/', {
+            onSuccess: function(response) {
+                console.log(response);
+            }
+        });
+        
+    }
+</script>
