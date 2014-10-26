@@ -108,4 +108,35 @@ class Firegento_FlexCms_Model_Observer
         }
 
     }
+
+    public function addFlexCmsUrlAttributes(Varien_Event_Observer $observer)
+    {
+        $observer->getCategoryCollection()->addAttributeToSelect(
+            array('display_mode','flexcms_cms_page','flexcms_url_external')
+        );
+    }
+
+    public function setUrlUpdate(Varien_Event_Observer $observer)
+    {
+        /* @var $collection Mage_Catalog_Model_Resource_Category_Collection */
+        $collection = $observer->getCategoryCollection();
+
+        foreach ($collection as $category) {
+            if (
+                $category->getDisplayMode() === Firegento_FlexCms_Model_Source_DisplayMode::CMS_PAGE
+                && $category->getFlexcmsCmsPage()
+            ) {
+                $category->setUrl(Mage::helper('cms/page')->getPageUrl($category->getFlexcmsCmsPage()));
+            }
+            if (
+                $category->getDisplayMode() === Firegento_FlexCms_Model_Source_DisplayMode::URL_EXTERNAL
+                && $category->getFlexcmsUrlExternal()
+            ){
+                $category->setUrl($category->getFlexcmsUrlExternal());
+            }
+        }
+
+    }
+
+
 }
