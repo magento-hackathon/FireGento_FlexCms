@@ -21,8 +21,8 @@ class Firegento_FlexCms_Adminhtml_ContentController extends Mage_Adminhtml_Contr
     }
 
     /**
-     * Action for /admin/job/edit/
-     * Edit job details
+     * Action for /admin/content/edit/
+     * Edit content details
      *
      * @return void
      */
@@ -35,12 +35,12 @@ class Firegento_FlexCms_Adminhtml_ContentController extends Mage_Adminhtml_Contr
 
     public function saveAction()
     {
-        $jobId = $this->getRequest()->getParam('id', false);
+        $contentId = $this->getRequest()->getParam('id', false);
 
         if ($data = $this->getRequest()->getPost()) {
 
             try {
-                //  $job->save();
+                //  $content->save();
 
                 Mage::getSingleton('adminhtml/session')
                     ->addSuccess(Mage::helper('firegento_flexcms')
@@ -58,10 +58,10 @@ class Firegento_FlexCms_Adminhtml_ContentController extends Mage_Adminhtml_Contr
 
     public function deleteAction()
     {
-        $jobId = $this->getRequest()->getParam('id', false);
+        $contentId = $this->getRequest()->getParam('id', false);
 
         try {
-            //Mage::getModel('n98_hawiinterface/job')->setId($jobId)->delete();
+            //Mage::getModel('firegento_flexcms/content')->setId($contentId)->delete();
             Mage::getSingleton('adminhtml/session')
                 ->addSuccess(Mage::helper('firegento_flexcms')
                 ->__('Content was deleted successfully'));
