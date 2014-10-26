@@ -122,6 +122,7 @@ class Firegento_FlexCms_Block_Adminhtml_Form_Element_Content extends Varien_Data
                     'label' => Mage::helper('firegento_flexcms')->__($fieldConfig['label']),
                     'name' => 'flexcms_element[' . $link->getId() . '][' . $fieldCode . ']',
                     'value' => $content[$fieldCode],
+                    'class' => 'flexcms_element flexcms_element_' . $fieldConfig['frontend_type'],
                 )
             );
         }
