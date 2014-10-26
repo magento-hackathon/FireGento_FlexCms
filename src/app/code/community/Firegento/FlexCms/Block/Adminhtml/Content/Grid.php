@@ -84,12 +84,15 @@ class Firegento_FlexCms_Block_Adminhtml_Content_Grid extends Mage_Adminhtml_Bloc
         }
 
         $this->setCollection($updateCollection);
+
         parent::_prepareCollection();
 
         return $this;
     }
 
     /**
+     * group content links by layout handles
+     *
      * @param $linkCollection
      * @return array
      */
@@ -183,6 +186,7 @@ class Firegento_FlexCms_Block_Adminhtml_Content_Grid extends Mage_Adminhtml_Bloc
             'header' => Mage::helper('firegento_flexcms')->__('Description'),
             'align' => 'left',
             'index' => 'handle_description',
+            'sortable' => false,
         ));
 
         $this->addColumn('layout_handle', array(
@@ -220,6 +224,8 @@ class Firegento_FlexCms_Block_Adminhtml_Content_Grid extends Mage_Adminhtml_Bloc
     }
 
     /**
+     * collect content element information in current handle
+     *
      * @param array $links
      * @return string
      */
@@ -247,13 +253,13 @@ class Firegento_FlexCms_Block_Adminhtml_Content_Grid extends Mage_Adminhtml_Bloc
      */
     protected function _getLayoutHandleType($handle)
     {
-        if (strpos($handle, 'PRODUCT_') === 0) {
+        if (strpos($handle, Firegento_FlexCms_Helper_Data::DYNAMIC_HANDLE_PREFIX_PRODUCT) === 0) {
             return Firegento_FlexCms_Model_Source_HandleType::CONTENT_TYPE_PRODUCT;
         }
-        if (strpos($handle, 'CATEGORY_') === 0) {
+        if (strpos($handle, Firegento_FlexCms_Helper_Data::DYNAMIC_HANDLE_PREFIX_CATEGORY) === 0) {
             return Firegento_FlexCms_Model_Source_HandleType::CONTENT_TYPE_CATEGORY;
         }
-        if (strpos($handle, 'CMSPAGE_') === 0) {
+        if (strpos($handle, Firegento_FlexCms_Helper_Data::DYNAMIC_HANDLE_PREFIX_CMS_PAGES) === 0) {
             return Firegento_FlexCms_Model_Source_HandleType::CONTENT_TYPE_CMS_PAGE;
         }
         return Firegento_FlexCms_Model_Source_HandleType::CONTENT_TYPE_OTHER;
