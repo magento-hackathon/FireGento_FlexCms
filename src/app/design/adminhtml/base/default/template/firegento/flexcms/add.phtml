@@ -7,29 +7,10 @@
 </p>
 
 <div class="flexcms-add-container" id="flexcms_add_container_<?php echo $this->getAreaCode() ?>" style="display: none;">
-    <select onchange="insertItem(this, 'flexcms_new_element_container_<?php echo $this->getAreaCode() ?>', '<?php echo $this->getAjaxUrl($this->getAreaCode()) ?>')" name="" class="flexcms-add-select" id="flexcms_add_select_<?php echo $this->getAreaCode() ?>">
+    <select onchange="insertItem(this, '<?php echo $this->getAreaCode() ?>', '<?php echo $this->getAjaxUrl($this->getAreaCode()) ?>')" name="" class="flexcms-add-select" id="flexcms_add_select_<?php echo $this->getAreaCode() ?>">
         <option value=""><?php echo $this->__('Please choose') ?></option>
         <?php foreach($this->getContentTypes() as $value => $label): ?>
             <option value="<?php echo $value ?>"><?php echo $label ?></option>
         <?php endforeach ?>
     </select>
 </div>
-
-<div class="flexcms_new_element_container_<?php echo $this->getAreaCode() ?>"></div>
-
-<script type="text/javascript">
-
-    function insertItem(object, containerId, ajaxUrl) {
-        var value = object.options[object.selectedIndex].value;
-        if (!value) {
-            return;
-        }
-
-        new Ajax.Request(ajaxUrl + 'elementtype/' + value + '/', {
-            onSuccess: function(response) {
-                console.log(response);
-            }
-        });
-        
-    }
-</script>

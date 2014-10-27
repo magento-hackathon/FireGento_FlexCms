@@ -53,22 +53,6 @@ class Firegento_FlexCms_Block_Adminhtml_Tab_Content extends Mage_Adminhtml_Block
                     'area' => $key,
                 ));
             }
-/*
-            $element = Mage::getModel('firegento_flexcms/content_link')->loadByHandleAndArea($layoutHandle, $key);
-
-            $fieldset->addField('content_element_' . $key, 'select', array(
-                'label' => Mage::helper('firegento_flexcms')->__('Content Element'),
-                'name' => 'flexcms_element[' . $key . '][content_id]',
-                'values' => Mage::helper('firegento_flexcms')->getFlexContents(),
-                'value' => ($element->getId()) ? $element->getContentId() : 0
-            ));
-
-            $fieldset->addField('sort_order' . $key, 'text', array(
-                'label' => Mage::helper('firegento_flexcms')->__('Sort Order'),
-                'name' => 'flexcms_element[' . $key . '][sort_order]',
-                'value' => ($element->getId()) ? $element->getSortOrder() : ""
-            ));
-*/
         }
 
         return parent::_prepareForm();

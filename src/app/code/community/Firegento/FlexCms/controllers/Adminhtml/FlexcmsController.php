@@ -45,8 +45,7 @@ class Firegento_FlexCms_Adminhtml_FlexcmsController extends Mage_Adminhtml_Contr
         $contentLink = $this->_getNewContentLink($content, $area, $layoutHandle);
 
         /** @var $contentBlock Firegento_FlexCms_Adminhtml_FlexcmsController */
-        $contentBlock = $this->getLayout()->createBlock('firegento_flexcms/adminhtml_form_element_content');
-        
+        $contentBlock = new Firegento_FlexCms_Block_Adminhtml_Form_Element_Content();
         
         $this->getResponse()->setBody($contentBlock->getLinkHtml($contentLink));
     }
@@ -90,6 +89,8 @@ class Firegento_FlexCms_Adminhtml_FlexcmsController extends Mage_Adminhtml_Contr
         ));
 
         $contentLink->save();
+
+        $contentLink->addData($content->getData());
         
         return $contentLink;
     }

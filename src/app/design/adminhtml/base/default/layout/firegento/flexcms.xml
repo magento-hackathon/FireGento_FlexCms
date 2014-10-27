@@ -5,6 +5,10 @@
             <action method="addCss">
                 <file>firegento/flexcms.css</file>
             </action>
+            <action method="addItem">
+                <place>skin_js</place>
+                <file>firegento/flexcms.js</file>
+            </action>
         </reference>
         <block type="adminhtml/widget_form_element_dependence" name="flexcms.category.attribute.dependence" alias="form_after">
 

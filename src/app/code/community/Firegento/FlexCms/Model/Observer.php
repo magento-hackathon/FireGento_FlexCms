@@ -66,47 +66,18 @@ class Firegento_FlexCms_Model_Observer
      */
     public function catalogCategorySaveAfter(Varien_Event_Observer $observer)
     {
-        $data = new Varien_Object(Mage::app()->getRequest()->getParams());
+        $params = new Varien_Object(Mage::app()->getRequest()->getParams());
 
-        if (!$data->getFlexcmsElement()) {
+        if (!$params->getFlexcmsElement()) {
             return;
         }
 
-        /** @var Mage_Catalog_Model_Category $category */
-        $category = $observer->getCategory();
+        foreach ($params->getFlexcmsElement() as $linkId => $fields) {
 
-        $categoryId = $category->getId();
-        $layoutHandle = 'CATEGORY_' . $categoryId;
+            $contentLink = Mage::getModel('firegento_flexcms/content_link')->load($linkId);
 
-        foreach ($data->getFlexcmsElement() as $linkId => $fields) {
-
-            $link = Mage::getModel('firegento_flexcms/content_link')->load($linkId);
-            $contentElement = $link->getContentModel();
-
-            $content = array();
-            foreach ($fields as $fieldName => $fieldValue) {
-
-                if ($fieldName == 'title') {
-                    $contentElement->setTitle($fieldValue);
-                } else {
-                    $content[$fieldName] = $fieldValue;
-                }
-            }
-
-            $contentElement->setContent($content)->save();
-
-            // delete link or entire content element if no other links are referenced to it
-            if (array_key_exists('delete', $fields)) {
-                $parentElementUsageCollection = Mage::getModel('firegento_flexcms/content_link')->getCollection()
-                    ->addFieldToFilter('content_id', array('eq' => $link->getContentId()));
-                if (count($parentElementUsageCollection) == 1) {
-                    $link->getContentModel()->delete();
-                }
-                $link->delete();
-            }
-
+            $contentLink->updateFields($fields, $contentLink);
         }
-
     }
 
     public function redirectCategoryDirectLink(Varien_Event_Observer $observer)
@@ -155,6 +126,4 @@ class Firegento_FlexCms_Model_Observer
         ){
             $category->setUrl($category->getFlexcmsUrlExternal());
         }
-    }
-
-}
+    }}

@@ -48,9 +48,11 @@ class Firegento_FlexCms_Block_Adminhtml_Form_Element_Content extends Varien_Data
     {
         $html = $this->_getAddHtml();
 
+        $html .= '<div id="flexcms_element_container_' . $this->getArea() . '">' . "\n";
         foreach ($this->getAreaLinksCollection() as $link) {
-            $html .= $this->getLinkHtml($link);
+            $html .= $this->getLinkHtml($link) . "\n";
         }
+        $html .= '</div>' . "\n";
 
         return $html;
     }
@@ -64,6 +66,7 @@ class Firegento_FlexCms_Block_Adminhtml_Form_Element_Content extends Varien_Data
         $renderer = $this->_getRenderer($link);
         $renderer->setElements($this->_getElements($link));
         $renderer->setElementType($this->_getElementTypeLabel($link));
+        $renderer->setAreaCode($link->getArea());
         $linkHtml = $renderer->toHtml();
         return $linkHtml;
     }
@@ -197,7 +200,7 @@ class Firegento_FlexCms_Block_Adminhtml_Form_Element_Content extends Varien_Data
                 'label' => Mage::helper('firegento_flexcms')->__('Sort Order'),
                 'name' => 'flexcms_element[' . $link->getId() . '][sort_order]',
                 'class' => 'flexcms_element flexcms_element_sort_order',
-                'value' => 'true'
+                'value' => intval($link->getSortOrder()),
             )
         );
         $elements[] = $this->_getField(
@@ -207,7 +210,7 @@ class Firegento_FlexCms_Block_Adminhtml_Form_Element_Content extends Varien_Data
                 'label' => Mage::helper('firegento_flexcms')->__('Delete this element'),
                 'name' => 'flexcms_element[' . $link->getId() . '][delete]',
                 'class' => 'flexcms_element flexcms_element_delete',
-                'value' => 'true'
+                'value' => 1
             )
         );
         return $elements;
