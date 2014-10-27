@@ -1,6 +1,6 @@
 FireGento_FlexCMS
 =====================
-This extension adds customizable Content elements to certain page types.
+This extension makes adding content much easier and enhances the category navigation.
 
 Facts
 -----
