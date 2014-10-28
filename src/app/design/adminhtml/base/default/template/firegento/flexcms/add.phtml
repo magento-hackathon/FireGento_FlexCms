@@ -7,9 +7,21 @@
 </p>
 
 <div class="flexcms-add-container" id="flexcms_add_container_<?php echo $this->getAreaCode() ?>" style="display: none;">
-    <select onchange="insertItem(this, '<?php echo $this->getAreaCode() ?>', '<?php echo $this->getAjaxUrl($this->getAreaCode()) ?>')" name="" class="flexcms-add-select" id="flexcms_add_select_<?php echo $this->getAreaCode() ?>">
+    <label for="flexcms_add_select_<?php echo $this->getAreaCode() ?>">
+        <?php echo $this->__('Create new element') ?>
+    </label>
+    <select onchange="insertNewItem(this, '<?php echo $this->getAreaCode() ?>', '<?php echo $this->getNewItemAjaxUrl($this->getAreaCode()) ?>')" name="" class="flexcms-add-select" id="flexcms_add_select_<?php echo $this->getAreaCode() ?>">
         <option value=""><?php echo $this->__('Please choose') ?></option>
         <?php foreach($this->getContentTypes() as $value => $label): ?>
+            <option value="<?php echo $value ?>"><?php echo $label ?></option>
+        <?php endforeach ?>
+    </select>
+    <label for="flexcms_copy_select_<?php echo $this->getAreaCode() ?>">
+        <?php echo $this->__('Use existing element') ?>
+    </label>
+    <select onchange="insertExistingItem(this, '<?php echo $this->getAreaCode() ?>', '<?php echo $this->getExistingItemAjaxUrl($this->getAreaCode()) ?>')" name="" class="flexcms-add-select" id="flexcms_add_select_<?php echo $this->getAreaCode() ?>">
+        <option value=""><?php echo $this->__('Please choose') ?></option>
+        <?php foreach($this->getContentElements() as $value => $label): ?>
             <option value="<?php echo $value ?>"><?php echo $label ?></option>
         <?php endforeach ?>
     </select>

@@ -51,6 +51,28 @@ class Firegento_FlexCms_Adminhtml_FlexcmsController extends Mage_Adminhtml_Contr
     }
 
     /**
+     *
+     */
+    public function existingAction()
+    {
+        $area = $this->getRequest()->getParam('area');
+        $layoutHandle = $this->getRequest()->getParam('layouthandle');
+        $contentId = $this->getRequest()->getParam('contentid');
+
+        if (!$area || !$contentId || !$layoutHandle) {
+            Mage::throwException($this->__('Wrong parameters.'));
+        }
+        $content = $this->_getExistingContent($contentId);
+
+        $contentLink = $this->_getNewContentLink($content, $area, $layoutHandle);
+
+        /** @var $contentBlock Firegento_FlexCms_Adminhtml_FlexcmsController */
+        $contentBlock = new Firegento_FlexCms_Block_Adminhtml_Form_Element_Content();
+
+        $this->getResponse()->setBody($contentBlock->getLinkHtml($contentLink));
+    }
+
+    /**
      * @param string $elementType
      * @throws Exception
      * @return Firegento_FlexCms_Model_Content
@@ -66,6 +88,21 @@ class Firegento_FlexCms_Adminhtml_FlexcmsController extends Mage_Adminhtml_Contr
 
         $content->save();
         
+        return $content;
+    }
+
+    /**
+     * @param int $contentId
+     * @throws Exception
+     * @return Firegento_FlexCms_Model_Content
+     */
+    protected function _getExistingContent($contentId)
+    {
+        /** @var $content Firegento_FlexCms_Model_Content */
+        $content = Mage::getModel('firegento_flexcms/content');
+
+        $content->load($contentId);
+
         return $content;
     }
 

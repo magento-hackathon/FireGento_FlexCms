@@ -38,7 +38,12 @@ class Firegento_FlexCms_Block_Adminhtml_Add extends Mage_Adminhtml_Block_Templat
         return Mage::getSingleton('firegento_flexcms/source_contentType')->toArray();
     }
     
-    public function getAjaxUrl($areaCode)
+    public function getContentElements()
+    {
+        return Mage::getSingleton('firegento_flexcms/source_contentElement')->toArray();
+    }
+
+    public function getNewItemAjaxUrl($areaCode)
     {
         return Mage::helper('adminhtml')->getUrl('adminhtml/flexcms/new', array(
             'area' => $areaCode,
@@ -46,6 +51,14 @@ class Firegento_FlexCms_Block_Adminhtml_Add extends Mage_Adminhtml_Block_Templat
         ));
     }
     
+    public function getExistingItemAjaxUrl($areaCode)
+    {
+        return Mage::helper('adminhtml')->getUrl('adminhtml/flexcms/existing', array(
+            'area' => $areaCode,
+            'layouthandle' => $this->_getLayoutHandle(),
+        ));
+    }
+
     protected function _getLayoutHandle()
     {
         if (Mage::registry('category')) {
