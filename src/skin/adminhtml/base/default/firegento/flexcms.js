@@ -14,3 +14,9 @@ var insertItem = function(object, areaCode, ajaxUrl) {
 
     $('flexcms_add_container_' + areaCode).hide();
 };
+
+var observeDisplayModeSelect = function() {
+    $$('#category_edit_form select.select option[value=PRODUCTS]').each(function(selectItem) {
+        alert('.' + selectItem.value);
+    });
+};
