@@ -1,0 +1,22 @@
+{
+    "name": "firegento/flexcms",
+    "license": "GPL-3.0",
+    "type": "magento-module",
+    "description": "This extension makes adding content much easier and enhances the category navigation",
+    "homepage": "https://github.com/magento-hackathon/FireGento_FlexCms/",
+    "authors": [
+        {
+            "name":"Team FireGento",
+            "email":"team@firegento.com"
+        }
+    ],
+    "require": {
+        "magento-hackathon/magento-composer-installer": "*"
+    },
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "http://packages.firegento.com"
+        }
+    ]
+}

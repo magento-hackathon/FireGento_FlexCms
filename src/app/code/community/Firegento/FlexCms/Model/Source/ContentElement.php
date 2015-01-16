@@ -26,7 +26,7 @@
  * @package  FireGento_FlexCms
  * @author   FireGento Team <team@firegento.com>
  */
-class Firegento_FlexCms_Model_Source_ContentMode
+class Firegento_FlexCms_Model_Source_ContentElement
 {
     /**
      * Options getter
@@ -35,12 +35,38 @@ class Firegento_FlexCms_Model_Source_ContentMode
      */
     public function toOptionArray()
     {
-        return array(
-            array('value' => 'simple', 'label'=>Mage::helper('firegento_flexcms')->__('Simple')),
-            array('value' => 'advanced', 'label'=>Mage::helper('firegento_flexcms')->__('Advanced')),
-        );
+        $options = array();
+
+        $contentCollection = Mage::getResourceModel('firegento_flexcms/content_collection')
+            ->setOrder('content_type', 'asc')
+            ->setOrder('title', 'asc');
+
+        foreach($contentCollection as $content) {
+            $options[] = array(
+                'value' => $content->getId(),
+                'label' => sprintf('%s: %s',
+                    Mage::getSingleton('firegento_flexcms/source_contentType')->getOptionLabel($content->getContentType()),
+                    $content->getTitle()
+                ),
+            );
+        }
+
+        return $options;
     }
-    
+
+    /**
+     * @param string $value
+     * @return string
+     */
+    public function getOptionLabel($value) 
+    {
+        $options = $this->toArray();
+        if (isset($options[$value])) {
+            return $options[$value];
+        }
+        return '';
+    }
+
     /**
      * Get options in "key-value" format
      *
@@ -52,7 +78,7 @@ class Firegento_FlexCms_Model_Source_ContentMode
         foreach($this->toOptionArray() as $option) {
             $options[$option['value']] = $option['label'];
         }
-
+        
         return $options;
     }
 }

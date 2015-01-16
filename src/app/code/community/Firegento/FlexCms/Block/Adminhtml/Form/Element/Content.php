@@ -46,15 +46,29 @@ class Firegento_FlexCms_Block_Adminhtml_Form_Element_Content extends Varien_Data
      */
     public function getHtml()
     {
-        $html = '';
+        $html = $this->_getAddHtml();
 
+        $html .= '<div id="flexcms_element_container_' . $this->getArea() . '">' . "\n";
         foreach ($this->getAreaLinksCollection() as $link) {
-            $renderer = $this->_getRenderer($link);
-            $renderer->setElements($this->_getElements($link));
-            $html .= $renderer->toHtml();
+            $html .= $this->getLinkHtml($link) . "\n";
         }
+        $html .= '</div>' . "\n";
 
         return $html;
+    }
+
+    /**
+     * @param $link
+     * @return string
+     */
+    public function getLinkHtml($link)
+    {
+        $renderer = $this->_getRenderer($link);
+        $renderer->setElements($this->_getElements($link));
+        $renderer->setElementType($this->_getElementTypeLabel($link));
+        $renderer->setAreaCode($link->getArea());
+        $linkHtml = $renderer->toHtml();
+        return $linkHtml;
     }
 
     public function addType($type, $className){
@@ -109,11 +123,17 @@ class Firegento_FlexCms_Block_Adminhtml_Form_Element_Content extends Varien_Data
      * @param Firegento_FlexCms_Test_Model_Content_Link $link
      * @return Mage_Core_Block_Abstract
      */
-    protected function _getRenderer($link)
+    protected function _getRenderer($link = null)
     {
+        if (is_null($link)) {
+            $id = $this->getArea();
+        } else {
+            $id = $link->getId();
+        }
+        
         return Mage::app()->getLayout()->createBlock(
-            'core/template',
-            'flexcms_content_renderer_' . $link->getId(),
+            'adminhtml/template',
+            'flexcms_content_renderer_' . $id,
             array(
                 'template' => 'firegento/flexcms/element/content.phtml',
                 'link' => $link,
@@ -174,15 +194,48 @@ class Firegento_FlexCms_Block_Adminhtml_Form_Element_Content extends Varien_Data
             }
         }
         $elements[] = $this->_getField(
+            'flexcms_content_link_' . $link->getId() . '_field_sort_order',
+            'text',
+            array(
+                'label' => Mage::helper('firegento_flexcms')->__('Sort Order'),
+                'name' => 'flexcms_element[' . $link->getId() . '][sort_order]',
+                'class' => 'flexcms_element flexcms_element_sort_order',
+                'value' => intval($link->getSortOrder()),
+            )
+        );
+        $elements[] = $this->_getField(
             'flexcms_content_link_' . $link->getId() . '_field_delete',
             'checkbox',
             array(
                 'label' => Mage::helper('firegento_flexcms')->__('Delete this element'),
                 'name' => 'flexcms_element[' . $link->getId() . '][delete]',
                 'class' => 'flexcms_element flexcms_element_delete',
-                'value' => 'true'
+                'value' => 1
             )
         );
         return $elements;
+    }
+
+    /**
+     * @return string
+     */
+    protected function _getAddHtml()
+    {
+        /** @var $block Firegento_FlexCms_Block_Adminhtml_Add */
+        $block = Mage::app()->getLayout()->createBlock(
+            'firegento_flexcms/adminhtml_add',
+            'flexform_add_' . $this->getArea(),
+            array('area_code' => $this->getArea())
+        );
+        return $block->toHtml();
+    }
+
+    /**
+     * @param Firegento_FlexCms_Test_Model_Content_Link $link
+     * @return string
+     */
+    protected function _getElementTypeLabel($link)
+    {
+        return Mage::helper('firegento_flexcms')->__(Mage::getStoreConfig('firegento_flexcms/types/' . $link->getContentType() . '/label'));
     }
 }

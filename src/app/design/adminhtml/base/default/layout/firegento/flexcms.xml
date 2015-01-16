@@ -1,4 +1,68 @@
 <?xml version="1.0"?>
 <layout>
+    <adminhtml_catalog_category_edit>
+        <reference name="head">
+            <action method="addCss">
+                <file>firegento/flexcms.css</file>
+            </action>
+            <action method="addItem">
+                <place>skin_js</place>
+                <file>firegento/flexcms.js</file>
+            </action>
+        </reference>
+        <block type="adminhtml/widget_form_element_dependence" name="flexcms.category.attribute.dependence" alias="form_after">
 
+            <action method="addFieldMap">
+                <fieldId>group_5display_mode</fieldId>
+                <fieldName>display_mode</fieldName>
+            </action>
+            <action method="addFieldMap">
+                <fieldId>group_5flexcms_url_external</fieldId>
+                <fieldName>flexcms_url_external</fieldName>
+            </action>
+            <action method="addFieldDependence">
+                <fieldName>flexcms_url_external</fieldName>
+                <fieldNameFrom>display_mode</fieldNameFrom>
+                <refValues>FLEXCMS_URL_EXTERNAL</refValues>
+            </action>
+
+            <action method="addFieldMap">
+                <fieldId>group_5display_mode</fieldId>
+                <fieldName>display_mode</fieldName>
+            </action>
+            <action method="addFieldMap">
+                <fieldId>group_5flexcms_cms_page</fieldId>
+                <fieldName>flexcms_cms_page</fieldName>
+            </action>
+            <action method="addFieldDependence">
+                <fieldName>flexcms_cms_page</fieldName>
+                <fieldNameFrom>display_mode</fieldNameFrom>
+                <refValues>FLEXCMS_CMS_PAGE</refValues>
+            </action>
+
+            <!--
+                A pity, cannot do multiple values for one field
+            -->
+            <!--
+            <action method="addFieldMap">
+                <fieldId>group_5display_mode</fieldId>
+                <fieldName>display_mode</fieldName>
+            </action>
+            <action method="addFieldMap">
+                <fieldId>group_5landing_page</fieldId>
+                <fieldName>landing_page</fieldName>
+            </action>
+            <action method="addFieldDependence">
+                <fieldName>landing_page</fieldName>
+                <fieldNameFrom>display_mode</fieldNameFrom>
+                <refValues>PRODUCTS_AND_PAGE</refValues>
+            </action>
+            <action method="addFieldDependence">
+                <fieldName>landing_page</fieldName>
+                <fieldNameFrom>display_mode</fieldNameFrom>
+                <refValues>PAGE</refValues>
+            </action>
+            -->
+        </block>
+    </adminhtml_catalog_category_edit>
 </layout>

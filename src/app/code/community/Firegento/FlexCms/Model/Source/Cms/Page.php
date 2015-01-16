@@ -26,32 +26,10 @@
  * @package  FireGento_FlexCms
  * @author   FireGento Team <team@firegento.com>
  */
-class Firegento_FlexCms_Model_Resource_Update_Collection extends Varien_Data_Collection
+class Firegento_FlexCms_Model_Source_Cms_Page extends Mage_Eav_Model_Entity_Attribute_Source_Abstract
 {
-    /**
-     * @param $field
-     * @param $condition
-     */
-    public function addFieldToFilter($field, $condition){
-        $i = 0;
-
-        foreach($this->getItems() as $item){
-            if(isset($condition["like"])){
-                $conditionValue = $condition["like"];
-            }else if(isset($condition["eq"])){
-                $conditionValue = $condition["eq"];
-            }else{
-                return $this;
-            }
-
-            $pattern = str_replace("'", "", str_replace('%', '.*', $conditionValue));
-            if(!preg_match("/^{$pattern}$/i", $item->getData($field))){
-                $this->removeItemByKey($i);
-            }
-
-            $i++;
-        }
-
-        return $this;
+    public function getAllOptions()
+    {
+        return Mage::getResourceModel('cms/page_collection')->load()->toOptionIdArray();
     }
 }

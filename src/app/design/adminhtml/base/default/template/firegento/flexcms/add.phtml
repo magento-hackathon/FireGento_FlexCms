@@ -1,0 +1,28 @@
+<?php /** @var Firegento_FlexCms_Block_Adminhtml_Add $this */ ?>
+
+<p>
+    <button type="button" class="scalable add" onclick="$('flexcms_add_container_<?php echo $this->getAreaCode() ?>').show();">
+        <span><?php echo $this->__('Add new Content Element') ?></span>
+    </button>
+</p>
+
+<div class="flexcms-add-container" id="flexcms_add_container_<?php echo $this->getAreaCode() ?>" style="display: none;">
+    <label for="flexcms_add_select_<?php echo $this->getAreaCode() ?>">
+        <?php echo $this->__('Create new element') ?>
+    </label>
+    <select onchange="insertNewItem(this, '<?php echo $this->getAreaCode() ?>', '<?php echo $this->getNewItemAjaxUrl($this->getAreaCode()) ?>')" name="" class="flexcms-add-select" id="flexcms_add_select_<?php echo $this->getAreaCode() ?>">
+        <option value=""><?php echo $this->__('Please choose') ?></option>
+        <?php foreach($this->getContentTypes() as $value => $label): ?>
+            <option value="<?php echo $value ?>"><?php echo $label ?></option>
+        <?php endforeach ?>
+    </select>
+    <label for="flexcms_copy_select_<?php echo $this->getAreaCode() ?>">
+        <?php echo $this->__('Use existing element') ?>
+    </label>
+    <select onchange="insertExistingItem(this, '<?php echo $this->getAreaCode() ?>', '<?php echo $this->getExistingItemAjaxUrl($this->getAreaCode()) ?>')" name="" class="flexcms-add-select" id="flexcms_add_select_<?php echo $this->getAreaCode() ?>">
+        <option value=""><?php echo $this->__('Please choose') ?></option>
+        <?php foreach($this->getContentElements() as $value => $label): ?>
+            <option value="<?php echo $value ?>"><?php echo $label ?></option>
+        <?php endforeach ?>
+    </select>
+</div>
