@@ -26,7 +26,7 @@
  * @package  FireGento_FlexCms
  * @author   FireGento Team <team@firegento.com>
  */
-class Firegento_FlexCms_Block_Adminhtml_Content_Grid extends Mage_Adminhtml_Block_Widget_Grid
+class Firegento_FlexCms_Block_Adminhtml_Handle_Grid extends Mage_Adminhtml_Block_Widget_Grid
 {
 
     /** @var Mage_Cms_Model_Resource_Page_Collection _cmsPageCollection */

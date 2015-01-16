@@ -26,20 +26,20 @@
  * @package  FireGento_FlexCms
  * @author   FireGento Team <team@firegento.com>
  */
-class Firegento_FlexCms_Adminhtml_ContentController extends Mage_Adminhtml_Controller_Action
+class Firegento_FlexCms_Adminhtml_HandleController extends Mage_Adminhtml_Controller_Action
 {
     /**
      *
      */
     public function indexAction()
     {
-        $this->_title(Mage::helper('cms')->__('CMS'))->_title($this->__('FlexCms Content By Element'));
+        $this->_title(Mage::helper('cms')->__('CMS'))->_title($this->__('FlexCms Content By Handle'));
 
         $this->loadLayout();
-        $this->_setActiveMenu('cms/flexcms_content');
+        $this->_setActiveMenu('cms/flexcms_handle');
         $this->_addBreadcrumb(Mage::helper('cms')->__('CMS'), Mage::helper('firegento_flexcms')->__('FlexCms Content'));
 
-        $this->_addContent($this->getLayout()->createBlock('firegento_flexcms/adminhtml_content'));
+        $this->_addContent($this->getLayout()->createBlock('firegento_flexcms/adminhtml_handle'));
 
         $this->renderLayout();
     }
@@ -79,7 +79,7 @@ class Firegento_FlexCms_Adminhtml_ContentController extends Mage_Adminhtml_Contr
 
                 Mage::getSingleton('adminhtml/session')
                     ->addSuccess(Mage::helper('firegento_flexcms')
-                    ->__('Content was saved successfully'));
+                        ->__('Content was saved successfully'));
                 $this->getResponse()->setRedirect($this->getUrl('*/*/'));
                 return;
             } catch (Exception $e){
@@ -102,7 +102,7 @@ class Firegento_FlexCms_Adminhtml_ContentController extends Mage_Adminhtml_Contr
             Mage::getModel('firegento_flexcms/content')->setId($contentId)->delete();
             Mage::getSingleton('adminhtml/session')
                 ->addSuccess(Mage::helper('firegento_flexcms')
-                ->__('Content was deleted successfully'));
+                    ->__('Content was deleted successfully'));
             $this->getResponse()->setRedirect($this->getUrl('*/*/'));
 
             return;

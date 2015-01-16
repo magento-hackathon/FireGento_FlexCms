@@ -7,8 +7,8 @@ class Firegento_FlexCms_Block_Adminhtml_Content extends Mage_Adminhtml_Block_Wid
     {
         $this->_blockGroup = 'firegento_flexcms';
         $this->_controller = 'adminhtml_content';
-        $this->_headerText = Mage::helper('firegento_flexcms')->__('Content Updates');
-        $this->_addButtonLabel = Mage::helper('firegento_flexcms')->__('Add new Content Update');
+        $this->_headerText = Mage::helper('firegento_flexcms')->__('Content Updates By Element');
+        $this->_addButtonLabel = Mage::helper('firegento_flexcms')->__('Add new Content Element');
         parent::__construct();
     }
 }

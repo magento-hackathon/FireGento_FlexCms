@@ -7,6 +7,18 @@
                     <title>FlexCms Content</title>
                     <action>adminhtml/content</action>
                     <sort_order>0</sort_order>
+                    <children>
+                        <flexcms_content_byhandle translate="title" module="firegento_flexcms">
+                            <title>By Layout Handle</title>
+                            <action>adminhtml/handle</action>
+                            <sort_order>0</sort_order>
+                        </flexcms_content_byhandle>
+                        <flexcms_content_bycontent translate="title" module="firegento_flexcms">
+                            <title>By Content Element</title>
+                            <action>adminhtml/content</action>
+                            <sort_order>100</sort_order>
+                        </flexcms_content_bycontent>
+                    </children>
                 </flexcms_content>
             </children>
         </cms>
@@ -20,6 +32,16 @@
                             <flexcms_content translate="title" module="firegento_flexcms">
                                 <title>FlexCms Content</title>
                                 <sort_order>0</sort_order>
+                                <children>
+                                    <flexcms_content_byhandle translate="title" module="firegento_flexcms">
+                                        <title>By Layout Handle</title>
+                                        <sort_order>0</sort_order>
+                                    </flexcms_content_byhandle>
+                                    <flexcms_content_bycontent translate="title" module="firegento_flexcms">
+                                        <title>By Content Element</title>
+                                        <sort_order>0</sort_order>
+                                    </flexcms_content_bycontent>
+                                </children>
                             </flexcms_content>
                         </children>
                     </cms>
