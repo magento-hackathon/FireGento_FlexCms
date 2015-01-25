@@ -80,16 +80,6 @@ class Firegento_FlexCms_Model_Observer
         }
     }
 
-    public function redirectCategoryDirectLink(Varien_Event_Observer $observer)
-    {
-        $category = Mage::registry('current_category');
-        if ($category instanceof Mage_Catalog_Model_Category) {
-            $observer->getControllerAction()->getResponse()->setRedirect(
-                $category->getUrl()
-            );
-        }
-    }
-
     public function addFlexCmsUrlAttributes(Varien_Event_Observer $observer)
     {
         $observer->getCategoryCollection()->addAttributeToSelect(
