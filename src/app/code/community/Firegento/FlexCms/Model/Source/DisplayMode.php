@@ -28,9 +28,10 @@
  */
 class Firegento_FlexCms_Model_Source_DisplayMode extends Mage_Catalog_Model_Category_Attribute_Source_Mode
 {
-    const CONTENT       = 'FLEXCMS_CONTENT';
-    const CMS_PAGE      = 'FLEXCMS_CMS_PAGE';
-    const URL_EXTERNAL  = 'FLEXCMS_URL_EXTERNAL';
+    const CONTENT               = 'FLEXCMS_CONTENT';
+    const CONTENT_AND_PRODUCTS  = 'FLEXCMS_CONTENT_PRODUCTS';
+    const CMS_PAGE              = 'FLEXCMS_CMS_PAGE';
+    const URL_EXTERNAL          = 'FLEXCMS_URL_EXTERNAL';
 
     public function getAllOptions()
     {
@@ -40,7 +41,11 @@ class Firegento_FlexCms_Model_Source_DisplayMode extends Mage_Catalog_Model_Cate
                 $this->_options,
                 array(
                     'value' => self::CONTENT,
-                    'label' => Mage::helper('firegento_flexcms')->__('Content (FlexCms)'),
+                    'label' => Mage::helper('firegento_flexcms')->__('Content only (FlexCms)'),
+                ),
+                array(
+                    'value' => self::CONTENT_AND_PRODUCTS,
+                    'label' => Mage::helper('firegento_flexcms')->__('Content and Products (FlexCms)'),
                 ),
                 array(
                     'value' => self::CMS_PAGE,

@@ -87,7 +87,7 @@ class Firegento_FlexCms_Model_Observer
         );
     }
 
-    public function setUrlUpdate(Varien_Event_Observer $observer)
+    public function catalogCategoryCollectionLoadAfter(Varien_Event_Observer $observer)
     {
         /* @var $collection Mage_Catalog_Model_Resource_Category_Collection */
         $collection = $observer->getCategoryCollection();
@@ -97,9 +97,22 @@ class Firegento_FlexCms_Model_Observer
         }
     }
 
-    public function setUrlUpdateSingle(Varien_Event_Observer $observer)
+    public function catalogCategoryLoadAfter(Varien_Event_Observer $observer)
     {
         $this->_checkSetUrlUpdate($observer->getCategory());
+        $this->_updateDisplayMode($observer->getCategory());
+    }
+    
+    protected function _updateDisplayMode($category)
+    {
+        switch($category->getDisplayMode()) {
+            case Firegento_FlexCms_Model_Source_DisplayMode::CONTENT:
+                $category->setDisplayMode(Mage_Catalog_Model_Category::DM_PAGE);
+                break;
+            case Firegento_FlexCms_Model_Source_DisplayMode::CONTENT_AND_PRODUCTS:
+                $category->setDisplayMode(Mage_Catalog_Model_Category::DM_PRODUCT);
+                break;
+        }
     }
 
     protected function _checkSetUrlUpdate($category)

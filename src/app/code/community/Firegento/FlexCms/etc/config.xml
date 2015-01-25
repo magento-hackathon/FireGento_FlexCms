@@ -66,7 +66,7 @@
                     <firegento_flexcms>
                         <type>singleton</type>
                         <class>firegento_flexcms/observer</class>
-                        <method>setUrlUpdate</method>
+                        <method>catalogCategoryCollectionLoadAfter</method>
                     </firegento_flexcms>
                 </observers>
             </catalog_category_collection_load_after>
@@ -75,7 +75,7 @@
                     <firegento_flexcms>
                         <type>singleton</type>
                         <class>firegento_flexcms/observer</class>
-                        <method>setUrlUpdateSingle</method>
+                        <method>catalogCategoryLoadAfter</method>
                     </firegento_flexcms>
                 </observers>
             </catalog_category_load_after>
