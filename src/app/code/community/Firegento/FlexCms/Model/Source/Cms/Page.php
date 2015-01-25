@@ -30,6 +30,10 @@ class Firegento_FlexCms_Model_Source_Cms_Page extends Mage_Eav_Model_Entity_Attr
 {
     public function getAllOptions()
     {
-        return Mage::getResourceModel('cms/page_collection')->load()->toOptionIdArray();
+        $options = Mage::getResourceModel('cms/page_collection')->load()->toOptionIdArray();
+        
+        array_unshift($options, array('value' => '', 'label' => ''));
+        
+        return $options;
     }
 }
