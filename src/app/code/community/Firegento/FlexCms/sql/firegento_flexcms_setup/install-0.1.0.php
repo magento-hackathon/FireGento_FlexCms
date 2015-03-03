@@ -50,7 +50,7 @@ $table = $installer->getConnection()
     ->addColumn('content', Varien_Db_Ddl_Table::TYPE_TEXT, null, array(
         'nullable'  => false,
         'default'   => '',
-        ), 'Title')
+        ), 'Content (JSON)')
     ->addColumn('content_type', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
         'nullable'  => false,
         'default'   => '',

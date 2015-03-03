@@ -57,14 +57,14 @@ $table = $installer->getConnection()
     ->addColumn('store_ids', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
         'nullable'  => false,
         'default'   => '0',
-    ), 'Area')
+    ), 'Store IDs')
     ->addColumn('sort_order', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => false,
         'unsigned'  => false,
         'nullable'  => false,
         'primary'   => false,
         'default'   => 0,
-    ), 'Content Id')
+    ), 'Sort Order')
     ->addIndex($installer->getIdxName('firegento_flexcms/content_link', array('layout_handle', 'store_ids')),
         array('layout_handle', 'store_ids')
     )

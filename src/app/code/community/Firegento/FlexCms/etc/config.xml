@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Firegento_FlexCms>
-            <version>0.2.2</version>
+            <version>0.3.0</version>
         </Firegento_FlexCms>
     </modules>
     <global>
@@ -30,6 +30,9 @@
                     <content_link>
                         <table>flexcms_content_link</table>
                     </content_link>
+                    <content_data>
+                        <table>flexcms_content_data</table>
+                    </content_data>
                 </entities>
             </firegento_flexcms_resource>
         </models>
