@@ -1,4 +1,4 @@
 
 <?php
-    echo nl2br($this->getContentData()->getContent());
+    echo Mage::helper('cms')->getPageTemplateProcessor()->filter($this->getContentData()->getContent());
 ?>
