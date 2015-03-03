@@ -54,6 +54,7 @@ Once the files are installed:
 DELETE FROM eav_attribute WHERE attribute_code LIKE 'flexcms%';
 UPDATE eav_attribute SET source_model = 'catalog/category_attribute_source_mode' WHERE attribute_code = 'display_mode';
 DROP TABLE flexcms_content;
+DROP TABLE flexcms_content_data;
 DROP TABLE flexcms_content_link;
 DELETE FROM core_resource WHERE code = 'firegento_flexcms_setup';
 ```

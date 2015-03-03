@@ -78,6 +78,7 @@ class Firegento_FlexCms_Block_Renderer extends Mage_Core_Block_Template
                     $rendererTemplate = $cfg->getBlockTemplate();
                     $rendererContent = new Varien_Object($element->getContent());
 
+                    /** @var Firegento_FlexCms_Block_Type_Abstract $block */
                     $block = Mage::app()->getLayout()->createBlock($rendererType, $rendererName);
                     $block->setTemplate($rendererTemplate);
                     $block->setContentData($rendererContent);
