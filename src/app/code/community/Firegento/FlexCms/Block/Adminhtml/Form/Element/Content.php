@@ -162,7 +162,7 @@ class Firegento_FlexCms_Block_Adminhtml_Form_Element_Content extends Varien_Data
         $contentType = $link->getContentType();
         $contentTypeConfig = Mage::getStoreConfig('firegento_flexcms/types/' . $contentType);
 
-        if (is_array($contentTypeConfig["fields"])) {
+        if (is_array($contentTypeConfig['fields'])) {
             foreach ($contentTypeConfig['fields'] as $fieldCode => $fieldConfig) {
 
                 $content = $link->getContent();
@@ -183,7 +183,14 @@ class Firegento_FlexCms_Block_Adminhtml_Form_Element_Content extends Varien_Data
                         'mode' => 'exact',
                     ));
                 }
-
+               
+                if (Mage::registry('category')->getStoreId()) {
+                    $elementConfig['disabled'] = true;
+                    $elementConfig['after_element_html'] = '
+        <input name="flexcms_element[' . $link->getId() . '][' . $fieldCode . '_default]" id="flexcms_content_link_' . $link->getId() . '_field_' . $fieldCode . '_default" checked="checked" class="normal" onclick="toggleValueElements(this, this.parentNode)" value="custom_use_parent_settings" type="checkbox">
+        <label for="flexcms_content_link_' . $link->getId() . '_field_' . $fieldCode . '_default" class="normal">' . Mage::helper('adminhtml')->__('Use Default Value') . '</label>
+    ';
+                }
 
                 $elements[] = $this->_getField(
                     'flexcms_content_link_' . $link->getId() . '_field_' . $fieldCode,

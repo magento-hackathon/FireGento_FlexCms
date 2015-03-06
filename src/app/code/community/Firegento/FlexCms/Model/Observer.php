@@ -62,7 +62,6 @@ class Firegento_FlexCms_Model_Observer
      * Save category flex content
      *
      * @param Varien_Event_Observer $observer
-     *
      */
     public function catalogCategorySaveAfter(Varien_Event_Observer $observer)
     {
@@ -80,6 +79,9 @@ class Firegento_FlexCms_Model_Observer
         }
     }
 
+    /**
+     * @param Varien_Event_Observer $observer
+     */
     public function addFlexCmsUrlAttributes(Varien_Event_Observer $observer)
     {
         $observer->getCategoryCollection()->addAttributeToSelect(
@@ -87,6 +89,9 @@ class Firegento_FlexCms_Model_Observer
         );
     }
 
+    /**
+     * @param Varien_Event_Observer $observer
+     */
     public function catalogCategoryCollectionLoadAfter(Varien_Event_Observer $observer)
     {
         /* @var $collection Mage_Catalog_Model_Resource_Category_Collection */
@@ -97,12 +102,18 @@ class Firegento_FlexCms_Model_Observer
         }
     }
 
+    /**
+     * @param Varien_Event_Observer $observer
+     */
     public function catalogCategoryLoadAfter(Varien_Event_Observer $observer)
     {
         $this->_checkSetUrlUpdate($observer->getCategory());
         $this->_updateDisplayMode($observer->getCategory());
     }
-    
+
+    /**
+     * @param Mage_Catalog_Model_Category $category
+     */
     protected function _updateDisplayMode($category)
     {
         switch($category->getDisplayMode()) {
@@ -115,6 +126,9 @@ class Firegento_FlexCms_Model_Observer
         }
     }
 
+    /**
+     * @param Mage_Catalog_Model_Category $category
+     */
     protected function _checkSetUrlUpdate($category)
     {
         if (
