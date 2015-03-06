@@ -83,8 +83,7 @@ class Firegento_FlexCms_Block_Adminhtml_Form_Element_Content extends Varien_Data
         $this->_linkCollection = Mage::getModel('firegento_flexcms/content_link')->getCollection()
             ->addFieldToFilter('area', $this->getArea())
             ->addFieldToFilter('layout_handle', $this->getLayoutHandle())
-            ->setOrder('sort_order', 'asc')
-            ->joinContentData();
+            ->setOrder('sort_order', 'asc');
         return $this->_linkCollection;
     }
 

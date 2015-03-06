@@ -36,4 +36,13 @@ class Firegento_FlexCms_Model_Resource_Content_Collection extends Mage_Core_Mode
     {
         $this->_init('firegento_flexcms/content');
     }
+    
+    protected function _afterLoad()
+    {
+        parent::_afterLoad();
+
+        foreach ($this->_items as $item) { /**  @var Firegento_FlexCms_Model_Content $item */
+            $item->afterLoad();
+        }
+    }
 }
