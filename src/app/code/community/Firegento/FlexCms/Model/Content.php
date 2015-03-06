@@ -28,6 +28,8 @@
  */
 class Firegento_FlexCms_Model_Content extends Mage_Core_Model_Abstract
 {
+    protected $_contentData = null;
+    
     /**
      *
      */
@@ -37,47 +39,55 @@ class Firegento_FlexCms_Model_Content extends Mage_Core_Model_Abstract
     }
 
     /**
-     * @return Mage_Core_Model_Abstract
+     * @return Firegento_FlexCms_Model_Content_Data
      */
-    protected function _beforeSave()
+    protected function _afterSave()
     {
-        if (is_array($this->getContent())) {
-            $this->setContent(Zend_Json::encode($this->getContent()));
-        }
-        return parent::_beforeSave();
+        /** @var Firegento_FlexCms_Model_Content_Data $contentData */
+        $contentData = $this->getContentDataModel();
+        $contentData->setContent($this->getContent());
+        //$contentData->setIsActive($this->getIsActive());
+        $contentData->save();
+        return parent::_afterSave();
     }
 
     /**
-     * @return Mage_Core_Model_Abstract
+     * @return Firegento_FlexCms_Model_Content_Data
      */
     protected function _afterLoad()
     {
-        if (!is_array($this->getContent())) {
-            try {
-                $this->setContent(Zend_Json::decode($this->getContent()));
-            } catch (Exception $e) {
-                $this->setContent(array());
-            }
-        }
+        /** @var Firegento_FlexCms_Model_Content_Data $contentData */
+        $contentData = $this->getContentDataModel();
+        
+        $this->setContent($contentData->getContent());
+        //$this->setIsActive($contentData->getIsActive());
+
         return parent::_afterLoad();
     }
 
     /**
-     * @return array|mixed
+     * @return Firegento_FlexCms_Model_Content_Data
      */
-    public function getContent()
+    public function getContentDataModel()
     {
-        if (is_array($this->_getData('content'))) {
-            return $this->_getData('content');
-        }
-        
-        if (trim($this->_getData('content'))) {
-            try {
-                return Zend_Json::decode($this->_getData('content'));
-            } catch (Exception $e) {
+        if (is_null($this->_contentData)) {
+            if ($this->getId()) {
+                /** @var $contentDataCollection Firegento_FlexCms_Model_Resource_Content_Data_Collection */
+                $contentDataCollection = Mage::getResourceModel('firegento_flexcms/content_data_collection');
+                $contentDataCollection->addFieldToFilter('content_id', $this->getId());
+                if ($this->getStoreId()) {
+                    $contentDataCollection->addFieldToFilter('store_id', array('in' => array(0, $this->getStoreId())));
+                    $contentDataCollection->setOrder('store_id', Varien_Data_Collection::SORT_ORDER_DESC);
+                }
+                if ($contentDataCollection->getSize()) {
+                    $this->_contentData = $contentDataCollection->getFirstItem();
+                    return $this->_contentData;
+                }
             }
+
+            $this->_contentData = Mage::getModel('firegento_flexcms/content_data')->setContentId($this->getId());
         }
         
-        return array();
+        return $this->_contentData;
     }
 }

@@ -100,7 +100,7 @@ class Firegento_FlexCms_Model_Content_Link extends Mage_Core_Model_Abstract
         $parentElementUsageCollection = $this->getCollection()
             ->addFieldToFilter('content_id', array('eq' => $this->getContentId()));
         if (count($parentElementUsageCollection) == 1) {
-            $this->getContentModel()->delete(); // link gets deleted implicitly via foreign key
+            $this->getContentModel()->delete(); // link and content_data get deleted implicitly via foreign key
         } else {
             $this->delete();
         }

@@ -42,22 +42,28 @@ class Firegento_FlexCms_Model_Content_Data extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Get decoded content data
-     *
-     * @return array
+     * @return Firegento_FlexCms_Model_Content_Data
      */
-    public function getContent()
+    protected function _beforeSave()
     {
-        if (is_array($this->_getData('content'))) {
-            return $this->_getData('content');
+        if (is_array($this->getData('content'))) {
+            $this->setData('content', Zend_Json::encode($this->getData('content')));
         }
+        return parent::_beforeSave();
+    }
 
-        if (trim($this->_getData('content'))) {
+    /**
+     * @return Firegento_FlexCms_Model_Content_Data
+     */
+    protected function _afterLoad()
+    {
+        if (!is_array($this->getContent())) {
             try {
-                return Zend_Json::decode($this->_getData('content'));
-            } catch (Exception $e) {}
+                $this->setContent(Zend_Json::decode($this->getContent()));
+            } catch (Exception $e) {
+                $this->setContent(array());
+            }
         }
-
-        return array();
+        return parent::_afterLoad();
     }
 }

@@ -27,7 +27,7 @@
  * @author   FireGento Team <team@firegento.com>
  * 
  * @method setContentData(Varien_Object $contentData)
- * @method Varien_Object getContentData()
+ * @method Varien_Object getContentDataModel()
  */
 class Firegento_FlexCms_Block_Type_Abstract extends Mage_Core_Block_Template
 {
