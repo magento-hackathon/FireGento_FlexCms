@@ -28,8 +28,6 @@
  */
 class Firegento_FlexCms_Model_Content extends Mage_Core_Model_Abstract
 {
-    protected $_contentData = null;
-    
     /**
      *
      */
@@ -60,9 +58,23 @@ class Firegento_FlexCms_Model_Content extends Mage_Core_Model_Abstract
         $contentData = $this->getContentDataModel();
         
         $this->setContent($contentData->getContent());
+        $this->setDefaultContent($contentData->getDefaultContent());
         //$this->setIsActive($contentData->getIsActive());
 
         return parent::_afterLoad();
+    }
+
+    /**
+     * @var int $storeId
+     * @return Firegento_FlexCms_Model_Content_Data
+     */
+    public function setStoreId($storeId)
+    {
+        $this->setData('store_id', $storeId);
+        
+        $this->_afterLoad();
+
+        return $this;
     }
 
     /**
@@ -70,24 +82,24 @@ class Firegento_FlexCms_Model_Content extends Mage_Core_Model_Abstract
      */
     public function getContentDataModel()
     {
-        if (is_null($this->_contentData)) {
-            if ($this->getId()) {
-                /** @var $contentDataCollection Firegento_FlexCms_Model_Resource_Content_Data_Collection */
-                $contentDataCollection = Mage::getResourceModel('firegento_flexcms/content_data_collection');
-                $contentDataCollection->addFieldToFilter('content_id', $this->getId());
-                if ($this->getStoreId()) {
-                    $contentDataCollection->addFieldToFilter('store_id', array('in' => array(0, $this->getStoreId())));
-                    $contentDataCollection->setOrder('store_id', Varien_Data_Collection::SORT_ORDER_DESC);
-                }
-                if ($contentDataCollection->getSize()) {
-                    $this->_contentData = $contentDataCollection->getFirstItem();
-                    return $this->_contentData;
-                }
+        if ($this->getId()) {
+            /** @var $contentDataCollection Firegento_FlexCms_Model_Resource_Content_Data_Collection */
+            $contentDataCollection = Mage::getResourceModel('firegento_flexcms/content_data_collection');
+            $contentDataCollection->addFieldToFilter('content_id', $this->getId());
+            if ($this->getStoreId()) {
+                $contentDataCollection->addFieldToFilter('store_id', array('in' => array(0, $this->getStoreId())));
+                $contentDataCollection->setOrder('store_id', Varien_Data_Collection::SORT_ORDER_DESC);
             }
-
-            $this->_contentData = Mage::getModel('firegento_flexcms/content_data')->setContentId($this->getId());
+            if ($contentDataCollection->getSize()) {
+                $contentData = $contentDataCollection->getFirstItem();
+                if ($contentDataCollection->getSize() > 1) {
+                    $defaultContentData = $contentDataCollection->getLastItem();
+                    $contentData->setDefaultContent($defaultContentData->getContent());
+                }
+                return $contentData;
+            }
         }
-        
-        return $this->_contentData;
+
+        return Mage::getModel('firegento_flexcms/content_data')->setContentId($this->getId());
     }
 }

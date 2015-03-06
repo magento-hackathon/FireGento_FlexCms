@@ -38,7 +38,7 @@ class Firegento_FlexCms_Model_Content_Link extends Mage_Core_Model_Abstract
      */
     public function getContentModel()
     {
-        return Mage::getModel('firegento_flexcms/content')->load($this->getContentId());
+        return Mage::getModel('firegento_flexcms/content')->load($this->getContentId())->setStoreId($this->getStoreId());
     }
 
     /**

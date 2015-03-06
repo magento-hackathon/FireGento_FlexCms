@@ -28,6 +28,8 @@
  */
 class Firegento_FlexCms_Model_Resource_Content_Link_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
+    protected $_storeId = 0;
+    
     /**
      * Initialize collection
      *
@@ -38,6 +40,16 @@ class Firegento_FlexCms_Model_Resource_Content_Link_Collection extends Mage_Core
     }
 
     /**
+     * @param int $storeId
+     * @return Firegento_FlexCms_Model_Resource_Content_Link_Collection
+     */
+    public function setStoreId($storeId)
+    {
+        $this->_storeId = $storeId;
+        return $this;
+    }
+
+    /**
      * join content from firegento_flexcms/content 1:1
      */
     protected function _afterLoad()
@@ -45,6 +57,7 @@ class Firegento_FlexCms_Model_Resource_Content_Link_Collection extends Mage_Core
         parent::_afterLoad();
         
         foreach($this->_items as $item) { /** @var Firegento_FlexCms_Model_Content_Link $item */
+            $item->setStoreId($this->_storeId);
             $item->addData($item->getContentModel()->getData());
         }
     }

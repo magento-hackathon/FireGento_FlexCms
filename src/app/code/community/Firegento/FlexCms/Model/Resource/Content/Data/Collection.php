@@ -45,17 +45,4 @@ class Firegento_FlexCms_Model_Resource_Content_Data_Collection extends Mage_Core
             $item->afterLoad();
         }
     }
-
-    /**
-     * join content from firegento_flexcms/content 1:1
-     */
-    public function joinContentData(){
-        $this->getSelect()->join(
-            array('reference_table' => Mage::getSingleton('core/resource')->getTableName('firegento_flexcms/content')),
-            'reference_table.flexcms_content_id=main_table.content_id',
-            array('reference_table.*')
-        );
-
-        return $this;
-    }
 }

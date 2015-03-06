@@ -84,6 +84,9 @@ class Firegento_FlexCms_Block_Adminhtml_Form_Element_Content extends Varien_Data
             ->addFieldToFilter('area', $this->getArea())
             ->addFieldToFilter('layout_handle', $this->getLayoutHandle())
             ->setOrder('sort_order', 'asc');
+        if (Mage::registry('category')->getStoreId()) {
+            $this->_linkCollection->setStoreId(Mage::registry('category')->getStoreId());
+        }
         return $this->_linkCollection;
     }
 
@@ -163,15 +166,24 @@ class Firegento_FlexCms_Block_Adminhtml_Form_Element_Content extends Varien_Data
         $contentTypeConfig = Mage::getStoreConfig('firegento_flexcms/types/' . $contentType);
 
         if (is_array($contentTypeConfig['fields'])) {
+
+            $content = $link->getContent();
+            $defaultContent = $link->getDefaultContent();
+
             foreach ($contentTypeConfig['fields'] as $fieldCode => $fieldConfig) {
 
-                $content = $link->getContent();
+                $fieldValue = (isset($content[$fieldCode])) ? $content[$fieldCode] : '';
+                if (!$fieldValue && is_array($defaultContent)) {
+                    $fieldValue = (isset($defaultContent[$fieldCode])) ? $defaultContent[$fieldCode] : '';
+                }
+                
                 $elementConfig = array(
                     'label' => Mage::helper('firegento_flexcms')->__($fieldConfig['label']),
                     'name' => 'flexcms_element[' . $link->getId() . '][' . $fieldCode . ']',
-                    'value' => ((isset($content[$fieldCode])) ? $content[$fieldCode] : ''),
+                    'value' => $fieldValue,
                     'class' => 'flexcms_element flexcms_element_' . $fieldConfig['frontend_type'],
                 );
+                
                 foreach ($fieldConfig as $key => $value) {
                     if (in_array($key, array('label', 'frontend_type'))) {
                         continue;
@@ -186,8 +198,13 @@ class Firegento_FlexCms_Block_Adminhtml_Form_Element_Content extends Varien_Data
                
                 if (Mage::registry('category')->getStoreId()) {
                     $elementConfig['disabled'] = true;
+                    if ($link->getStoreId() == Mage::registry('category')->getStoreId()) {
+                        $checkedHtml = '';
+                    } else {
+                        $checkedHtml = 'checked="checked"';
+                    }
                     $elementConfig['after_element_html'] = '
-        <input name="flexcms_element[' . $link->getId() . '][' . $fieldCode . '_default]" id="flexcms_content_link_' . $link->getId() . '_field_' . $fieldCode . '_default" checked="checked" class="normal" onclick="toggleValueElements(this, this.parentNode)" value="custom_use_parent_settings" type="checkbox">
+        <input name="flexcms_element[' . $link->getId() . '][' . $fieldCode . '_default]" id="flexcms_content_link_' . $link->getId() . '_field_' . $fieldCode . '_default" ' . $checkedHtml . ' class="normal" onclick="toggleValueElements(this, this.parentNode)" value="custom_use_parent_settings" type="checkbox">
         <label for="flexcms_content_link_' . $link->getId() . '_field_' . $fieldCode . '_default" class="normal">' . Mage::helper('adminhtml')->__('Use Default Value') . '</label>
     ';
                 }
