@@ -38,6 +38,7 @@ class Firegento_FlexCms_Model_Source_ContentElement
         $options = array();
 
         $contentCollection = Mage::getResourceModel('firegento_flexcms/content_collection')
+            ->addFieldToFilter('is_reusable', 1)
             ->setOrder('content_type', 'asc')
             ->setOrder('title', 'asc');
 

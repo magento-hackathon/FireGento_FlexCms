@@ -80,12 +80,15 @@ class Firegento_FlexCms_Model_Content_Link extends Mage_Core_Model_Abstract
         $contentElement = $this->getContentModel();
 
         $content = array();
+        $isReusable = false;
         foreach ($fields as $fieldName => $fieldValue) {
 
             if ($fieldName == 'title') {
                 $contentElement->setTitle($fieldValue);
             } elseif ($fieldName == 'sort_order') {
                 $this->setSortOrder($fieldValue);
+            } elseif ($fieldName == 'is_reusable') {
+                $isReusable = boolval($fieldValue);
             } else {
                 if (substr($fieldName, -8) == '_default') {
                     continue;
@@ -97,7 +100,11 @@ class Firegento_FlexCms_Model_Content_Link extends Mage_Core_Model_Abstract
             }
         }
 
-        $contentElement->setContent($content)->save();
+        $contentElement
+            ->setContent($content)
+            ->setIsReusable($isReusable)
+            ->save();
+        
         $this->save();
     }
 

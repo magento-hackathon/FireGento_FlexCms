@@ -210,7 +210,7 @@ class Firegento_FlexCms_Block_Adminhtml_Form_Element_Content extends Varien_Data
                         $checkedHtml = 'checked="checked"';
                     }
                     $elementConfig['after_element_html'] = '
-        <input name="flexcms_element[' . $link->getId() . '][' . $fieldCode . '_default]" id="flexcms_content_link_' . $link->getId() . '_field_' . $fieldCode . '_default" ' . $checkedHtml . ' class="normal" onclick="toggleValueElements(this, this.parentNode)" value="custom_use_parent_settings" type="checkbox">
+        <input name="flexcms_element[' . $link->getId() . '][' . $fieldCode . '_default]" id="flexcms_content_link_' . $link->getId() . '_field_' . $fieldCode . '_default" ' . $checkedHtml . ' class="normal" onclick="toggleValueElements(this, this.parentNode)" value="1" type="checkbox">
         <label for="flexcms_content_link_' . $link->getId() . '_field_' . $fieldCode . '_default" class="normal">' . Mage::helper('adminhtml')->__('Use Default Value') . '</label>
     ';
                 }
@@ -233,6 +233,17 @@ class Firegento_FlexCms_Block_Adminhtml_Form_Element_Content extends Varien_Data
             )
         );
         $elements[] = $this->_getField(
+            'flexcms_content_link_' . $link->getId() . '_field_is_reusable',
+            'checkbox',
+            array(
+                'label' => Mage::helper('firegento_flexcms')->__('Can be embedded on other pages as well'),
+                'name' => 'flexcms_element[' . $link->getId() . '][is_reusable]',
+                'class' => 'flexcms_element flexcms_element_is_reusable',
+                'value' => 1,
+                'checked' => intval($link->getIsReusable())
+            )
+        );
+        $elements[] = $this->_getField(
             'flexcms_content_link_' . $link->getId() . '_field_delete',
             'checkbox',
             array(
@@ -242,6 +253,7 @@ class Firegento_FlexCms_Block_Adminhtml_Form_Element_Content extends Varien_Data
                 'value' => 1
             )
         );
+
         return $elements;
     }
 
