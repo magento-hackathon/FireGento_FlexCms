@@ -162,7 +162,7 @@
                 </static>
             </handles>
             <types>
-                <html translate="label descrption">
+                <html translate="label description">
                     <label>Default HTML</label>
                     <description>Standard Magento WYSIWYG Editor</description>
                     <show_title>1</show_title>
@@ -181,6 +181,21 @@
                         </content>
                     </fields>
                 </html>
+<!--
+                <youtube translate="label description">
+                    <label>Youtube</label>
+                    <description></description>
+                    <show_title>1</show_title>
+                    <block_template>firegento/flexcms/type/youtube.phtml</block_template>
+                    <fields>
+                        <youtube_id translate="label">
+                            <label>Youtube ID</label>
+                            <frontend_type>text</frontend_type>
+                            <style>width: 80%;</style>
+                        </youtube_id>
+                    </fields>
+                </youtube>
+-->
             </types>
             <areas>
                 <left translate="label">

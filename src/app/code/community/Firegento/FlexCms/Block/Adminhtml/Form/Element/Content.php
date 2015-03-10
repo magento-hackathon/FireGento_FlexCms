@@ -173,8 +173,14 @@ class Firegento_FlexCms_Block_Adminhtml_Form_Element_Content extends Varien_Data
             foreach ($contentTypeConfig['fields'] as $fieldCode => $fieldConfig) {
 
                 $fieldValue = (isset($content[$fieldCode])) ? $content[$fieldCode] : '';
-                if (!$fieldValue && is_array($defaultContent)) {
-                    $fieldValue = (isset($defaultContent[$fieldCode])) ? $defaultContent[$fieldCode] : '';
+                $defaultFieldValue = $fieldValue;
+                if (is_array($defaultContent)) {
+                    if (isset($defaultContent[$fieldCode])) {
+                        $defaultFieldValue = ($defaultContent[$fieldCode]);
+                    }
+                    if (!$fieldValue) {
+                        $fieldValue = $defaultFieldValue;
+                    }
                 }
                 
                 $elementConfig = array(
@@ -196,11 +202,11 @@ class Firegento_FlexCms_Block_Adminhtml_Form_Element_Content extends Varien_Data
                     ));
                 }
                
-                if (Mage::registry('category')->getStoreId()) {
-                    $elementConfig['disabled'] = true;
-                    if ($link->getStoreId() == Mage::registry('category')->getStoreId()) {
+                if (!is_null(Mage::registry('category')) && Mage::registry('category')->getStoreId()) {
+                    if ($defaultFieldValue != $fieldValue) {
                         $checkedHtml = '';
                     } else {
+                        $elementConfig['disabled'] = true;
                         $checkedHtml = 'checked="checked"';
                     }
                     $elementConfig['after_element_html'] = '
