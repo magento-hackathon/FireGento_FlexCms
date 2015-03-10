@@ -73,6 +73,10 @@ class Firegento_FlexCms_Model_Content_Link extends Mage_Core_Model_Abstract
             return;
         }
 
+        if ($storeId = Mage::app()->getRequest()->getParam('store')) {
+            $this->setStoreId($storeId);
+        }
+        
         $contentElement = $this->getContentModel();
 
         $content = array();
@@ -83,6 +87,12 @@ class Firegento_FlexCms_Model_Content_Link extends Mage_Core_Model_Abstract
             } elseif ($fieldName == 'sort_order') {
                 $this->setSortOrder($fieldValue);
             } else {
+                if (substr($fieldName, -8) == '_default') {
+                    continue;
+                }
+                if (isset($fields[$fieldName . '_default']) && $fields[$fieldName . '_default']) {
+                    continue;
+                }
                 $content[$fieldName] = $fieldValue;
             }
         }

@@ -89,14 +89,25 @@ class Firegento_FlexCms_Model_Content extends Mage_Core_Model_Abstract
             if ($this->getStoreId()) {
                 $contentDataCollection->addFieldToFilter('store_id', array('in' => array(0, $this->getStoreId())));
                 $contentDataCollection->setOrder('store_id', Varien_Data_Collection::SORT_ORDER_DESC);
-            }
-            if ($contentDataCollection->getSize()) {
-                $contentData = $contentDataCollection->getFirstItem();
-                if ($contentDataCollection->getSize() > 1) {
-                    $defaultContentData = $contentDataCollection->getLastItem();
-                    $contentData->setDefaultContent($defaultContentData->getContent());
+                if ($contentDataCollection->getSize()) {
+                    $contentData = $contentDataCollection->getFirstItem();
+                    if ($contentDataCollection->getSize() > 1) { // store specific content data exists
+                        $defaultContentData = $contentDataCollection->getLastItem();
+                        $contentData->setDefaultContent($defaultContentData->getContent());
+                    } else {
+                        $contentData
+                            ->setId(null)
+                            ->setDefaultContent($contentData->getContent())
+                            ->setStoreId($this->getStoreId());
+                    }
+                    
+                    return $contentData;
                 }
-                return $contentData;
+            } else {
+                $contentDataCollection->addFieldToFilter('store_id', 0);
+                if ($contentDataCollection->getSize()) {
+                    return $contentDataCollection->getFirstItem();
+                }
             }
         }
 
