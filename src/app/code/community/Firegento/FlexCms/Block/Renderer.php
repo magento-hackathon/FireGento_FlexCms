@@ -145,11 +145,8 @@ class Firegento_FlexCms_Block_Renderer extends Mage_Core_Block_Template
             ->addFieldToFilter('area', array('eq' => $this->getAreaKey()))
             ->addFieldToFilter('layout_handle', array('in' => $this->_layoutHandles));
 
-        if (!Mage::app()->isSingleStoreMode() && Mage::app()->getStore()->getId() > 0) {
-            //$linkCollection->addFieldToFilter('store_ids', array(
-            //    array('finset' => 0),
-            //    array('finset' => Mage::app()->getStore()->getId()),
-            //));
+        if ($storeId = Mage::app()->getStore()->getId()) {
+            $linkCollection->setStoreId($storeId);
         }
 
         return $linkCollection;
