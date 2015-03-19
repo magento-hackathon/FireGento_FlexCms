@@ -58,7 +58,6 @@ class Firegento_FlexCms_Block_Adminhtml_Handle_Grid extends Mage_Adminhtml_Block
     {
         /** @var Firegento_FlexCms_Model_Resource_Content_Link_Collection $linkCollection */
         $linkCollection = Mage::getModel('firegento_flexcms/content_link')->getCollection()
-            ->joinContentData()
             ->setOrder('layout_handle', $this->getParam($this->getVarNameDir(), $this->_defaultDir));
 
         /** @var $collection Firegento_FlexCms_Model_Resource_Update_Collection */

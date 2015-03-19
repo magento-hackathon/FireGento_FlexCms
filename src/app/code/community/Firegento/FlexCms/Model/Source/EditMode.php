@@ -26,7 +26,7 @@
  * @package  FireGento_FlexCms
  * @author   FireGento Team <team@firegento.com>
  */
-class Firegento_FlexCms_Model_Source_ContentMode
+class Firegento_FlexCms_Model_Source_EditMode
 {
     /**
      * Options getter
