@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Firegento_FlexCms>
-            <version>0.3.0</version>
+            <version>0.4.0</version>
         </Firegento_FlexCms>
     </modules>
     <global>
@@ -33,6 +33,9 @@
                     <content_data>
                         <table>flexcms_content_data</table>
                     </content_data>
+                    <category_changes>
+                        <table>flexcms_category_changes</table>
+                    </category_changes>
                 </entities>
             </firegento_flexcms_resource>
         </models>
@@ -122,18 +125,34 @@
         <events>
             <adminhtml_catalog_category_tabs>
                 <observers>
-                    <firegento_flexcms_adminhtml_catalog_category_tabs>
+                    <firegento_flexcms>
                         <class>Firegento_FlexCms_Model_Observer</class>
                         <method>adminhtmlCatalogCategoryTabs</method>
-                    </firegento_flexcms_adminhtml_catalog_category_tabs>
+                    </firegento_flexcms>
                 </observers>
             </adminhtml_catalog_category_tabs>
-            <catalog_category_save_commit_after>
+            <catalog_category_save_before>
                 <observers>
-                    <firegento_flexcms_catalog_category_prepare_save>
+                    <firegento_flexcms>
+                        <class>Firegento_FlexCms_Model_Observer</class>
+                        <method>catalogCategorySaveBefore</method>
+                    </firegento_flexcms>
+                </observers>
+            </catalog_category_save_before>
+            <catalog_category_save_after>
+                <observers>
+                    <firegento_flexcms>
                         <class>Firegento_FlexCms_Model_Observer</class>
                         <method>catalogCategorySaveAfter</method>
-                    </firegento_flexcms_catalog_category_prepare_save>
+                    </firegento_flexcms>
+                </observers>
+            </catalog_category_save_after>
+            <catalog_category_save_commit_after>
+                <observers>
+                    <firegento_flexcms>
+                        <class>Firegento_FlexCms_Model_Observer</class>
+                        <method>catalogCategorySaveCommitAfter</method>
+                    </firegento_flexcms>
                 </observers>
             </catalog_category_save_commit_after>
         </events>

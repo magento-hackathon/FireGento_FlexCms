@@ -59,11 +59,32 @@ class Firegento_FlexCms_Model_Observer
     }
 
     /**
-     * Save category flex content
+     * Save category draft data for new categories
      *
      * @param Varien_Event_Observer $observer
      */
     public function catalogCategorySaveAfter(Varien_Event_Observer $observer)
+    {
+        if (!$this->_canPublishCategory()) {
+            /** @var Mage_Catalog_Model_Category $category */
+            $category = $observer->getCategory();
+            if ($category->getOriginalIsActive()) {
+                /** @var $changesObject Firegento_FlexCms_Model_Category_Changes */
+                $changesObject = Mage::getModel('firegento_flexcms/category_changes')->loadByCategory($category);
+                $changesObject->setCategoryId($category->getId());
+                $changesObject->setStoreId($category->getStoreId());
+                $changesObject->setChanges(array('is_active' => 1));
+                $changesObject->save();
+            }
+        }
+    }
+
+    /**
+     * Save category flex content
+     *
+     * @param Varien_Event_Observer $observer
+     */
+    public function catalogCategorySaveCommitAfter(Varien_Event_Observer $observer)
     {
         $params = new Varien_Object(Mage::app()->getRequest()->getParams());
 
@@ -143,4 +164,60 @@ class Firegento_FlexCms_Model_Observer
         ){
             $category->setUrl($category->getFlexcmsUrlExternal());
         }
-    }}
+    }
+
+    /**
+     * @param Varien_Event_Observer $observer
+     */
+    public function catalogCategorySaveBefore(Varien_Event_Observer $observer)
+    {
+        /** @var Mage_Catalog_Model_Category $category */
+        $category = $observer->getCategory();
+
+        Mage::log($category->getData());
+        Mage::log($category->getOrigData());
+
+        if ($category->getId()) {
+            /** @var $changesObject Firegento_FlexCms_Model_Category_Changes */
+            $changesObject = Mage::getModel('firegento_flexcms/category_changes')->loadByCategory($category);
+            if (!$changesObject->getId()) {
+                $changesObject->setCategoryId($category->getId());
+                $changesObject->setStoreId($category->getStoreId());
+            }
+
+            $changes = array();
+            foreach($category->getData() as $key => $value) {
+                if (in_array($key, array('id'))) {
+                    continue;
+                }
+                if ($category->dataHasChangedFor($key)) {
+                    $changes[$key] = $value;
+                    $category->unsetData($key);
+                }
+            }
+            if (sizeof($changes)) {
+                $changesObject->setChanges($changes)->save();
+            } else {
+                if ($changesObject->getId()) {
+                    $changesObject->delete();
+                }
+            }
+
+        } else {
+            if ($category->getIsActive()) {
+
+                $category->setIsActive(false);
+                $category->setIsDraft(true);
+                $category->setOriginalIsActive(true);
+            }
+        }
+    }
+
+    /**
+     * @return bool
+     */
+    protected function _canPublishCategory()
+    {
+        return false;
+    }
+}
