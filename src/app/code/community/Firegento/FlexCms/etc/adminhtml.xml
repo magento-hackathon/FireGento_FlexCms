@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 <config>
     <menu>
+<!--
         <cms>
             <children>
                 <flexcms_content translate="title" module="firegento_flexcms">
@@ -22,29 +23,44 @@
                 </flexcms_content>
             </children>
         </cms>
+-->
     </menu>
     <acl>
         <resources>
             <admin>
                 <children>
-                    <cms>
+                    <catalog>
                         <children>
-                            <flexcms_content translate="title" module="firegento_flexcms">
-                                <title>FlexCms Content</title>
-                                <sort_order>0</sort_order>
+                            <categories>
                                 <children>
-                                    <flexcms_content_byhandle translate="title" module="firegento_flexcms">
-                                        <title>By Layout Handle</title>
+                                    <save translate="title" module="firegento_flexcms">
+                                        <title>Publish Categories</title>
                                         <sort_order>0</sort_order>
-                                    </flexcms_content_byhandle>
-                                    <flexcms_content_bycontent translate="title" module="firegento_flexcms">
-                                        <title>By Content Element</title>
-                                        <sort_order>0</sort_order>
-                                    </flexcms_content_bycontent>
+                                    </save>
                                 </children>
-                            </flexcms_content>
+                            </categories>
                         </children>
-                    </cms>
+                    </catalog>
+                    <!--
+                                        <cms>
+                                            <children>
+                                                <flexcms_content translate="title" module="firegento_flexcms">
+                                                    <title>FlexCms Content</title>
+                                                    <sort_order>0</sort_order>
+                                                    <children>
+                                                        <flexcms_content_byhandle translate="title" module="firegento_flexcms">
+                                                            <title>By Layout Handle</title>
+                                                            <sort_order>0</sort_order>
+                                                        </flexcms_content_byhandle>
+                                                        <flexcms_content_bycontent translate="title" module="firegento_flexcms">
+                                                            <title>By Content Element</title>
+                                                            <sort_order>0</sort_order>
+                                                        </flexcms_content_bycontent>
+                                                    </children>
+                                                </flexcms_content>
+                                            </children>
+                                        </cms>
+                    -->
                     <system>
                         <children>
                             <config>
