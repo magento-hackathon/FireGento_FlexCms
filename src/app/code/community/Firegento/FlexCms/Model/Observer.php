@@ -28,6 +28,9 @@
  */
 class Firegento_FlexCms_Model_Observer
 {
+    protected $_attributesUsingDefault = null;
+    protected $_attributesUsingConfig = null;
+
     /**
      * add CMSPAGE_{ID} handle to layout on cms page render
      *
@@ -58,26 +61,6 @@ class Firegento_FlexCms_Model_Observer
         ));
     }
 
-    /**
-     * Save category draft data for new categories
-     *
-     * @param Varien_Event_Observer $observer
-     */
-    public function catalogCategorySaveAfter(Varien_Event_Observer $observer)
-    {
-        if (!$this->_canPublishCategory()) {
-            /** @var Mage_Catalog_Model_Category $category */
-            $category = $observer->getCategory();
-            if ($category->getOriginalIsActive()) {
-                /** @var $changesObject Firegento_FlexCms_Model_Category_Changes */
-                $changesObject = Mage::getModel('firegento_flexcms/category_changes')->loadByCategory($category);
-                $changesObject->setCategoryId($category->getId());
-                $changesObject->setStoreId($category->getStoreId());
-                $changesObject->setChanges(array('is_active' => 1));
-                $changesObject->save();
-            }
-        }
-    }
 
     /**
      * Save category flex content
@@ -169,13 +152,13 @@ class Firegento_FlexCms_Model_Observer
     /**
      * @param Varien_Event_Observer $observer
      */
-    public function catalogCategorySaveBefore(Varien_Event_Observer $observer)
+    public function catalogCategoryPrepareSave(Varien_Event_Observer $observer)
     {
         /** @var Mage_Catalog_Model_Category $category */
         $category = $observer->getCategory();
 
-        Mage::log($category->getData());
-        Mage::log($category->getOrigData());
+        /** @var Mage_Core_Controller_Request_Http $request */
+        $request = $observer->getRequest();
 
         if ($category->getId()) {
             /** @var $changesObject Firegento_FlexCms_Model_Category_Changes */
@@ -186,13 +169,21 @@ class Firegento_FlexCms_Model_Observer
             }
 
             $changes = array();
-            foreach($category->getData() as $key => $value) {
-                if (in_array($key, array('id'))) {
+            foreach ($category->getData() as $key => $value) {
+                if (in_array($key, array('id', 'path_ids'))) {
                     continue;
                 }
-                if ($category->dataHasChangedFor($key)) {
+                $origValue = $category->getOrigData($key);
+                if ($this->_isUsingDefaultValue($request, $key)) {
+                    $value = $category->getResource()->getAttributeRawValue($category->getId(), $key, 0);
+                }
+                if ($origValue != $value || (is_null($origValue) && $value)) {
                     $changes[$key] = $value;
-                    $category->unsetData($key);
+                    if (is_null($origValue)) {
+                        $category->setData($key, false);
+                    } else {
+                        $category->setData($key, $origValue);
+                    }
                 }
             }
             if (sizeof($changes)) {
@@ -214,10 +205,48 @@ class Firegento_FlexCms_Model_Observer
     }
 
     /**
+     * Save category draft data for new categories
+     *
+     * @param Varien_Event_Observer $observer
+     */
+    public function catalogCategorySaveAfter(Varien_Event_Observer $observer)
+    {
+        if (!$this->_canPublishCategory()) {
+            /** @var Mage_Catalog_Model_Category $category */
+            $category = $observer->getCategory();
+            if ($category->getOriginalIsActive()) {
+                /** @var $changesObject Firegento_FlexCms_Model_Category_Changes */
+                $changesObject = Mage::getModel('firegento_flexcms/category_changes')->loadByCategory($category);
+                $changesObject->setCategoryId($category->getId());
+                $changesObject->setStoreId($category->getStoreId());
+                $changesObject->setChanges(array('is_active' => 1));
+                $changesObject->save();
+            }
+        }
+    }
+
+    /**
      * @return bool
      */
     protected function _canPublishCategory()
     {
         return false;
+    }
+
+    /**
+     * @param Mage_Core_Controller_Request_Http $request
+     * @param string $attributeCode
+     * @return boolean
+     */
+    protected function _isUsingDefaultValue($request, $attributeCode)
+    {
+        if (is_null($this->_attributesUsingDefault)) {
+            $this->_attributesUsingDefault = array();
+            if ($useDefaults = $request->getPost('use_default')) {
+                $this->_attributesUsingDefault = $useDefaults;
+            }
+        }
+
+        return in_array($attributeCode, $this->_attributesUsingDefault);
     }
 }

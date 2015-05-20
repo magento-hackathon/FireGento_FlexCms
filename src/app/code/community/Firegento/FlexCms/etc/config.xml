@@ -131,14 +131,14 @@
                     </firegento_flexcms>
                 </observers>
             </adminhtml_catalog_category_tabs>
-            <catalog_category_save_before>
+            <catalog_category_prepare_save>
                 <observers>
                     <firegento_flexcms>
                         <class>Firegento_FlexCms_Model_Observer</class>
-                        <method>catalogCategorySaveBefore</method>
+                        <method>catalogCategoryPrepareSave</method>
                     </firegento_flexcms>
                 </observers>
-            </catalog_category_save_before>
+            </catalog_category_prepare_save>
             <catalog_category_save_after>
                 <observers>
                     <firegento_flexcms>
