@@ -161,7 +161,9 @@ class Firegento_FlexCms_Model_Observer
             if ($category->getId()) {
                 /** @var $changesObject Firegento_FlexCms_Model_Category_Changes */
                 $changesObject = Mage::getModel('firegento_flexcms/category_changes')->loadByCategory($category);
-                $changesObject->delete();
+                if ($changesObject->getId()) {
+                    $changesObject->delete();
+                }
             }
             return;
         }

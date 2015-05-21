@@ -10,6 +10,12 @@
             <firegento_flexcms>
                 <class>Firegento_FlexCms_Block</class>
             </firegento_flexcms>
+            <adminhtml>
+                <rewrite>
+                    <catalog_form_renderer_fieldset_element>Firegento_FlexCms_Block_Adminhtml_Catalog_Form_Renderer_Fieldset_Element</catalog_form_renderer_fieldset_element>
+                    <widget_form_renderer_fieldset>Firegento_FlexCms_Block_Adminhtml_Catalog_Form_Renderer_Fieldset</widget_form_renderer_fieldset>
+                </rewrite>
+            </adminhtml>
         </blocks>
         <helpers>
             <firegento_flexcms>
