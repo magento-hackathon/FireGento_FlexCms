@@ -157,6 +157,15 @@ class Firegento_FlexCms_Model_Observer
         /** @var Mage_Catalog_Model_Category $category */
         $category = $observer->getCategory();
 
+        if ($this->_canPublishCategory()) {
+            if ($category->getId()) {
+                /** @var $changesObject Firegento_FlexCms_Model_Category_Changes */
+                $changesObject = Mage::getModel('firegento_flexcms/category_changes')->loadByCategory($category);
+                $changesObject->delete();
+            }
+            return;
+        }
+        
         /** @var Mage_Core_Controller_Request_Http $request */
         $request = $observer->getRequest();
 
@@ -211,17 +220,19 @@ class Firegento_FlexCms_Model_Observer
      */
     public function catalogCategorySaveAfter(Varien_Event_Observer $observer)
     {
-        if (!$this->_canPublishCategory()) {
-            /** @var Mage_Catalog_Model_Category $category */
-            $category = $observer->getCategory();
-            if ($category->getOriginalIsActive()) {
-                /** @var $changesObject Firegento_FlexCms_Model_Category_Changes */
-                $changesObject = Mage::getModel('firegento_flexcms/category_changes')->loadByCategory($category);
-                $changesObject->setCategoryId($category->getId());
-                $changesObject->setStoreId($category->getStoreId());
-                $changesObject->setChanges(array('is_active' => 1));
-                $changesObject->save();
-            }
+        if ($this->_canPublishCategory()) {
+            return;
+        }
+
+        /** @var Mage_Catalog_Model_Category $category */
+        $category = $observer->getCategory();
+        if ($category->getOriginalIsActive()) {
+            /** @var $changesObject Firegento_FlexCms_Model_Category_Changes */
+            $changesObject = Mage::getModel('firegento_flexcms/category_changes')->loadByCategory($category);
+            $changesObject->setCategoryId($category->getId());
+            $changesObject->setStoreId($category->getStoreId());
+            $changesObject->setChanges(array('is_active' => 1));
+            $changesObject->save();
         }
     }
 
@@ -230,7 +241,7 @@ class Firegento_FlexCms_Model_Observer
      */
     protected function _canPublishCategory()
     {
-        return false;
+        return Mage::getSingleton('admin/session')->isAllowed('catalog/publish_categories');
     }
 
     /**

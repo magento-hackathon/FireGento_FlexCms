@@ -31,14 +31,10 @@
                 <children>
                     <catalog>
                         <children>
-                            <categories>
-                                <children>
-                                    <save translate="title" module="firegento_flexcms">
-                                        <title>Publish Categories</title>
-                                        <sort_order>0</sort_order>
-                                    </save>
-                                </children>
-                            </categories>
+                            <publish_categories translate="title" module="firegento_flexcms">
+                                <title>Publish Categories</title>
+                                <sort_order>0</sort_order>
+                            </publish_categories>
                         </children>
                     </catalog>
                     <!--
