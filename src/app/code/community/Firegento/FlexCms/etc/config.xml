@@ -161,6 +161,14 @@
                     </firegento_flexcms>
                 </observers>
             </catalog_category_save_commit_after>
+            <core_block_abstract_prepare_layout_after>
+                <observers>
+                    <firegento_flexcms>
+                        <class>Firegento_FlexCms_Model_Observer</class>
+                        <method>coreBlockAbstractPrepareLayoutAfter</method>
+                    </firegento_flexcms>
+                </observers>
+            </core_block_abstract_prepare_layout_after>
         </events>
     </adminhtml>
     <default>

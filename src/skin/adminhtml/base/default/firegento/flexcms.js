@@ -43,3 +43,9 @@ var observeDisplayModeSelect = function() {
         alert('.' + selectItem.value);
     });
 };
+
+var categoryPublish = function(url, useAjax) {
+    var form = $('category_edit_form');
+    form.insert('<input type="hidden" name="publish" value="1" />');
+    categorySubmit(url, useAjax);
+};
