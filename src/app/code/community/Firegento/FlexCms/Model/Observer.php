@@ -159,8 +159,8 @@ class Firegento_FlexCms_Model_Observer
 
         if ($this->_shouldPublishCategory()) {
             if ($category->getId()) {
-                /** @var $changesObject Firegento_FlexCms_Model_Category_Changes */
-                $changesObject = Mage::getModel('firegento_flexcms/category_changes')->loadByCategory($category);
+                $changesObject = $this->_getChangesObject($category);
+
                 if ($changesObject->getId()) {
                     $changesObject->delete();
                 }
@@ -173,7 +173,7 @@ class Firegento_FlexCms_Model_Observer
 
         if ($category->getId()) {
             /** @var $changesObject Firegento_FlexCms_Model_Category_Changes */
-            $changesObject = Mage::getModel('firegento_flexcms/category_changes')->loadByCategory($category);
+            $changesObject = $this->_getChangesObject($category);
             if (!$changesObject->getId()) {
                 $changesObject->setCategoryId($category->getId());
                 $changesObject->setStoreId($category->getStoreId());
@@ -230,7 +230,7 @@ class Firegento_FlexCms_Model_Observer
         $category = $observer->getCategory();
         if ($category->getOriginalIsActive()) {
             /** @var $changesObject Firegento_FlexCms_Model_Category_Changes */
-            $changesObject = Mage::getModel('firegento_flexcms/category_changes')->loadByCategory($category);
+            $changesObject = $this->_getChangesObject($category);
             $changesObject->setCategoryId($category->getId());
             $changesObject->setStoreId($category->getStoreId());
             $changesObject->setChanges(array('is_active' => 1));
@@ -275,6 +275,16 @@ class Firegento_FlexCms_Model_Observer
     {
         $block = $observer->getBlock();
         if ($block instanceof Mage_Adminhtml_Block_Catalog_Category_Edit_Form) {
+
+            $block->setChild('save_button',
+                $block->getLayout()->createBlock('adminhtml/widget_button')
+                    ->setData(array(
+                        'label'     => Mage::helper('catalog')->__('Save Draft'),
+                        'onclick'   => "categorySubmit('" . $block->getSaveUrl() . "', true)",
+                        'class' => 'save'
+                    ))
+            );
+
             if ($this->_canPublishCategory() && !$block->getCategory()->isReadonly()) {
                 $block->addAdditionalButton('save_publish_button', array(
                         'label' => Mage::helper('firegento_flexcms')->__('Save and Publish Category'),
@@ -283,16 +293,40 @@ class Firegento_FlexCms_Model_Observer
                     )
                 );
 
-                $block->setChild('save_button',
-                    $block->getLayout()->createBlock('adminhtml/widget_button')
-                        ->setData(array(
-                            'label'     => Mage::helper('catalog')->__('Save Draft'),
-                            'onclick'   => "categorySubmit('" . $block->getSaveUrl() . "', true)",
-                            'class' => 'save'
-                        ))
-                );
+            } else {
 
+                $block->unsetChild('delete_button');
+
+                if ($this->_getChangesObject($block->getCategory())->getId()) {
+                    $label = Mage::helper('firegento_flexcms')->__('Request Publication');
+                    $block->addAdditionalButton('request_publish_button', array(
+                            'label' => $label,
+                            'onclick' => "return categoryRequestPublication('$label')",
+                            'class' => 'show-hide'
+                        )
+                    );
+                }
             }
+
+
+            /** @var $containerBlock Mage_Adminhtml_Block_Text_List */
+            $containerBlock = $block->getLayout()->createBlock('adminhtml/text_list', 'tabs_container');
+            $containerBlock->append($block->getChild('tabs'));
+            $popupBlock = $block->getLayout()->createBlock('firegento_flexcms/adminhtml_catalog_form_popup', 'popup');
+            $popupBlock->setCategory($block->getCategory());
+            $containerBlock->append($popupBlock);
+            $block->setChild('tabs', $containerBlock);
         }
+    }
+
+    /**
+     * @param $category
+     * @return Firegento_FlexCms_Model_Category_Changes
+     */
+    protected function _getChangesObject($category)
+    {
+        /** @var $changesObject Firegento_FlexCms_Model_Category_Changes */
+        $changesObject = Mage::getModel('firegento_flexcms/category_changes')->loadByCategory($category);
+        return $changesObject;
     }
 }

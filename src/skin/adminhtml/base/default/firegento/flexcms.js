@@ -49,3 +49,22 @@ var categoryPublish = function(url, useAjax) {
     form.insert('<input type="hidden" name="publish" value="1" />');
     categorySubmit(url, useAjax);
 };
+
+var categoryRequestPublication = function(label)
+{
+    var popup = new Window({
+        className:'magento',
+        title: label,
+        zIndex:3000,
+        destroyOnClose: true,
+        recenterAuto:false,
+        resizable: false,
+        width:450,
+        height:473,
+        minimizable: false,
+        maximizable: false,
+        draggable: false
+    });
+    popup.setContent('request_publish_popup', false, false);
+    popup.showCenter();
+};

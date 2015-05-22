@@ -10,6 +10,11 @@
                 <file>firegento/flexcms.js</file>
             </action>
         </reference>
+
+        <reference name="content">
+            <block type="adminhtml/template"></block>
+        </reference>
+
         <block type="adminhtml/widget_form_element_dependence" name="flexcms.category.attribute.dependence" alias="form_after">
 
             <action method="addFieldMap">

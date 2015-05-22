@@ -1,0 +1,15 @@
+<?php /** @var Firegento_FlexCms_Block_Adminhtml_Catalog_Form_Popup $this */ ?>
+
+<div id="request_publish_popup" class="firegento-flexcms-popup">
+    <form id="request_publish" action="<?php echo $this->getRequestPublishPostUrl() ?>" method="post">
+        <div class="no-display">
+            <input name="form_key" type="hidden" value="<?php echo $this->getFormKey() ?>" />
+            <input name="category_id" type="hidden" value="<?php echo $this->getCategory()->getId() ?>" />
+        </div>
+        <p class="content-buttons">
+            <button type="submit">
+                <span><span><?php echo $this->__('Send Request') ?></span></span>
+            </button>
+        </p>
+    </form>
+</div>
