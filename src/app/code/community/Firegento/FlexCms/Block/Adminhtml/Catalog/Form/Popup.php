@@ -40,4 +40,16 @@ class Firegento_FlexCms_Block_Adminhtml_Catalog_Form_Popup extends Mage_Adminhtm
     {
         return $this->getUrl('adminhtml/publish/requestPublishPost');
     }
+    
+    public function getPublisherHtmlSelect()
+    {
+        /** @var $block Mage_Adminhtml_Block_Html_Select */
+        $block = $this->getLayout()->createBlock('adminhtml/html_select');
+        $block->setOptions(Mage::getSingleton('firegento_flexcms/source_publisher')->toOptionArray(true));
+        $block->setTitle($this->__('Publisher'));
+        $block->setId('publisher');
+        $block->setName('publisher');
+        
+        return $block->toHtml();
+    }
 }

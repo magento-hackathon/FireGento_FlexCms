@@ -59,8 +59,8 @@ var categoryRequestPublication = function(label)
         destroyOnClose: true,
         recenterAuto:false,
         resizable: false,
-        width:450,
-        height:473,
+        width:490,
+        height:400,
         minimizable: false,
         maximizable: false,
         draggable: false
