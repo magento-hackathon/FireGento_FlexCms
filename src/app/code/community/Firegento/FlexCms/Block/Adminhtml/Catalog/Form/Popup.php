@@ -49,6 +49,11 @@ class Firegento_FlexCms_Block_Adminhtml_Catalog_Form_Popup extends Mage_Adminhtm
         return $this->getUrl('adminhtml/publish/requestPublishPost');
     }
     
+    public function getMessagePostUrl()
+    {
+        return $this->getUrl('adminhtml/publish/messagePost');
+    }
+    
     public function getPublisherHtmlSelect()
     {
         /** @var $block Mage_Adminhtml_Block_Html_Select */
@@ -58,6 +63,19 @@ class Firegento_FlexCms_Block_Adminhtml_Catalog_Form_Popup extends Mage_Adminhtm
         $block->setId('publisher');
         $block->setName('publisher');
         $block->setClass('required-entry');
+        
+        return $block->toHtml();
+    }
+    
+    public function getEditorHtmlSelect()
+    {
+        /** @var $block Mage_Adminhtml_Block_Html_Select */
+        $block = $this->getLayout()->createBlock('adminhtml/html_select');
+        $block->setOptions(Mage::getSingleton('firegento_flexcms/source_editor')->toOptionArray(true));
+        $block->setTitle($this->__('Editor'));
+        $block->setId('editor');
+        $block->setName('editor');
+        $block->setClass('');
         
         return $block->toHtml();
     }

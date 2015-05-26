@@ -76,10 +76,18 @@ class Firegento_FlexCms_Model_Category_Changes_Message extends Varien_Object
     {
         return $this->getData('date');
     }
-    
+
+    /**
+     * @return string
+     * @throws Zend_Date_Exception
+     */
     public function getFormattedDate()
     {
         $date = $this->getDate();
-        return Mage::helper('core')->formatDate($date, Mage_Core_Model_Locale::FORMAT_TYPE_SHORT, true);
+        $originalTimezone = $date->getTimezone();
+        $date->setTimezone(Mage::getStoreConfig('general/locale/timezone'));
+        $formattedDate = Mage::helper('core')->formatDate($date, Mage_Core_Model_Locale::FORMAT_TYPE_SHORT, true);
+        $date->setTimezone($originalTimezone);
+        return $formattedDate;
     }
 }

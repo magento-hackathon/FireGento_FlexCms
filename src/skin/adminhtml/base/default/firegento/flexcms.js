@@ -63,8 +63,27 @@ var categoryRequestPublication = function(label)
         height:400,
         minimizable: false,
         maximizable: false,
-        draggable: false
+        draggable: true
     });
     popup.setContent('request_publish_popup', false, false);
+    popup.showCenter();
+};
+
+var categorySendMessage = function(label)
+{
+    var popup = new Window({
+        className:'magento',
+        title: label,
+        zIndex:3000,
+        destroyOnClose: true,
+        recenterAuto:false,
+        resizable: false,
+        width:490,
+        height:400,
+        minimizable: false,
+        maximizable: false,
+        draggable: true
+    });
+    popup.setContent('message_popup', false, false);
     popup.showCenter();
 };

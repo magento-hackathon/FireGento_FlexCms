@@ -81,7 +81,7 @@ class Firegento_FlexCms_Model_Category_Changes extends Mage_Core_Model_Abstract
     /**
      * @param string $text
      * @param Mage_Admin_Model_User|int|null $adminUser
-     * @param Zend_Date|null $date
+     * @param Zend_Date|string|null $date
      * @return Firegento_FlexCms_Model_Category_Changes
      */
     public function addMessage($text, $adminUser = null, $date = null)
@@ -100,7 +100,10 @@ class Firegento_FlexCms_Model_Category_Changes extends Mage_Core_Model_Abstract
         
         if (is_null($date)) {
             $date = new Zend_Date();
+        } else if (!$date instanceof Zend_Date) {
+            $date = new Zend_Date($date, 'YYYY-MM-dd HH:mm:ss');
         }
+        
         $message->setDate($date);
         
         $this->_messages[] = $message; 

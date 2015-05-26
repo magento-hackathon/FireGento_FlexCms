@@ -56,17 +56,18 @@ class Firegento_FlexCms_Adminhtml_PublishController extends Mage_Adminhtml_Contr
             $translate = Mage::getSingleton('core/translate');
             /* @var $translate Mage_Core_Model_Translate */
             $translate->setTranslateInline(false);
-            try {
-                $data = array(
-                    'current_admin_user' => $currentAdminUser,
-                    'admin_user' => $adminUser,
-                    'category' => $category,
-                    'category_path' => $this->_getCategoryPath($category),
-                    'store' => $store,
-                    'comment' => nl2br($comment),
-                    'url' => $this->getUrl('adminhtml/catalog_category/'),
-                );
 
+            $data = array(
+                'current_admin_user' => $currentAdminUser,
+                'admin_user' => $adminUser,
+                'category' => $category,
+                'category_path' => $this->_getCategoryPath($category),
+                'store' => $store,
+                'comment' => nl2br($comment),
+                'url' => $this->getUrl('adminhtml/catalog_category/'),
+            );
+
+            try {
                 $mailTemplate = Mage::getModel('core/email_template');
                 /* @var $mailTemplate Mage_Core_Model_Email_Template */
                 $mailTemplate->setDesignConfig(array('area' => 'frontend'))
@@ -90,6 +91,87 @@ class Firegento_FlexCms_Adminhtml_PublishController extends Mage_Adminhtml_Contr
                 }
 
                 Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('firegento_flexcms')->__('The request has been sent. The selected user will be notified.'));
+                
+                $this->_redirectReferer();
+                return;
+            } catch (Exception $e) {
+                $translate->setTranslateInline(true);
+
+                Mage::logException($e);
+                Mage::getSingleton('adminhtml/session')->addError(Mage::helper('contacts')->__('Unable to submit your request. Please, try again later'));
+
+                $this->_redirectReferer();
+                return;
+            }
+
+        } else {
+            $this->_redirect('*/*/');
+        }
+    }
+
+    /**
+     *
+     */
+    public function messagePostAction()
+    {
+        $post = $this->getRequest()->getPost();
+        if ( $post ) {
+
+            $categoryId = $this->getRequest()->getParam('category_id');
+            $storeId = $this->getRequest()->getParam('store_id');
+            $store = Mage::app()->getStore($storeId);
+
+            /** @var Mage_Catalog_Model_Category $category */
+            $category = Mage::getModel('catalog/category')->setStoreId($storeId)->load($categoryId);
+
+            $adminUserId = $this->getRequest()->getParam('editor');
+
+            /** @var $adminUser Mage_Admin_Model_User */
+            $adminUser = Mage::getModel('admin/user')->load($adminUserId);
+
+            /** @var $currentAdminUser Mage_Admin_Model_User */
+            $currentAdminUser = Mage::getSingleton('admin/session')->getUser();
+
+            $comment = $this->getRequest()->getParam('comment');
+
+            $translate = Mage::getSingleton('core/translate');
+            /* @var $translate Mage_Core_Model_Translate */
+            $translate->setTranslateInline(false);
+
+            $data = array(
+                'current_admin_user' => $currentAdminUser,
+                'admin_user' => $adminUser,
+                'category' => $category,
+                'category_path' => $this->_getCategoryPath($category),
+                'store' => $store,
+                'comment' => nl2br($comment),
+                'url' => $this->getUrl('adminhtml/catalog_category/'),
+            );
+
+            try {
+                $mailTemplate = Mage::getModel('core/email_template');
+                /* @var $mailTemplate Mage_Core_Model_Email_Template */
+                $mailTemplate->setDesignConfig(array('area' => 'frontend'))
+                    ->setReplyTo($currentAdminUser->getEmail())
+                    ->sendTransactional(
+                        Mage::getStoreConfig('firegento_flexcms/workflow/message_email_template'),
+                        Mage::getStoreConfig('firegento_flexcms/workflow/message_sender_email_identity'),
+                        $adminUser->getEmail(),
+                        $adminUser->getFirstname() . ' ' . $adminUser->getLastname(),
+                        $data
+                    );
+
+                if (!$mailTemplate->getSentSuccess()) {
+                    throw new Exception();
+                }
+
+                $translate->setTranslateInline(true);
+                
+                if ($comment) {
+                    Mage::helper('firegento_flexcms')->getChangesObject($category)->addMessage($comment, $currentAdminUser, new Zend_Date())->save();
+                }
+
+                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('firegento_flexcms')->__('The message has been sent. The selected user will be notified.'));
                 
                 $this->_redirectReferer();
                 return;

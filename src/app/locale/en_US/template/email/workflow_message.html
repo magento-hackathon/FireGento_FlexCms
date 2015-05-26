@@ -1,0 +1,41 @@
+<!--@subject Publication Request for {{var category_path}} @-->
+
+<!--@styles
+@-->
+
+{{template config_path="design/email/header"}}
+{{inlinecss file="email-inline.css"}}
+
+<table cellspacing="0" cellpadding="0" border="0">
+    <tr>
+        <td valign="top">
+            The user {{var admin_user.username}} ({{var admin_user.firstname}} {{var admin_user.lastname}}) 
+            has sent a request for publication to you.
+        </td>
+    </tr>
+    <tr>
+        <td valign="top">
+            Category:
+            {{htmlescape var=$category_path}}
+        </td>
+    </tr>
+    <tr>
+        <td valign="top">
+            Store View:
+            {{var store.name}}
+        </td>
+    </tr>
+    {{if comment}}<tr>
+        <td valign="top">
+            Comment:
+            {{var comment}}
+        </td>
+    </tr>{{/if}}
+    <tr>
+        <td valign="top">
+            <a href="{{var url}}">Login here</a>
+        </td>
+    </tr>
+</table>
+
+{{template config_path="design/email/footer"}}

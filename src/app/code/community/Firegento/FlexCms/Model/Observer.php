@@ -287,7 +287,17 @@ class Firegento_FlexCms_Model_Observer
                     ))
             );
 
+
             if ($this->_canPublishCategory() && !$block->getCategory()->isReadonly()) {
+                
+                $label = Mage::helper('firegento_flexcms')->__('Send Message');
+                $block->addAdditionalButton('message_button', array(
+                        'label' => $label,
+                        'onclick' => "return categorySendMessage('$label')",
+                        'class' => 'go'
+                    )
+                );
+
                 $block->addAdditionalButton('save_publish_button', array(
                         'label' => Mage::helper('firegento_flexcms')->__('Save and Publish Category'),
                         'onclick' => "categoryPublish('" . $block->getSaveUrl() . "', true)",
