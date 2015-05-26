@@ -84,16 +84,22 @@ class Firegento_FlexCms_Adminhtml_PublishController extends Mage_Adminhtml_Contr
                 }
 
                 $translate->setTranslateInline(true);
+                
+                if ($comment) {
+                    $this->_getChangesObject($category)->addMessage($comment, $currentAdminUser)->save();
+                }
 
-                Mage::getSingleton('customer/session')->addSuccess(Mage::helper('firegento_flexcms')->__('The request has been sent. The selected user will be notified.'));
-                echo 1;
-
+                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('firegento_flexcms')->__('The request has been sent. The selected user will be notified.'));
+                
+                $this->_redirectReferer();
                 return;
             } catch (Exception $e) {
                 $translate->setTranslateInline(true);
 
-                Mage::getSingleton('customer/session')->addError(Mage::helper('contacts')->__('Unable to submit your request. Please, try again later'));
-                echo 0;
+                Mage::logException($e);
+                Mage::getSingleton('adminhtml/session')->addError(Mage::helper('contacts')->__('Unable to submit your request. Please, try again later'));
+
+                $this->_redirectReferer();
                 return;
             }
 
@@ -117,5 +123,16 @@ class Firegento_FlexCms_Adminhtml_PublishController extends Mage_Adminhtml_Contr
         }
         
         return implode(' > ', $categoryNames);
+    }
+
+    /**
+     * @param $category
+     * @return Firegento_FlexCms_Model_Category_Changes
+     */
+    protected function _getChangesObject($category)
+    {
+        /** @var $changesObject Firegento_FlexCms_Model_Category_Changes */
+        $changesObject = Mage::getModel('firegento_flexcms/category_changes')->loadByCategory($category);
+        return $changesObject;
     }
 }

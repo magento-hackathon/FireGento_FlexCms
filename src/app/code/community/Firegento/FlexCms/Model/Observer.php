@@ -198,6 +198,7 @@ class Firegento_FlexCms_Model_Observer
                 }
             }
             if (sizeof($changes)) {
+                $changesObject->setAdminUserId($this->_getAdminUserId());
                 $changesObject->setChanges($changes)->save();
             } else {
                 if ($changesObject->getId()) {
@@ -233,6 +234,7 @@ class Firegento_FlexCms_Model_Observer
             $changesObject = $this->_getChangesObject($category);
             $changesObject->setCategoryId($category->getId());
             $changesObject->setStoreId($category->getStoreId());
+            $changesObject->setAdminUserId($this->_getAdminUserId());
             $changesObject->setChanges(array('is_active' => 1));
             $changesObject->save();
         }
@@ -328,5 +330,13 @@ class Firegento_FlexCms_Model_Observer
         /** @var $changesObject Firegento_FlexCms_Model_Category_Changes */
         $changesObject = Mage::getModel('firegento_flexcms/category_changes')->loadByCategory($category);
         return $changesObject;
+    }
+
+    /**
+     * @return int
+     */
+    protected function _getAdminUserId()
+    {
+        return Mage::getSingleton('admin/session')->getUser()->getId();
     }
 }

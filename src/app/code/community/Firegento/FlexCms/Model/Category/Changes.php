@@ -28,6 +28,9 @@
  */
 class Firegento_FlexCms_Model_Category_Changes extends Mage_Core_Model_Abstract
 {
+    /** @var Firegento_FlexCms_Model_Category_Changes_Message[] */
+    protected $_messages = array();
+    
     protected function _construct()
     {
         $this->_init('firegento_flexcms/category_changes');
@@ -36,6 +39,56 @@ class Firegento_FlexCms_Model_Category_Changes extends Mage_Core_Model_Abstract
     public function loadByCategory(Mage_Catalog_Model_Category $category)
     {
         $this->_getResource()->loadByCategory($this, $category->getId(), $category->getStoreId());
+        $this->_afterLoad();
+        return $this;
+    }
+    
+    protected function _afterLoad()
+    {
+        $messages = @unserialize($this->getData('messages'));
+        if (is_array($messages)) {
+            foreach($messages as $message) {
+                $this->addMessage($message['text'], $message['admin_user']);
+            }
+        }
+        return parent::_afterLoad();
+    }
+    
+    protected function _beforeSave()
+    {
+        $messages = array();
+        if (sizeof($this->_messages)) {
+            foreach($this->_messages as $message) {
+                $messages[] = array(
+                    'text' => $message->getText(),
+                    'admin_user' => $message->getAdminUser()->getId(),
+                );
+            }
+        }
+        
+        $this->setData('messages', serialize($messages));
+    }
+
+    /**
+     * @param string $text
+     * @param Mage_Admin_Model_User|int|null $adminUser
+     * @return Firegento_FlexCms_Model_Category_Changes
+     */
+    public function addMessage($text, $adminUser = null)
+    {
+        /** @var $message Firegento_FlexCms_Model_Category_Changes_Message */
+        $message = Mage::getModel('firegento_flexcms/category_changes_message');
+        $message->setText($text);
+        if (is_null($adminUser)) {
+            $message->setAdminUser(Mage::getSingleton('admin/session')->getUser());
+        } else {
+            if (!$adminUser instanceof Mage_Admin_Model_User) {
+                $adminUser = Mage::getModel('admin/user')->load($adminUser);
+            }
+            $message->setAdminUser($adminUser);
+        }
+        
+        $this->_messages[] = $message; 
         return $this;
     }
 }
