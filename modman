@@ -5,6 +5,8 @@ src/app/design/frontend/base/default/layout/firegento/flexcms.xml  app/design/fr
 src/app/design/adminhtml/base/default/template/firegento/flexcms/   app/design/adminhtml/base/default/template/firegento/flexcms/
 src/app/design/frontend/base/default/template/firegento/flexcms/   app/design/frontend/base/default/template/firegento/flexcms/
 src/app/locale/en_US/Firegento_FlexCms.csv	app/locale/en_US/Firegento_FlexCms.csv
+src/app/locale/en_US/template/email/*	app/locale/en_US/template/email/
 src/app/locale/de_DE/Firegento_FlexCms.csv	app/locale/de_DE/Firegento_FlexCms.csv
+src/app/locale/de_DE/template/email/*	app/locale/de_DE/template/email/
 src/skin/adminhtml/base/default/firegento/flexcms.css skin/adminhtml/base/default/firegento/flexcms.css
 src/skin/adminhtml/base/default/firegento/flexcms.js skin/adminhtml/base/default/firegento/flexcms.js

@@ -52,6 +52,15 @@
                 </setup>
             </firegento_flexcms_setup>
         </resources>
+        <template>
+            <email>
+                <firegento_flexcms_workflow_publication_request_email_template translate="label" module="contacts">
+                    <label>Publication Request</label>
+                    <file>publication_request.html</file>
+                    <type>html</type>
+                </firegento_flexcms_workflow_publication_request_email_template>
+            </email>
+        </template>
     </global>
     <frontend>
         <events>
@@ -246,6 +255,10 @@
                     <label>Right Column</label>
                 </right>
             </areas>
+            <workflow>
+                <publication_request_sender_email_identity>custom2</publication_request_sender_email_identity>
+                <publication_request_email_template>firegento_flexcms_workflow_publication_request_email_template</publication_request_email_template>
+            </workflow>
         </firegento_flexcms>
     </default>
     <phpunit>
