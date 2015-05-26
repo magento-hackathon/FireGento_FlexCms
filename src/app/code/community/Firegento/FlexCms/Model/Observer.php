@@ -159,7 +159,7 @@ class Firegento_FlexCms_Model_Observer
 
         if ($this->_shouldPublishCategory()) {
             if ($category->getId()) {
-                $changesObject = $this->_getChangesObject($category);
+                $changesObject = Mage::helper('firegento_flexcms')->getChangesObject($category);
 
                 if ($changesObject->getId()) {
                     $changesObject->delete();
@@ -173,7 +173,7 @@ class Firegento_FlexCms_Model_Observer
 
         if ($category->getId()) {
             /** @var $changesObject Firegento_FlexCms_Model_Category_Changes */
-            $changesObject = $this->_getChangesObject($category);
+            $changesObject = Mage::helper('firegento_flexcms')->getChangesObject($category);
             if (!$changesObject->getId()) {
                 $changesObject->setCategoryId($category->getId());
                 $changesObject->setStoreId($category->getStoreId());
@@ -231,7 +231,7 @@ class Firegento_FlexCms_Model_Observer
         $category = $observer->getCategory();
         if ($category->getOriginalIsActive()) {
             /** @var $changesObject Firegento_FlexCms_Model_Category_Changes */
-            $changesObject = $this->_getChangesObject($category);
+            $changesObject = Mage::helper('firegento_flexcms')->getChangesObject($category);
             $changesObject->setCategoryId($category->getId());
             $changesObject->setStoreId($category->getStoreId());
             $changesObject->setAdminUserId($this->_getAdminUserId());
@@ -299,7 +299,7 @@ class Firegento_FlexCms_Model_Observer
 
                 $block->unsetChild('delete_button');
 
-                if ($this->_getChangesObject($block->getCategory())->getId()) {
+                if (Mage::helper('firegento_flexcms')->getChangesObject($block->getCategory())->getId()) {
                     $label = Mage::helper('firegento_flexcms')->__('Request Publication');
                     $block->addAdditionalButton('request_publish_button', array(
                             'label' => $label,
@@ -313,23 +313,12 @@ class Firegento_FlexCms_Model_Observer
 
             /** @var $containerBlock Mage_Adminhtml_Block_Text_List */
             $containerBlock = $block->getLayout()->createBlock('adminhtml/text_list', 'tabs_container');
-            $containerBlock->append($block->getChild('tabs'));
             $popupBlock = $block->getLayout()->createBlock('firegento_flexcms/adminhtml_catalog_form_popup', 'popup');
             $popupBlock->setCategory($block->getCategory());
             $containerBlock->append($popupBlock);
+            $containerBlock->append($block->getChild('tabs'));
             $block->setChild('tabs', $containerBlock);
         }
-    }
-
-    /**
-     * @param $category
-     * @return Firegento_FlexCms_Model_Category_Changes
-     */
-    protected function _getChangesObject($category)
-    {
-        /** @var $changesObject Firegento_FlexCms_Model_Category_Changes */
-        $changesObject = Mage::getModel('firegento_flexcms/category_changes')->loadByCategory($category);
-        return $changesObject;
     }
 
     /**

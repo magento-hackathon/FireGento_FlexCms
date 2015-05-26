@@ -90,5 +90,15 @@ class Firegento_FlexCms_Helper_Data extends Mage_Core_Helper_Abstract
 
         return $this->_contentElementArray;
     }
-
+    
+    /**
+     * @param $category
+     * @return Firegento_FlexCms_Model_Category_Changes
+     */
+    public function getChangesObject($category)
+    {
+        /** @var $changesObject Firegento_FlexCms_Model_Category_Changes */
+        $changesObject = Mage::getModel('firegento_flexcms/category_changes')->loadByCategory($category);
+        return $changesObject;
+    }
 }

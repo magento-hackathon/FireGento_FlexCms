@@ -86,7 +86,7 @@ class Firegento_FlexCms_Adminhtml_PublishController extends Mage_Adminhtml_Contr
                 $translate->setTranslateInline(true);
                 
                 if ($comment) {
-                    $this->_getChangesObject($category)->addMessage($comment, $currentAdminUser)->save();
+                    Mage::helper('firegento_flexcms')->getChangesObject($category)->addMessage($comment, $currentAdminUser)->save();
                 }
 
                 Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('firegento_flexcms')->__('The request has been sent. The selected user will be notified.'));
@@ -123,16 +123,5 @@ class Firegento_FlexCms_Adminhtml_PublishController extends Mage_Adminhtml_Contr
         }
         
         return implode(' > ', $categoryNames);
-    }
-
-    /**
-     * @param $category
-     * @return Firegento_FlexCms_Model_Category_Changes
-     */
-    protected function _getChangesObject($category)
-    {
-        /** @var $changesObject Firegento_FlexCms_Model_Category_Changes */
-        $changesObject = Mage::getModel('firegento_flexcms/category_changes')->loadByCategory($category);
-        return $changesObject;
     }
 }

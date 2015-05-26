@@ -48,7 +48,7 @@ class Firegento_FlexCms_Model_Category_Changes extends Mage_Core_Model_Abstract
         $messages = @unserialize($this->getData('messages'));
         if (is_array($messages)) {
             foreach($messages as $message) {
-                $this->addMessage($message['text'], $message['admin_user']);
+                $this->addMessage($message['text'], $message['admin_user'], $message['date']);
             }
         }
         return parent::_afterLoad();
@@ -62,6 +62,7 @@ class Firegento_FlexCms_Model_Category_Changes extends Mage_Core_Model_Abstract
                 $messages[] = array(
                     'text' => $message->getText(),
                     'admin_user' => $message->getAdminUser()->getId(),
+                    'date' => $message->getDate()->get('YYYY-MM-dd HH:mm:ss'),
                 );
             }
         }
@@ -70,11 +71,20 @@ class Firegento_FlexCms_Model_Category_Changes extends Mage_Core_Model_Abstract
     }
 
     /**
+     * @return Firegento_FlexCms_Model_Category_Changes_Message[]
+     */
+    public function getMessages()
+    {
+        return $this->_messages;
+    }
+
+    /**
      * @param string $text
      * @param Mage_Admin_Model_User|int|null $adminUser
+     * @param Zend_Date|null $date
      * @return Firegento_FlexCms_Model_Category_Changes
      */
-    public function addMessage($text, $adminUser = null)
+    public function addMessage($text, $adminUser = null, $date = null)
     {
         /** @var $message Firegento_FlexCms_Model_Category_Changes_Message */
         $message = Mage::getModel('firegento_flexcms/category_changes_message');
@@ -87,6 +97,11 @@ class Firegento_FlexCms_Model_Category_Changes extends Mage_Core_Model_Abstract
             }
             $message->setAdminUser($adminUser);
         }
+        
+        if (is_null($date)) {
+            $date = new Zend_Date();
+        }
+        $message->setDate($date);
         
         $this->_messages[] = $message; 
         return $this;

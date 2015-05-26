@@ -36,6 +36,14 @@ class Firegento_FlexCms_Block_Adminhtml_Catalog_Form_Popup extends Mage_Adminhtm
         $this->setTemplate('firegento/flexcms/popup.phtml');
     }
 
+    /**
+     * @return Firegento_FlexCms_Model_Category_Changes_Message[]
+     */
+    public function getMessages()
+    {
+        return Mage::helper('firegento_flexcms')->getChangesObject($this->getCategory())->getMessages();
+    }
+
     public function getRequestPublishPostUrl()
     {
         return $this->getUrl('adminhtml/publish/requestPublishPost');

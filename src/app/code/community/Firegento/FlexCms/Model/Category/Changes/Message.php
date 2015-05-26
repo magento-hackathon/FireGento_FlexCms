@@ -60,4 +60,26 @@ class Firegento_FlexCms_Model_Category_Changes_Message extends Varien_Object
     {
         return $this->getData('text');
     }
+    
+    /**
+     * @param Zend_Date $date
+     */
+    public function setDate($date)
+    {
+        $this->setData('date', $date);
+    }
+
+    /**
+     * @return Zend_Date
+     */
+    public function getDate()
+    {
+        return $this->getData('date');
+    }
+    
+    public function getFormattedDate()
+    {
+        $date = $this->getDate();
+        return Mage::helper('core')->formatDate($date, Mage_Core_Model_Locale::FORMAT_TYPE_SHORT, true);
+    }
 }
