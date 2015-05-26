@@ -49,6 +49,7 @@ class Firegento_FlexCms_Block_Adminhtml_Catalog_Form_Popup extends Mage_Adminhtm
         $block->setTitle($this->__('Publisher'));
         $block->setId('publisher');
         $block->setName('publisher');
+        $block->setClass('required-entry');
         
         return $block->toHtml();
     }

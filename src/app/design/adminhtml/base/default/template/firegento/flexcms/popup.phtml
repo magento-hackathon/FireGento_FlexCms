@@ -5,13 +5,14 @@
         <div class="no-display">
             <input name="form_key" type="hidden" value="<?php echo $this->getFormKey() ?>" />
             <input name="category_id" type="hidden" value="<?php echo $this->getCategory()->getId() ?>" />
+            <input name="store_id" type="hidden" value="<?php echo $this->getCategory()->getStoreId() ?>" />
         </div>
         <div class="fieldset">
             <table cellspacing="0" class="form-list">
                 <tbody>
                 <tr>
                     <td class="label">
-                        <label for="publisher"><?php echo $this->__('Send Request to') ?>:</label>
+                        <label for="publisher"><?php echo $this->__('Send Request to') ?>:<span class="required">*</span></label>
                     </td>
                     <td class="value">
                         <?php echo $this->getPublisherHtmlSelect() ?>
@@ -22,7 +23,7 @@
                         <label for="comment"><?php echo $this->__('Comment') ?>:</label>
                     </td>
                     <td class="value">
-                        <textarea name="comment" id="comment" cols="5"></textarea>
+                        <textarea name="comment" id="comment"></textarea>
                     </td>
                 </tr>
                 </tbody>
@@ -35,3 +36,7 @@
         </p>
     </form>
 </div>
+
+<script type="text/javascript">
+    var requestPublishForm = new varienForm('request_publish');
+</script>
