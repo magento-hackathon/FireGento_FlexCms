@@ -36,7 +36,11 @@ class Firegento_FlexCms_Model_Category_Changes extends Mage_Core_Model_Abstract
         $this->_init('firegento_flexcms/category_changes');
     }
 
-    public function loadByCategory(Mage_Catalog_Model_Category $category)
+    /**
+     * @param Mage_Catalog_Model_Category|Varien_Data_Tree_Node $category
+     * @return $this
+     */
+    public function loadByCategory($category)
     {
         $this->_getResource()->loadByCategory($this, $category->getId(), $category->getStoreId());
         $this->_afterLoad();

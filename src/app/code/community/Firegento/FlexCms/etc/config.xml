@@ -13,6 +13,7 @@
             <adminhtml>
                 <rewrite>
                     <catalog_form_renderer_fieldset_element>Firegento_FlexCms_Block_Adminhtml_Catalog_Form_Renderer_Fieldset_Element</catalog_form_renderer_fieldset_element>
+                    <catalog_form_renderer_attribute_urlkey>Firegento_FlexCms_Block_Adminhtml_Catalog_Form_Renderer_Attribute_Urlkey</catalog_form_renderer_attribute_urlkey>
                     <catalog_category_tree>Firegento_FlexCms_Block_Adminhtml_Catalog_Category_Tree</catalog_category_tree>
                     <widget_form_renderer_fieldset>Firegento_FlexCms_Block_Adminhtml_Catalog_Form_Renderer_Fieldset</widget_form_renderer_fieldset>
                 </rewrite>
