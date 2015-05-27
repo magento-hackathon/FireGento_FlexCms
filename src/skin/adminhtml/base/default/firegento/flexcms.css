@@ -72,3 +72,7 @@
 #category-edit-container .firegento-flexcms-popup {
     display: none;
 }
+
+.x-tree-node .has-workflow-changes a span, .x-dd-drag-ghost .has-workflow-changes a span {
+    color: blue;
+}
