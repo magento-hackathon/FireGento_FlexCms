@@ -84,6 +84,7 @@ class Firegento_FlexCms_Adminhtml_FlexcmsController extends Mage_Adminhtml_Contr
 
         $content->setData(array(
             'content_type' => $elementType,
+            'is_active' => false,
         ));
 
         $content->save();

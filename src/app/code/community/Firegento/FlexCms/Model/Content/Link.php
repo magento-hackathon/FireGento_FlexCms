@@ -40,7 +40,21 @@ class Firegento_FlexCms_Model_Content_Link extends Mage_Core_Model_Abstract
     public function getContentModel($asDraft = false)
     {
         if ($asDraft) {
-            return Mage::getModel('firegento_flexcms/content')->load($this->getDraftContentId())->setStoreId($this->getStoreId());
+            $draftContentModel = Mage::getModel('firegento_flexcms/content')->load($this->getDraftContentId())->setStoreId($this->getStoreId());
+            if (!$draftContentModel->getId()) {
+                $contentModel = $this->getContentModel();
+                $draftContentModel->addData(array(
+                    'content_type' => $contentModel->getContentType(),
+                    'title' => $contentModel->getTitle(),
+                    'is_active' => $contentModel->getIsActive(),
+                    'is_reusable' => $contentModel->getIsReusable(),
+                    'content' => $contentModel->getContent(),   
+                    'store_id' => $contentModel->getStoreId(),
+                ));
+                $draftContentModel->save();
+                $this->setDraftContentId($draftContentModel->getId());
+            }
+            return $draftContentModel;
         }
         return Mage::getModel('firegento_flexcms/content')->load($this->getContentId())->setStoreId($this->getStoreId());
     }

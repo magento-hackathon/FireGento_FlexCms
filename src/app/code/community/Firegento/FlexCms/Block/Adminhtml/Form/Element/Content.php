@@ -108,6 +108,9 @@ class Firegento_FlexCms_Block_Adminhtml_Form_Element_Content extends Varien_Data
         $element = new $className($config);
         $element->setId($elementId);
         $element->setForm($this->_getForm());
+        $element->setRenderer(
+            Mage::app()->getLayout()->createBlock('firegento_flexcms/adminhtml_form_renderer_element')
+        );
         return $element;
     }
 
