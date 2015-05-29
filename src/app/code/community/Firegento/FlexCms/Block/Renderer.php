@@ -109,7 +109,9 @@ class Firegento_FlexCms_Block_Renderer extends Mage_Core_Block_Template
                 continue;
             }
 
-            $this->_contentElements[$order] = $link;
+            if ($link->getIsActive()) {
+                $this->_contentElements[$order] = $link;
+            }
         }
 
         // sort content elements by sort order

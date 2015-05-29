@@ -244,13 +244,25 @@ class Firegento_FlexCms_Block_Adminhtml_Form_Element_Content extends Varien_Data
             )
         );
         $elements[] = $this->_getField(
+            'flexcms_content_link_' . $link->getId() . '_field_is_active',
+            'checkbox',
+            array(
+                'label' => Mage::helper('firegento_flexcms')->__('Is active'),
+                'name' => 'flexcms_element[' . $link->getId() . '][is_active]',
+                'class' => 'flexcms_element flexcms_element_is_active',
+                'value' => 1,
+                'checked' => intval($link->getIsActive())
+            )
+        );
+        $elements[] = $this->_getField(
             'flexcms_content_link_' . $link->getId() . '_field_delete',
             'checkbox',
             array(
                 'label' => Mage::helper('firegento_flexcms')->__('Delete this element'),
                 'name' => 'flexcms_element[' . $link->getId() . '][delete]',
                 'class' => 'flexcms_element flexcms_element_delete',
-                'value' => 1
+                'value' => 1,
+                'checked' => intval($link->getIsDeleted())
             )
         );
 

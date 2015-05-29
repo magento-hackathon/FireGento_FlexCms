@@ -79,7 +79,7 @@ class Firegento_FlexCms_Model_Observer
 
             $contentLink = Mage::getModel('firegento_flexcms/content_link')->load($linkId);
 
-            $contentLink->updateFields($fields);
+            $contentLink->updateFields($fields, !$this->_shouldPublishCategory());
         }
     }
 

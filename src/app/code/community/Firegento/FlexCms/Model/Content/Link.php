@@ -34,10 +34,14 @@ class Firegento_FlexCms_Model_Content_Link extends Mage_Core_Model_Abstract
     }
 
     /**
+     * @param boolean $asDraft
      * @return Firegento_FlexCms_Model_Content
      */
-    public function getContentModel()
+    public function getContentModel($asDraft = false)
     {
+        if ($asDraft) {
+            return Mage::getModel('firegento_flexcms/content')->load($this->getDraftContentId())->setStoreId($this->getStoreId());
+        }
         return Mage::getModel('firegento_flexcms/content')->load($this->getContentId())->setStoreId($this->getStoreId());
     }
 
@@ -64,21 +68,30 @@ class Firegento_FlexCms_Model_Content_Link extends Mage_Core_Model_Abstract
     /**
      * Update fields of link or content element depending on form entries
      *
-     * @param $fields array($fieldName => $fieldValue)
+     * @param array $fields array($fieldName => $fieldValue)
+     * @param boolean $asDraft
      */
-    public function updateFields($fields)
+    public function updateFields($fields, $asDraft = false)
     {
+        $contentElement = $this->getContentModel($asDraft);
+
         if (array_key_exists('delete', $fields)) {
-            $this->_delete();
+            if ($asDraft) {
+                $contentElement->setIsDeleted(true)->save();
+            } else {
+                $this->_delete();
+            }
             return;
+        }
+        
+        if (!array_key_exists('is_active', $fields)) {
+            $contentElement->setIsActive(0);
         }
 
         if ($storeId = Mage::app()->getRequest()->getParam('store')) {
             $this->setStoreId($storeId);
         }
         
-        $contentElement = $this->getContentModel();
-
         $content = array();
         $isReusable = false;
         foreach ($fields as $fieldName => $fieldValue) {
@@ -87,6 +100,8 @@ class Firegento_FlexCms_Model_Content_Link extends Mage_Core_Model_Abstract
                 $contentElement->setTitle($fieldValue);
             } elseif ($fieldName == 'sort_order') {
                 $this->setSortOrder($fieldValue);
+            } elseif ($fieldName == 'is_active') {
+                $contentElement->setIsActive(boolval($fieldValue));
             } elseif ($fieldName == 'is_reusable') {
                 $isReusable = boolval($fieldValue);
             } else {
