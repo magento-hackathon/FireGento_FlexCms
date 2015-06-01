@@ -94,9 +94,10 @@ class Firegento_FlexCms_Block_Adminhtml_Form_Element_Content extends Varien_Data
      * @param   string $elementId
      * @param   string $type
      * @param   array $config
+     * @param   Firegento_FlexCms_Model_Content_Link $link
      * @return Varien_Data_Form_Element_Abstract
      */
-    protected function _getField($elementId, $type, $config)
+    protected function _getField($elementId, $type, $config, $link)
     {
         if (isset($this->_types[$type])) {
             $className = $this->_types[$type];
@@ -109,7 +110,7 @@ class Firegento_FlexCms_Block_Adminhtml_Form_Element_Content extends Varien_Data
         $element->setId($elementId);
         $element->setForm($this->_getForm());
         $element->setRenderer(
-            Mage::app()->getLayout()->createBlock('firegento_flexcms/adminhtml_form_renderer_element')
+            Mage::app()->getLayout()->createBlock('firegento_flexcms/adminhtml_form_renderer_element')->setLink($link)
         );
         return $element;
     }
@@ -162,7 +163,8 @@ class Firegento_FlexCms_Block_Adminhtml_Form_Element_Content extends Varien_Data
                 'name' => 'flexcms_element[' . $link->getId() . '][title]',
                 'value' => $link->getTitle(),
                 'class' => 'flexcms_element flexcms_element_title',
-            )
+            ),
+            $link
         );
 
         $contentType = $link->getContentType();
@@ -221,7 +223,8 @@ class Firegento_FlexCms_Block_Adminhtml_Form_Element_Content extends Varien_Data
                 $elements[] = $this->_getField(
                     'flexcms_content_link_' . $link->getId() . '_field_' . $fieldCode,
                     $fieldConfig['frontend_type'],
-                    $elementConfig
+                    $elementConfig,
+                    $link
                 );
             }
         }
@@ -233,7 +236,8 @@ class Firegento_FlexCms_Block_Adminhtml_Form_Element_Content extends Varien_Data
                 'name' => 'flexcms_element[' . $link->getId() . '][sort_order]',
                 'class' => 'flexcms_element flexcms_element_sort_order',
                 'value' => intval($link->getSortOrder()),
-            )
+            ),
+            $link
         );
         $elements[] = $this->_getField(
             'flexcms_content_link_' . $link->getId() . '_field_is_reusable',
@@ -244,7 +248,8 @@ class Firegento_FlexCms_Block_Adminhtml_Form_Element_Content extends Varien_Data
                 'class' => 'flexcms_element flexcms_element_is_reusable',
                 'value' => 1,
                 'checked' => intval($link->getIsReusable())
-            )
+            ),
+            $link
         );
         $elements[] = $this->_getField(
             'flexcms_content_link_' . $link->getId() . '_field_is_active',
@@ -255,7 +260,8 @@ class Firegento_FlexCms_Block_Adminhtml_Form_Element_Content extends Varien_Data
                 'class' => 'flexcms_element flexcms_element_is_active',
                 'value' => 1,
                 'checked' => intval($link->getIsActive())
-            )
+            ),
+            $link
         );
         $elements[] = $this->_getField(
             'flexcms_content_link_' . $link->getId() . '_field_delete',
@@ -266,7 +272,8 @@ class Firegento_FlexCms_Block_Adminhtml_Form_Element_Content extends Varien_Data
                 'class' => 'flexcms_element flexcms_element_delete',
                 'value' => 1,
                 'checked' => intval($link->getIsDeleted())
-            )
+            ),
+            $link
         );
 
         return $elements;

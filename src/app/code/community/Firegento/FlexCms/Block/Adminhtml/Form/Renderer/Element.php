@@ -33,11 +33,47 @@ class Firegento_FlexCms_Block_Adminhtml_Form_Renderer_Element extends Mage_Admin
         $this->setTemplate('firegento/flexcms/element/renderer.phtml');
     }
 
+    public function getLink()
+    {
+        return $this->getData('link');
+    }
+
     /**
      * @return Varien_Data_Form_Element_Abstract
      */
     public function getElement()
     {
         return $this->_element;
+    }
+
+    /**
+     * Retrieve element html
+     *
+     * @return string
+     */
+    public function getPublishedElementHtml()
+    {
+        $origData = $this->getElement()->getData();
+        $this->getElement()->setDisabled(true);
+        $this->getElement()->setData('html_id', 'published_' . $this->getElement()->getData('html_id'));
+        $this->getElement()->setData('name', 'published_' . $this->getElement()->getData('name'));
+        $elementHtml = $this->getElement()->getElementHtml();
+        $this->getElement()->addData($origData);
+        return $elementHtml;
+    }
+
+    /**
+     * Retrieve element html
+     *
+     * @return string
+     */
+    public function getDraftElementHtml()
+    {
+        $value = $this->getLink()->getData($this->getElement()->getData('name'));
+        if (!is_null($value)) {
+            $this->getElement()->setValue($value);
+        }
+        $this->getElement()->setDisabled(false);
+        return $this->getElement()->getElementHtml();
     }
 }

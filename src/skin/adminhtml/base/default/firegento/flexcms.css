@@ -69,6 +69,14 @@
     padding-top: 10px;
 }
 
+.flexcms_element .field-row-draft input.input-text {
+    width: 30% !important;
+    margin-right: 10px;
+}
+
+.flexcms_element .field-row-draft .flexcms_element_editor {
+}
+
 #category-edit-container .firegento-flexcms-popup {
     display: none;
 }
