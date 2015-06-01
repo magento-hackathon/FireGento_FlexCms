@@ -133,6 +133,14 @@ class Firegento_FlexCms_Model_Content_Link extends Mage_Core_Model_Abstract
             ->setContent($content)
             ->setIsReusable($isReusable)
             ->save();
+
+        if (!$asDraft) {
+            $draftContentElement = $this->getContentModel(true);
+            if ($draftContentElement->getId()) {
+                $draftContentElement->delete();
+                $this->setDraftContentId(null);
+            }
+        }
         
         $this->save();
     }
