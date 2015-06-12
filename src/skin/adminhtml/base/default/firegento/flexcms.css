@@ -74,6 +74,11 @@
     margin-right: 10px;
 }
 
+.flexcms_element .field-row-draft input[type=checkbox] {
+    width: 30% !important;
+    margin-right: 10px;
+}
+
 .flexcms_element .field-row-draft .flexcms_element_editor {
 }
 

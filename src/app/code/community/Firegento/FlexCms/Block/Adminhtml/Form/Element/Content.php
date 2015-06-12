@@ -165,7 +165,7 @@ class Firegento_FlexCms_Block_Adminhtml_Form_Element_Content extends Varien_Data
                 'class' => 'flexcms_element flexcms_element_title',
             ),
             $link
-        );
+        )->setFieldCode('title');
 
         $contentType = $link->getContentType();
         $contentTypeConfig = Mage::getStoreConfig('firegento_flexcms/types/' . $contentType);
@@ -225,7 +225,7 @@ class Firegento_FlexCms_Block_Adminhtml_Form_Element_Content extends Varien_Data
                     $fieldConfig['frontend_type'],
                     $elementConfig,
                     $link
-                );
+                )->setFieldCode($fieldCode);
             }
         }
         $elements[] = $this->_getField(
@@ -238,7 +238,7 @@ class Firegento_FlexCms_Block_Adminhtml_Form_Element_Content extends Varien_Data
                 'value' => intval($link->getSortOrder()),
             ),
             $link
-        );
+        )->setFieldCode('sort_order');
         $elements[] = $this->_getField(
             'flexcms_content_link_' . $link->getId() . '_field_is_reusable',
             'checkbox',
@@ -250,7 +250,7 @@ class Firegento_FlexCms_Block_Adminhtml_Form_Element_Content extends Varien_Data
                 'checked' => intval($link->getIsReusable())
             ),
             $link
-        );
+        )->setFieldCode('is_reusable');
         $elements[] = $this->_getField(
             'flexcms_content_link_' . $link->getId() . '_field_is_active',
             'checkbox',
@@ -262,7 +262,7 @@ class Firegento_FlexCms_Block_Adminhtml_Form_Element_Content extends Varien_Data
                 'checked' => intval($link->getIsActive())
             ),
             $link
-        );
+        )->setFieldCode('is_active');
         $elements[] = $this->_getField(
             'flexcms_content_link_' . $link->getId() . '_field_delete',
             'checkbox',
@@ -274,7 +274,7 @@ class Firegento_FlexCms_Block_Adminhtml_Form_Element_Content extends Varien_Data
                 'checked' => intval($link->getIsDeleted())
             ),
             $link
-        );
+        )->setFieldCode('delete');
 
         return $elements;
     }

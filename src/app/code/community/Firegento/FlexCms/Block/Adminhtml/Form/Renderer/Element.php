@@ -69,11 +69,56 @@ class Firegento_FlexCms_Block_Adminhtml_Form_Renderer_Element extends Mage_Admin
      */
     public function getDraftElementHtml()
     {
-        $value = $this->getLink()->getData($this->getElement()->getData('name'));
+        $value = $this->getDraftValue();
         if (!is_null($value)) {
-            $this->getElement()->setValue($value);
+            if ($this->getElement()->getType() == 'checkbox') {
+                $this->getElement()->setChecked($value);
+            } else {
+                $this->getElement()->setValue($value);
+            }
         }
         $this->getElement()->setDisabled(false);
         return $this->getElement()->getElementHtml();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPublishedValue()
+    {
+        return $this->getElement()->getValue();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDraftValue()
+    {
+        $content = Mage::getModel('firegento_flexcms/content')->load($this->getLink()->getDraftContentId());
+        $fieldCode = $this->getElement()->getFieldCode();
+        $value = $content->getData($fieldCode);
+        if (is_null($value)) {
+            $contentArray = $content->getContent();
+            if (isset($contentArray[$fieldCode])) {
+                $value = $contentArray[$fieldCode];
+            }
+        }
+        return $value;
+    }
+
+    public function showBothFields()
+    {
+        if (is_null($this->getDraftValue())) {
+            return false;
+        }
+        if ($this->getPublishedValue() != $this->getDraftValue()) {
+            return true;
+        }
+        if ($this->getElement()->getType() == 'checkbox') {
+            if ($this->getElement()->getChecked() != $this->getDraftValue()) {
+                return true;
+            }
+        }
+        return false;
     }
 }
