@@ -38,7 +38,7 @@ class Firegento_FlexCms_Block_Renderer extends Mage_Core_Block_Template
      */
     protected $_layoutHandles = array('default');
 
-    /* @var Firegento_FlexCms_Model_Resource_Content_Link_Collection */
+    /* @var Firegento_FlexCms_Model_Content_Link[] */
     protected $_contentElements = array();
 
     /**
@@ -109,7 +109,9 @@ class Firegento_FlexCms_Block_Renderer extends Mage_Core_Block_Template
                 continue;
             }
 
-            $this->_contentElements[$order] = $link;
+            if ($link->getIsActive()) {
+                $this->_contentElements[$order] = $link;
+            }
         }
 
         // sort content elements by sort order

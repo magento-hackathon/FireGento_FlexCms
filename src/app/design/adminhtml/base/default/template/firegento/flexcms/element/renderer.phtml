@@ -1,0 +1,23 @@
+<?php /** @var Firegento_FlexCms_Block_Adminhtml_Form_Renderer_Element $this */ ?>
+
+<?php $_element = $this->getElement() ?>
+<?php if (!$this->showBothFields()): ?>
+    <?php if($_element->getNoSpan() !== true): ?>
+        <span class="field-row">
+    <?php endif; ?>
+    <?php echo $_element->getLabelHtml() ?>
+    <?php echo trim($this->getDraftElementHtml()) ?>
+    <?php if($_element->getNoSpan() !== true): ?>
+        </span>
+    <?php endif; ?>
+<?php else: ?>
+    <?php if($_element->getNoSpan() !== true): ?>
+        <span class="field-row field-row-draft">
+    <?php endif; ?>
+    <?php echo $_element->getLabelHtml() ?>
+    <?php echo trim($this->getPublishedElementHtml()) ?>
+    <?php echo trim($this->getDraftElementHtml()) ?>
+    <?php if($_element->getNoSpan() !== true): ?>
+        </span>
+    <?php endif; ?>
+<?php endif; ?>

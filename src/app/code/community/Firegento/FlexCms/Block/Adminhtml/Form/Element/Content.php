@@ -94,9 +94,10 @@ class Firegento_FlexCms_Block_Adminhtml_Form_Element_Content extends Varien_Data
      * @param   string $elementId
      * @param   string $type
      * @param   array $config
+     * @param   Firegento_FlexCms_Model_Content_Link $link
      * @return Varien_Data_Form_Element_Abstract
      */
-    protected function _getField($elementId, $type, $config)
+    protected function _getField($elementId, $type, $config, $link)
     {
         if (isset($this->_types[$type])) {
             $className = $this->_types[$type];
@@ -108,6 +109,9 @@ class Firegento_FlexCms_Block_Adminhtml_Form_Element_Content extends Varien_Data
         $element = new $className($config);
         $element->setId($elementId);
         $element->setForm($this->_getForm());
+        $element->setRenderer(
+            Mage::app()->getLayout()->createBlock('firegento_flexcms/adminhtml_form_renderer_element')->setLink($link)
+        );
         return $element;
     }
 
@@ -159,8 +163,9 @@ class Firegento_FlexCms_Block_Adminhtml_Form_Element_Content extends Varien_Data
                 'name' => 'flexcms_element[' . $link->getId() . '][title]',
                 'value' => $link->getTitle(),
                 'class' => 'flexcms_element flexcms_element_title',
-            )
-        );
+            ),
+            $link
+        )->setFieldCode('title');
 
         $contentType = $link->getContentType();
         $contentTypeConfig = Mage::getStoreConfig('firegento_flexcms/types/' . $contentType);
@@ -218,10 +223,12 @@ class Firegento_FlexCms_Block_Adminhtml_Form_Element_Content extends Varien_Data
                 $elements[] = $this->_getField(
                     'flexcms_content_link_' . $link->getId() . '_field_' . $fieldCode,
                     $fieldConfig['frontend_type'],
-                    $elementConfig
-                );
+                    $elementConfig,
+                    $link
+                )->setFieldCode($fieldCode);
             }
         }
+        
         $elements[] = $this->_getField(
             'flexcms_content_link_' . $link->getId() . '_field_sort_order',
             'text',
@@ -230,8 +237,10 @@ class Firegento_FlexCms_Block_Adminhtml_Form_Element_Content extends Varien_Data
                 'name' => 'flexcms_element[' . $link->getId() . '][sort_order]',
                 'class' => 'flexcms_element flexcms_element_sort_order',
                 'value' => intval($link->getSortOrder()),
-            )
-        );
+            ),
+            $link
+        )->setFieldCode('sort_order');
+        
         $elements[] = $this->_getField(
             'flexcms_content_link_' . $link->getId() . '_field_is_reusable',
             'checkbox',
@@ -241,8 +250,23 @@ class Firegento_FlexCms_Block_Adminhtml_Form_Element_Content extends Varien_Data
                 'class' => 'flexcms_element flexcms_element_is_reusable',
                 'value' => 1,
                 'checked' => intval($link->getIsReusable())
-            )
-        );
+            ),
+            $link
+        )->setFieldCode('is_reusable');
+        
+        $elements[] = $this->_getField(
+            'flexcms_content_link_' . $link->getId() . '_field_is_active',
+            'checkbox',
+            array(
+                'label' => Mage::helper('firegento_flexcms')->__('Is active'),
+                'name' => 'flexcms_element[' . $link->getId() . '][is_active]',
+                'class' => 'flexcms_element flexcms_element_is_active',
+                'value' => 1,
+                'checked' => intval($link->getIsActive())
+            ),
+            $link
+        )->setFieldCode('is_active');
+        
         $elements[] = $this->_getField(
             'flexcms_content_link_' . $link->getId() . '_field_delete',
             'checkbox',
@@ -250,9 +274,11 @@ class Firegento_FlexCms_Block_Adminhtml_Form_Element_Content extends Varien_Data
                 'label' => Mage::helper('firegento_flexcms')->__('Delete this element'),
                 'name' => 'flexcms_element[' . $link->getId() . '][delete]',
                 'class' => 'flexcms_element flexcms_element_delete',
-                'value' => 1
-            )
-        );
+                'value' => 1,
+                'checked' => intval($link->getIsDeleted())
+            ),
+            $link
+        )->setFieldCode('is_deleted');
 
         return $elements;
     }

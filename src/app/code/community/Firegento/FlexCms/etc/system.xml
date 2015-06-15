@@ -2,7 +2,7 @@
 <config>
     <sections>
         <firegento_flexcms module="firegento_flexcms" translate="label">
-            <label>FlexCms Settings</label>
+            <label>FlexCms</label>
             <tab>general</tab>
             <sort_order>10000</sort_order>
             <show_in_default>1</show_in_default>
@@ -21,6 +21,49 @@
                         </default_mode>
                     </fields>
                 </general>
+                <workflow translate="label">
+                    <label>Workflow</label>
+                    <sort_order>110</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <fields>
+                        <publication_request_sender_email_identity translate="label">
+                            <label>Publication Request Email Sender</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_email_identity</source_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </publication_request_sender_email_identity>
+                        <publication_request_email_template translate="label">
+                            <label>Publication Request Email Template</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_email_template</source_model>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </publication_request_email_template>
+                        <message_sender_email_identity translate="label">
+                            <label>Workflow Message Email Sender</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_email_identity</source_model>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </message_sender_email_identity>
+                        <message_email_template translate="label">
+                            <label>Workflow Message Email Template</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_email_template</source_model>
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </message_email_template>
+                    </fields>
+                </workflow>
             </groups>
         </firegento_flexcms>
     </sections>

@@ -43,3 +43,47 @@ var observeDisplayModeSelect = function() {
         alert('.' + selectItem.value);
     });
 };
+
+var categoryPublish = function(url, useAjax) {
+    var form = $('category_edit_form');
+    form.insert('<input type="hidden" name="publish" value="1" />');
+    categorySubmit(url, useAjax);
+};
+
+var categoryRequestPublication = function(label)
+{
+    var popup = new Window({
+        className:'magento',
+        title: label,
+        zIndex:3000,
+        destroyOnClose: true,
+        recenterAuto:false,
+        resizable: false,
+        width:490,
+        height:400,
+        minimizable: false,
+        maximizable: false,
+        draggable: true
+    });
+    popup.setContent('request_publish_popup', false, false);
+    popup.showCenter();
+};
+
+var categorySendMessage = function(label)
+{
+    var popup = new Window({
+        className:'magento',
+        title: label,
+        zIndex:3000,
+        destroyOnClose: true,
+        recenterAuto:false,
+        resizable: false,
+        width:490,
+        height:400,
+        minimizable: false,
+        maximizable: false,
+        draggable: true
+    });
+    popup.setContent('message_popup', false, false);
+    popup.showCenter();
+};

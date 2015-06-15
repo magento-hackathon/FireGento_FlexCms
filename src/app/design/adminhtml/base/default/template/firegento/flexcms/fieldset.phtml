@@ -1,0 +1,52 @@
+<?php
+/** @var Firegento_FlexCms_Block_Adminhtml_Catalog_Form_Renderer_Fieldset $this */
+?>
+<?php $_element = $this->getElement() ?>
+<?php if ($_element->getFieldsetContainerId()): ?>
+<div id="<?php echo $_element->getFieldsetContainerId(); ?>">
+    <?php endif; ?>
+    <?php if ($_element->getLegend()): ?>
+        <div class="entry-edit-head">
+            <h4 class="icon-head head-edit-form fieldset-legend"><?php echo $_element->getLegend() ?></h4>
+            <div class="form-buttons"><?php echo $_element->getHeaderBar() ?></div>
+        </div>
+    <?php endif; ?>
+    <?php if (!$_element->getNoContainer()): ?>
+    <div class="fieldset <?php echo $_element->getClass() ?>" id="<?php echo $_element->getHtmlId() ?>">
+        <?php endif; ?>
+        <div class="hor-scroll">
+            <?php if ($_element->getComment()): ?>
+                <p class="comment"><?php echo $this->escapeHtml($_element->getComment()) ?></p>
+            <?php endif; ?>
+            <?php if ($_element->hasHtmlContent()): ?>
+                <?php echo $_element->getHtmlContent(); ?>
+            <?php else: ?>
+                <?php $childrenHtml = $_element->getChildrenHtml() ?>
+                <?php if (strlen(trim($childrenHtml))): ?>
+                <table cellspacing="0" class="flexcms-draft <?php echo $_element->hasTableClass() ? $_element->getTableClass() : 'form-list'?>">
+                    <col width="1">
+                    <col width="49%">
+                    <col width="49%">
+                    <col width="1">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th><?php echo Mage::helper('firegento_flexcms')->__('Published') ?></th>
+                            <th><?php echo Mage::helper('firegento_flexcms')->__('Draft') ?></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <?php echo $childrenHtml; ?>
+                    </tbody>
+                </table>
+                <?php endif ?>
+            <?php endif; ?>
+        </div>
+        <?php echo $_element->getSubFieldsetHtml() ?>
+        <?php if (!$_element->getNoContainer()): ?>
+    </div>
+<?php endif; ?>
+    <?php if ($_element->getFieldsetContainerId()): ?>
+</div>
+<?php endif; ?>

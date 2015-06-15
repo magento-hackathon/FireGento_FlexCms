@@ -44,7 +44,7 @@ class Firegento_FlexCms_Model_Content extends Mage_Core_Model_Abstract
         /** @var Firegento_FlexCms_Model_Content_Data $contentData */
         $contentData = $this->getContentDataModel();
         $contentData->setContent($this->getContent());
-        //$contentData->setIsActive($this->getIsActive());
+        $contentData->setIsActive($this->getIsActive());
         $contentData->save();
         return parent::_afterSave();
     }
@@ -59,7 +59,7 @@ class Firegento_FlexCms_Model_Content extends Mage_Core_Model_Abstract
         
         $this->setContent($contentData->getContent());
         $this->setDefaultContent($contentData->getDefaultContent());
-        //$this->setIsActive($contentData->getIsActive());
+        $this->setIsActive($contentData->getIsActive());
 
         return parent::_afterLoad();
     }

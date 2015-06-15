@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Firegento_FlexCms>
-            <version>0.3.0</version>
+            <version>0.4.2</version>
         </Firegento_FlexCms>
     </modules>
     <global>
@@ -10,6 +10,14 @@
             <firegento_flexcms>
                 <class>Firegento_FlexCms_Block</class>
             </firegento_flexcms>
+            <adminhtml>
+                <rewrite>
+                    <catalog_form_renderer_fieldset_element>Firegento_FlexCms_Block_Adminhtml_Catalog_Form_Renderer_Fieldset_Element</catalog_form_renderer_fieldset_element>
+                    <catalog_form_renderer_attribute_urlkey>Firegento_FlexCms_Block_Adminhtml_Catalog_Form_Renderer_Attribute_Urlkey</catalog_form_renderer_attribute_urlkey>
+                    <catalog_category_tree>Firegento_FlexCms_Block_Adminhtml_Catalog_Category_Tree</catalog_category_tree>
+                    <widget_form_renderer_fieldset>Firegento_FlexCms_Block_Adminhtml_Catalog_Form_Renderer_Fieldset</widget_form_renderer_fieldset>
+                </rewrite>
+            </adminhtml>
         </blocks>
         <helpers>
             <firegento_flexcms>
@@ -33,6 +41,9 @@
                     <content_data>
                         <table>flexcms_content_data</table>
                     </content_data>
+                    <category_changes>
+                        <table>flexcms_category_changes</table>
+                    </category_changes>
                 </entities>
             </firegento_flexcms_resource>
         </models>
@@ -43,6 +54,20 @@
                 </setup>
             </firegento_flexcms_setup>
         </resources>
+        <template>
+            <email>
+                <firegento_flexcms_workflow_publication_request_email_template translate="label" module="contacts">
+                    <label>Publication Request</label>
+                    <file>publication_request.html</file>
+                    <type>html</type>
+                </firegento_flexcms_workflow_publication_request_email_template>
+                <firegento_flexcms_workflow_message_email_template translate="label" module="contacts">
+                    <label>Workflow Message</label>
+                    <file>workflow_message.html</file>
+                    <type>html</type>
+                </firegento_flexcms_workflow_message_email_template>
+            </email>
+        </template>
     </global>
     <frontend>
         <events>
@@ -122,20 +147,44 @@
         <events>
             <adminhtml_catalog_category_tabs>
                 <observers>
-                    <firegento_flexcms_adminhtml_catalog_category_tabs>
+                    <firegento_flexcms>
                         <class>Firegento_FlexCms_Model_Observer</class>
                         <method>adminhtmlCatalogCategoryTabs</method>
-                    </firegento_flexcms_adminhtml_catalog_category_tabs>
+                    </firegento_flexcms>
                 </observers>
             </adminhtml_catalog_category_tabs>
-            <catalog_category_save_commit_after>
+            <catalog_category_prepare_save>
                 <observers>
-                    <firegento_flexcms_catalog_category_prepare_save>
+                    <firegento_flexcms>
+                        <class>Firegento_FlexCms_Model_Observer</class>
+                        <method>catalogCategoryPrepareSave</method>
+                    </firegento_flexcms>
+                </observers>
+            </catalog_category_prepare_save>
+            <catalog_category_save_after>
+                <observers>
+                    <firegento_flexcms>
                         <class>Firegento_FlexCms_Model_Observer</class>
                         <method>catalogCategorySaveAfter</method>
-                    </firegento_flexcms_catalog_category_prepare_save>
+                    </firegento_flexcms>
+                </observers>
+            </catalog_category_save_after>
+            <catalog_category_save_commit_after>
+                <observers>
+                    <firegento_flexcms>
+                        <class>Firegento_FlexCms_Model_Observer</class>
+                        <method>catalogCategorySaveCommitAfter</method>
+                    </firegento_flexcms>
                 </observers>
             </catalog_category_save_commit_after>
+            <core_block_abstract_prepare_layout_after>
+                <observers>
+                    <firegento_flexcms>
+                        <class>Firegento_FlexCms_Model_Observer</class>
+                        <method>coreBlockAbstractPrepareLayoutAfter</method>
+                    </firegento_flexcms>
+                </observers>
+            </core_block_abstract_prepare_layout_after>
         </events>
     </adminhtml>
     <default>
@@ -213,6 +262,12 @@
                     <label>Right Column</label>
                 </right>
             </areas>
+            <workflow>
+                <publication_request_sender_email_identity>custom2</publication_request_sender_email_identity>
+                <publication_request_email_template>firegento_flexcms_workflow_publication_request_email_template</publication_request_email_template>
+                <message_sender_email_identity>custom2</message_sender_email_identity>
+                <message_email_template>firegento_flexcms_workflow_message_email_template</message_email_template>
+            </workflow>
         </firegento_flexcms>
     </default>
     <phpunit>
