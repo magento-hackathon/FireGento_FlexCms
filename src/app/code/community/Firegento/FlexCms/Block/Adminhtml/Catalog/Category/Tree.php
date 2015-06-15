@@ -22,7 +22,7 @@ class Firegento_FlexCms_Block_Adminhtml_Catalog_Category_Tree extends Mage_Admin
 
         $item['cls'] = 'folder ' . ($node->getIsActive() ? 'active-category' : 'no-active-category');
 
-        if (Mage::helper('firegento_flexcms')->getChangesObject($node)->getId()) {
+        if (Mage::helper('firegento_flexcms')->hasChanges($node)) {
             $item['cls'] .= ' has-workflow-changes';
         }
 

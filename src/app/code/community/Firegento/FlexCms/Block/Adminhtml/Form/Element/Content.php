@@ -228,6 +228,7 @@ class Firegento_FlexCms_Block_Adminhtml_Form_Element_Content extends Varien_Data
                 )->setFieldCode($fieldCode);
             }
         }
+        
         $elements[] = $this->_getField(
             'flexcms_content_link_' . $link->getId() . '_field_sort_order',
             'text',
@@ -239,6 +240,7 @@ class Firegento_FlexCms_Block_Adminhtml_Form_Element_Content extends Varien_Data
             ),
             $link
         )->setFieldCode('sort_order');
+        
         $elements[] = $this->_getField(
             'flexcms_content_link_' . $link->getId() . '_field_is_reusable',
             'checkbox',
@@ -251,6 +253,7 @@ class Firegento_FlexCms_Block_Adminhtml_Form_Element_Content extends Varien_Data
             ),
             $link
         )->setFieldCode('is_reusable');
+        
         $elements[] = $this->_getField(
             'flexcms_content_link_' . $link->getId() . '_field_is_active',
             'checkbox',
@@ -263,6 +266,7 @@ class Firegento_FlexCms_Block_Adminhtml_Form_Element_Content extends Varien_Data
             ),
             $link
         )->setFieldCode('is_active');
+        
         $elements[] = $this->_getField(
             'flexcms_content_link_' . $link->getId() . '_field_delete',
             'checkbox',
@@ -274,7 +278,7 @@ class Firegento_FlexCms_Block_Adminhtml_Form_Element_Content extends Varien_Data
                 'checked' => intval($link->getIsDeleted())
             ),
             $link
-        )->setFieldCode('delete');
+        )->setFieldCode('is_deleted');
 
         return $elements;
     }

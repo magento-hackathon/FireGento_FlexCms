@@ -90,6 +90,30 @@ class Firegento_FlexCms_Helper_Data extends Mage_Core_Helper_Abstract
 
         return $this->_contentElementArray;
     }
+
+    /**
+     * @param $category
+     * @return bool
+     */
+    public function hasChanges($category)
+    {
+        if ($this->getChangesObject($category)->getId()) {
+            return true;
+        }
+
+        /** @var $contentLinks Firegento_FlexCms_Model_Resource_Content_Link_Collection */
+        $contentLinks = Mage::getResourceModel('firegento_flexcms/content_link_collection');
+        $contentLinks->addFieldToFilter('layout_handle', 'CATEGORY_' . $category->getId());
+        $contentLinks->addFieldToFilter('draft_content_id', array('notnull' => true));
+        
+        foreach($contentLinks as $contentLink) {
+            if ($contentLink->getDraftContentId()) {
+                return true;
+            }
+        }
+        
+        return false;
+    }
     
     /**
      * @param $category
