@@ -97,7 +97,7 @@ class Firegento_FlexCms_Block_Adminhtml_Form_Renderer_Element extends Mage_Admin
         $content = Mage::getModel('firegento_flexcms/content')->load($this->getLink()->getDraftContentId());
         $fieldCode = $this->getElement()->getFieldCode();
         $value = $content->getData($fieldCode);
-        if (is_null($value)) {
+        if ($fieldCode == 'content' || is_null($value)) {
             $contentArray = $content->getContent();
             if (isset($contentArray[$fieldCode])) {
                 $value = $contentArray[$fieldCode];
