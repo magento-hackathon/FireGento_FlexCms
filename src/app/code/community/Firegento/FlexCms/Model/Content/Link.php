@@ -115,9 +115,9 @@ class Firegento_FlexCms_Model_Content_Link extends Mage_Core_Model_Abstract
             } elseif ($fieldName == 'sort_order') {
                 $this->setSortOrder($fieldValue);
             } elseif ($fieldName == 'is_active') {
-                $contentElement->setIsActive(boolval($fieldValue));
+                $contentElement->setIsActive((bool)$fieldValue);
             } elseif ($fieldName == 'is_reusable') {
-                $isReusable = boolval($fieldValue);
+                $isReusable = (bool)$fieldValue;
             } else {
                 if (substr($fieldName, -8) == '_default') {
                     continue;
