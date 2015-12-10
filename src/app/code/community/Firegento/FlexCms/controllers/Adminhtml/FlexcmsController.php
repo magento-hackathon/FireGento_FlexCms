@@ -131,4 +131,9 @@ class Firegento_FlexCms_Adminhtml_FlexcmsController extends Mage_Adminhtml_Contr
         
         return $contentLink;
     }
+
+    protected function _isAllowed()
+    {
+        return Mage::getSingleton('admin/session')->isAllowed('catalog/categories');
+    }
 }
