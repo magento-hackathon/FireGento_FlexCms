@@ -206,4 +206,9 @@ class Firegento_FlexCms_Adminhtml_PublishController extends Mage_Adminhtml_Contr
         
         return implode(' > ', $categoryNames);
     }
+
+    protected function _isAllowed()
+    {
+        return Mage::getSingleton('admin/session')->isAllowed('catalog/publish_categories');
+    }
 }
