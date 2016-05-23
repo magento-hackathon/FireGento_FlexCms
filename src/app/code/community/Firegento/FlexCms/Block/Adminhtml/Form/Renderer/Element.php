@@ -77,6 +77,9 @@ class Firegento_FlexCms_Block_Adminhtml_Form_Renderer_Element extends Mage_Admin
                 $this->getElement()->setValue($value);
             }
         }
+        if ($this->getElement()->getDisabled()) {
+            $this->getElement()->addClass('disabled');
+        }
         $this->getElement()->setDisabled(false);
         return $this->getElement()->getElementHtml();
     }

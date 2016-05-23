@@ -104,6 +104,7 @@ class Firegento_FlexCms_Model_Content_Link extends Mage_Core_Model_Abstract
 
         if ($storeId = Mage::app()->getRequest()->getParam('store')) {
             $this->setStoreId($storeId);
+            $contentElement->setStoreId($storeId);
         }
         
         $content = array();
